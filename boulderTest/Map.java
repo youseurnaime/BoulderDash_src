@@ -41,6 +41,47 @@ public class Map {
 	public String getNom(){
 		return this.name;
 	}
+	protected void iniAshTab (char[][] tab ){
+		char c='a';
+	
+		for(int i = 0 ; i < tab.length ; i++){
+			for(int j = 0 ; j < tab[i].length ; j++){
+				c=tab[i][j];
+				switch (c){
+					case ' ' :
+						
+						break;
+						
+					case '.' :
+						lesElements.put(new Position (i,j), new Poussiere());
+						break;
+			
+					case 'r' :
+						lesElements.put(new Position (i,j), new ());
+						break;
+			
+					case 'd' :
+						lesElements.put(new Position (i,j), new ());
+						break;
+			
+					case 'w' :
+						lesElements.put(new Position (i,j), new ());
+						break;
+						
+					case 'W' :
+						lesElements.put(new Position (i,j), new ());
+						break;
+					
+					case 'M' :
+						lesElements.put(new Position (i,j), new ());
+						break;
+						
+					default:
+						
+						break;
+		}
+		
+	}
 	
 	public String toString(){
 		String s = "Name : "+name+" | CaveTime : ";
