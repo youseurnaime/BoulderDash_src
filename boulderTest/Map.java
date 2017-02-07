@@ -1,6 +1,7 @@
 package boulderTest;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class Map {
 	private String name;
@@ -10,8 +11,10 @@ public class Map {
 	private int amoebaTime;
 	private int magicWallTime;
 	private char[][] laMap;
+	private Hashtable<Position,Elements> lesElements;
 	
 	public Map(String name, ArrayList<Integer> caveTime, int diamondsRequired, ArrayList<Integer> diamondValue, int amoebaTime, int magicWallTime, ArrayList<String> laMap){
+		this.lesElements = new Hashtable<Position,Elements>();
 		this.name = name;
 		this.caveTime = new int[caveTime.size()];
 		for(int i = 0 ; i < caveTime.size() ; i++) this.caveTime[i] = caveTime.get(i); //on transforme l'arrayList en tableau
