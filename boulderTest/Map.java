@@ -24,9 +24,15 @@ public class Map {
 		//création du tableau aux bonnes dimensions et double boucle pour le remplir
 		for(int j = 0 ; j < laMap.size() ; j++){
 			for(int i = 0 ; i < laMap.get(j).length() ; i++){
-				this.laMap[j][i] = laMap.get(j).charAt(i);
+				this.laMap[j][i] = formatageCaractere(laMap.get(j).charAt(i));
 			}
 		}
+	}
+	
+	public char formatageCaractere(char a){//Afin qu'il n'y est qu'un caractere par element
+		if (a=='F'||a=='Q'||a=='o'||a=='O'||a=='Q') return 'F';//Dans tout ces cas c'est une luciole alors il y a qu'un caractere
+		else if(a=='B'||a=='b'||a=='c'||a=='C') return 'C';
+		else return a;
 	}
 	
 	public String toString(){
