@@ -7,6 +7,7 @@ public class Main {
 		try{
 			EnsembleNiveau lesNiveaux = new EnsembleNiveau("niveaux.bdcff");
 			System.out.println(lesNiveaux.toString());
+			lesNiveaux.choisirNiveau();
 		}catch(Exception e){
 			System.out.println("Mauvais format");
 		}

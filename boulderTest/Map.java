@@ -35,6 +35,10 @@ public class Map {
 		else return a;
 	}
 	
+	public String getNom(){
+		return this.name;
+	}
+	
 	public String toString(){
 		String s = "Name : "+name+" | CaveTime : ";
 		for(int i = 0 ; i < caveTime.length ; i++) s += caveTime[i]+" ";

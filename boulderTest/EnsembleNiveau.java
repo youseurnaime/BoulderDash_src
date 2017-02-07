@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class EnsembleNiveau {
@@ -108,6 +109,20 @@ public class EnsembleNiveau {
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	public Map choisirNiveau(){
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Liste des niveaux du fichier :");
+		for(int i = 0 ; i < lesNiveaux.size() ; i++){
+			System.out.println(i+" : "+lesNiveaux.get(i).getNom());
+		}
+		System.out.println("Quel niveau voulez-vous charger ? ");
+		int choix = -1;
+		while(choix < 0 || choix > lesNiveaux.size()){
+			choix = sc.nextInt();
+		}
+		return lesNiveaux.get(choix);
 	}
 	
 	public String toString(){
