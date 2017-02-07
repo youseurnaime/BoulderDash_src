@@ -1,5 +1,5 @@
 package boulderTest;
 
-public class Poussiere {
+public class Poussiere extends Elements {
 
 }

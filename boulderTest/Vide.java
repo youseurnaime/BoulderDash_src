@@ -1,5 +1,5 @@
 package boulderTest;
 
-public final class Vide {
+public final class Vide extends Elements {
 
 }

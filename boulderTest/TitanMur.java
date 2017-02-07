@@ -1,5 +1,5 @@
 package boulderTest;
 
-public class TitanMur {
+public class TitanMur extends Elements {
 
 }

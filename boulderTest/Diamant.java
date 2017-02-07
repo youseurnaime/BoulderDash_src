@@ -1,5 +1,5 @@
 package boulderTest;
 
-public class Diamant {
+public class Diamant extends Elements {
 
 }

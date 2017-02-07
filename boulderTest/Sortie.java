@@ -1,5 +1,5 @@
 package boulderTest;
 
-public class Sortie {
-
+public class Sortie extends Elements {
+	boolean ouvert;
 }
