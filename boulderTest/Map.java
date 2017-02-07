@@ -1,0 +1,45 @@
+package boulderTest;
+
+import java.util.ArrayList;
+
+public class Map {
+	private String name;
+	private int[] caveTime;
+	private int diamondsRequired;
+	private int diamondValue; //= valeur du diamant + le bonus
+	private int amoebaTime;
+	private int magicWallTime;
+	private char[][] laMap;
+	
+	public Map(String name, ArrayList<Integer> caveTime, int diamondsRequired, ArrayList<Integer> diamondValue, int amoebaTime, int magicWallTime, ArrayList<String> laMap){
+		this.name = name;
+		this.caveTime = new int[caveTime.size()];
+		for(int i = 0 ; i < caveTime.size() ; i++) this.caveTime[i] = caveTime.get(i); //on transforme l'arrayList en tableau
+		this.diamondsRequired = diamondsRequired;
+		this.diamondValue = 0;
+		for(int i = 0 ; i < diamondValue.size() ; i++) this.diamondValue += diamondValue.get(i);
+		this.amoebaTime = amoebaTime;
+		this.magicWallTime = magicWallTime;
+		this.laMap = new char[laMap.size()][laMap.get(0).length()];
+		//création du tableau aux bonnes dimensions et double boucle pour le remplir
+		for(int j = 0 ; j < laMap.size() ; j++){
+			for(int i = 0 ; i < laMap.get(j).length() ; i++){
+				this.laMap[j][i] = laMap.get(j).charAt(i);
+			}
+		}
+	}
+	
+	public String toString(){
+		String s = "Name : "+name+" | CaveTime : ";
+		for(int i = 0 ; i < caveTime.length ; i++) s += caveTime[i]+" ";
+		s += "| Diamonds required : "+diamondsRequired+" | Diamond value : "+diamondValue+" | Amoeba Time : "+amoebaTime+" | Magic Wall Time : "+magicWallTime+"\n\n";
+		for(int i = 0 ; i < laMap.length ; i++){
+			for(int j = 0 ; j < laMap[i].length ; j++){
+				s += laMap[i][j];
+			}
+			s += "\n";
+		}
+		return s;
+	}
+	
+}
