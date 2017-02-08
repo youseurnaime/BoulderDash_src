@@ -121,6 +121,7 @@ public class EnsembleNiveau {
 		int choix = -1;
 		while(choix < 0 || choix > lesNiveaux.size()){
 			choix = sc.nextInt();
+			if(choix < 0 || choix > lesNiveaux.size()) System.out.println("Choix incorrect !");
 		}
 		return lesNiveaux.get(choix);
 	}

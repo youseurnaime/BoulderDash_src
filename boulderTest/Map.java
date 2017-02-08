@@ -11,10 +11,11 @@ public class Map {
 	private int diamondValue; //= valeur du diamant + le bonus
 	private int amoebaTime;
 	private int magicWallTime;
-	private char[][] laMap;
+	private char[][] laMap; //dans laMap[i][j], i = hauteur j = largeur
 	private static Hashtable<Position,Elements> lesElements;
 	private int hauteurMap;
 	private int largeurMap;
+	private Position positionInitialeRockford;
 	
 	public Map(String name, ArrayList<Integer> caveTime, int diamondsRequired, ArrayList<Integer> diamondValue, int amoebaTime, int magicWallTime, ArrayList<String> laMap){
 		this.lesElements = new Hashtable<Position,Elements>();
@@ -47,26 +48,33 @@ public class Map {
 		return this.name;
 	}
 	
+	
+	
 	private void charToElements(){ //Crée un hashtable a partir d'un double tableau de char
-		char c='a';
+		char c;
 	
 		for(int i = 0 ; i < hauteurMap ; i++){
 			for(int j = 0 ; j < largeurMap ; j++){
 				c=laMap[i][j];
 				switch (c){
-					case 'R' :
+					case 'P' :
+		
 						lesElements.put(new Position(i,j), new Rockford());
+						positionInitialeRockford = new Position(i,j);
 						break;
 					
 					case '.' :
+						
 						lesElements.put(new Position (i,j), new Poussiere());
 						break;
 			
 					case 'r' :
+						
 						lesElements.put(new Position (i,j), new Roc());
 						break;
 			
 					case 'd' :
+				
 						lesElements.put(new Position (i,j), new Diamant());
 						break;
 			
@@ -91,6 +99,10 @@ public class Map {
 		
 	}
 	
+	public Position trouverRockford(){
+		return positionInitialeRockford;
+	}
+	
 	private void elementsToChar(){ //crée la map visuelle à partir de l'hashtable d'elements
 		this.laMap = new char[hauteurMap][largeurMap];
 		Enumeration<Position> pos = lesElements.keys();
@@ -101,40 +113,41 @@ public class Map {
 		}
 		
 	}
+	
+	public void chargerNiveau(){
+		this.charToElements();
+	}
 
-	public static int typeElementstoX(char c){//On ne peut l'uttiliser que pour Rockford la sortie ou le PD
-		//TODO 
-		Hashtable<Position,Elements> lesElement;
-		Enumeration<Position> pos = lesElements.keys();
-		Position currentPos;
-		while(pos.hasMoreElements()){
-			currentPos = pos.nextElement();
-			if(lesElements.get(currentPos).getRepresentation()==c)return currentPos.getX();
-		}
-		return -1;//Dans le cas ou rien n'a été trouvé
+	public Elements getElement(Position pos){
+		return(lesElements.get(pos));
 	}
 	
-	public static int typeElementstoY(char c){//On ne peut l'uttiliser que pour Rockford la sortie ou le PD
-		Hashtable<Position,Elements> lesElement;
-		Enumeration<Position> pos = lesElements.keys();
-		Position currentPos;
-		while(pos.hasMoreElements()){
-			currentPos = pos.nextElement();
-			if(lesElements.get(currentPos).getRepresentation()==c)return currentPos.getY();
-		}
-		return -1;
+	public char getCharOfElement(Position pos){
+		return(lesElements.get(pos).getRepresentation());
 	}
 	
-	public static char coordoneesToTypeElements(int x, int y){//renvoie un element depuis les coordonnées
-		Hashtable<Position,Elements> lesElement;
-		Enumeration<Position> pos = lesElements.keys();
-		Position currentPos;
-		while(pos.hasMoreElements()){
-			currentPos = pos.nextElement();
-			if(currentPos.getX()== x &&currentPos.getY()== y )return lesElements.get(currentPos).getRepresentation();
-			
+	public void removeElement(Position pos){
+		lesElements.remove(pos);
+	}
+	
+	public void addElement(Position pos, Elements lui){ 
+		if(lesElements.containsKey(pos)) lesElements.remove(pos); // Ecrase l'ancien élément de cette case
+		lesElements.put(pos, lui);
+	}
+	
+	public int getCaveTime(){
+		return(this.caveTime[0]); //Flemme de gérer les différents niveaux pour le moment
+	}
+	
+	public String ecranDeJeu(){
+		String s = "";
+		for(int i = 0 ; i < laMap.length ; i++){
+			for(int j = 0 ; j < laMap[i].length ; j++){
+				s += laMap[i][j];
+			}
+			s += "\n";
 		}
-		return '0';//La représentation n'existe pas 
+		return s;
 	}
 	
 	public String toString(){
@@ -149,5 +162,6 @@ public class Map {
 		}
 		return s;
 	}
+	
 	
 }

@@ -27,12 +27,14 @@ public class Main {
 			}
 		}
 		System.out.println("Bonjour");
+		
 		try{
 			EnsembleNiveau lesNiveaux = new EnsembleNiveau(fichierNiveau);
 			System.out.println(lesNiveaux.toString());
-			lesNiveaux.choisirNiveau();
+			new Partie(lesNiveaux.choisirNiveau());
+			
 		}catch(Exception e){
-			System.out.println("Mauvais format");
+			System.out.println(e.getMessage());
 		}
 
 	}
