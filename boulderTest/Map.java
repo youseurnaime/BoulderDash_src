@@ -91,6 +91,20 @@ public class Map {
 		
 	}
 	
+	
+	
+	private char coordoneesToTypeElements(int x, int y){//renvoie un element depuis les coordonnées
+		Hashtable<Position,Elements> lesElement;
+		Enumeration<Position> pos = lesElements.keys();
+		Position currentPos;
+		while(pos.hasMoreElements()){
+			currentPos = pos.nextElement();
+			if(currentPos.getX()== x &&currentPos.getY()== y )return lesElements.get(currentPos).getRepresentation();
+			
+		}
+		return '0';//La représentation n'existe pas 
+	}
+	
 	private void elementsToChar(){ //crée la map visuelle à partir de l'hashtable d'elements
 		this.laMap = new char[hauteurMap][largeurMap];
 		Enumeration<Position> pos = lesElements.keys();
@@ -101,6 +115,7 @@ public class Map {
 		}
 		
 	}
+
 	
 	public String toString(){
 		String s = "Name : "+name+" | CaveTime : ";
