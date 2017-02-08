@@ -1,6 +1,7 @@
 package boulderTest;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class Map {
@@ -12,6 +13,8 @@ public class Map {
 	private int magicWallTime;
 	private char[][] laMap;
 	private Hashtable<Position,Elements> lesElements;
+	private int hauteurMap;
+	private int largeurMap;
 	
 	public Map(String name, ArrayList<Integer> caveTime, int diamondsRequired, ArrayList<Integer> diamondValue, int amoebaTime, int magicWallTime, ArrayList<String> laMap){
 		this.lesElements = new Hashtable<Position,Elements>();
@@ -23,10 +26,12 @@ public class Map {
 		for(int i = 0 ; i < diamondValue.size() ; i++) this.diamondValue += diamondValue.get(i);
 		this.amoebaTime = amoebaTime;
 		this.magicWallTime = magicWallTime;
-		this.laMap = new char[laMap.size()][laMap.get(0).length()];
+		hauteurMap = laMap.size();
+		largeurMap = laMap.get(0).length();
+		this.laMap = new char[hauteurMap][largeurMap];
 		//création du tableau aux bonnes dimensions et double boucle pour le remplir
-		for(int j = 0 ; j < laMap.size() ; j++){
-			for(int i = 0 ; i < laMap.get(j).length() ; i++){
+		for(int j = 0 ; j < hauteurMap ; j++){
+			for(int i = 0 ; i < largeurMap ; i++){
 				this.laMap[j][i] = formatageCaractere(laMap.get(j).charAt(i));
 			}
 		}
@@ -41,44 +46,58 @@ public class Map {
 	public String getNom(){
 		return this.name;
 	}
-	protected void iniAshTab (char[][] tab ){
+	
+	private void charToElements(){ //Crée un hashtable a partir d'un double tableau de char
 		char c='a';
 	
-		for(int i = 0 ; i < tab.length ; i++){
-			for(int j = 0 ; j < tab[i].length ; j++){
-				c=tab[i][j];
+		for(int i = 0 ; i < hauteurMap ; i++){
+			for(int j = 0 ; j < largeurMap ; j++){
+				c=laMap[i][j];
 				switch (c){
-					case ' ' :
-						
+					case 'R' :
+						lesElements.put(new Position(i,j), new Rockford());
 						break;
-						
+					
 					case '.' :
 						lesElements.put(new Position (i,j), new Poussiere());
 						break;
 			
 					case 'r' :
-						lesElements.put(new Position (i,j), new ());
+						lesElements.put(new Position (i,j), new Roc());
 						break;
 			
 					case 'd' :
-						lesElements.put(new Position (i,j), new ());
+						lesElements.put(new Position (i,j), new Diamant());
 						break;
 			
 					case 'w' :
-						lesElements.put(new Position (i,j), new ());
+						lesElements.put(new Position (i,j), new Mur());
 						break;
 						
 					case 'W' :
-						lesElements.put(new Position (i,j), new ());
+						lesElements.put(new Position (i,j), new TitanMur());
 						break;
 					
-					case 'M' :
-						lesElements.put(new Position (i,j), new ());
+					case 'X' :
+						lesElements.put(new Position (i,j), new Sortie());
 						break;
 						
 					default:
 						
 						break;
+				}
+			}
+		}
+		
+	}
+	
+	private void elementsToChar(){ //crée la map visuelle à partir de l'hashtable d'elements
+		this.laMap = new char[hauteurMap][largeurMap];
+		Enumeration<Position> pos = lesElements.keys();
+		Position currentPos;
+		while(pos.hasMoreElements()){
+			currentPos = pos.nextElement();
+			laMap[currentPos.getX()][currentPos.getY()] = lesElements.get(currentPos).getRepresentation();
 		}
 		
 	}

@@ -1,5 +1,7 @@
 package boulderTest;
 
-public class Mur {
-
+public class Mur extends Elements{
+	public Mur(){
+		super('w');
+	}
 }
