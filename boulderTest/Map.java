@@ -12,7 +12,7 @@ public class Map {
 	private int amoebaTime;
 	private int magicWallTime;
 	private char[][] laMap;
-	private Hashtable<Position,Elements> lesElements;
+	private static Hashtable<Position,Elements> lesElements;
 	private int hauteurMap;
 	private int largeurMap;
 	
@@ -91,20 +91,6 @@ public class Map {
 		
 	}
 	
-	
-	
-	private char coordoneesToTypeElements(int x, int y){//renvoie un element depuis les coordonnées
-		Hashtable<Position,Elements> lesElement;
-		Enumeration<Position> pos = lesElements.keys();
-		Position currentPos;
-		while(pos.hasMoreElements()){
-			currentPos = pos.nextElement();
-			if(currentPos.getX()== x &&currentPos.getY()== y )return lesElements.get(currentPos).getRepresentation();
-			
-		}
-		return '0';//La représentation n'existe pas 
-	}
-	
 	private void elementsToChar(){ //crée la map visuelle à partir de l'hashtable d'elements
 		this.laMap = new char[hauteurMap][largeurMap];
 		Enumeration<Position> pos = lesElements.keys();
@@ -116,6 +102,40 @@ public class Map {
 		
 	}
 
+	public static int typeElementstoX(char c){//On ne peut l'uttiliser que pour Rockford la sortie ou le PD
+		//TODO 
+		Hashtable<Position,Elements> lesElement;
+		Enumeration<Position> pos = lesElements.keys();
+		Position currentPos;
+		while(pos.hasMoreElements()){
+			currentPos = pos.nextElement();
+			if(lesElements.get(currentPos).getRepresentation()==c)return currentPos.getX();
+		}
+		return -1;//Dans le cas ou rien n'a été trouvé
+	}
+	
+	public static int typeElementstoY(char c){//On ne peut l'uttiliser que pour Rockford la sortie ou le PD
+		Hashtable<Position,Elements> lesElement;
+		Enumeration<Position> pos = lesElements.keys();
+		Position currentPos;
+		while(pos.hasMoreElements()){
+			currentPos = pos.nextElement();
+			if(lesElements.get(currentPos).getRepresentation()==c)return currentPos.getY();
+		}
+		return -1;
+	}
+	
+	public static char coordoneesToTypeElements(int x, int y){//renvoie un element depuis les coordonnées
+		Hashtable<Position,Elements> lesElement;
+		Enumeration<Position> pos = lesElements.keys();
+		Position currentPos;
+		while(pos.hasMoreElements()){
+			currentPos = pos.nextElement();
+			if(currentPos.getX()== x &&currentPos.getY()== y )return lesElements.get(currentPos).getRepresentation();
+			
+		}
+		return '0';//La représentation n'existe pas 
+	}
 	
 	public String toString(){
 		String s = "Name : "+name+" | CaveTime : ";

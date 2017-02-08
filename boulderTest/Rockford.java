@@ -16,24 +16,61 @@ public class Rockford extends Elements{
 		}while (c!='z'||c!='q'||c!='s'||c!='d');
 		return c;
 	}
+	
+	public boolean reaction(char c){//TODO Ne gere pas la mort du perso Je pense qu'il faudrait laisser le perso 
+		//avancer sur un mob puis au debut du tours map et a la fin on regarde si on le tue 
+		switch (c){
+		
+		case '.' :
+			return true;
+		case 'r' :
+			//voire si la direction choisie est un coté et si il y a un caillou qui bloc le mouvement
+			break;
+
+		case 'd' :
+			//ajouter les points
+			return true;
+		
+		case 'X' :
+			//voire si sortie est ouverte
+			
+		default:
+			return false;
+	}
+		return false;
+	}
+	
 	public void deplacement(){
-		boolean deplace=false;
+		boolean deplacementlibre=false;
+		char c = ' ';
+		int y = Map.typeElementstoY('R');
+		int x = Map.typeElementstoX('R');
+		
 		do{
 			switch (getDirectionChoisie()){
+			
 				case 'z' :
-					//Il faut un getPositionRockford et utiliser coordoneesToTypeElements
+					c=(Map.coordoneesToTypeElements(x, y-1));
+					deplacementlibre =reaction (c);
 					break;
 				case 'q' :
 					
+					c=(Map.coordoneesToTypeElements(x-1, y));
+					deplacementlibre =reaction (c);
 					break;
 				case 's' :
 					
+					c=(Map.coordoneesToTypeElements(x, y+1));
+					deplacementlibre =reaction (c);
 					break;
 				case 'd' :
 					
+					c=(Map.coordoneesToTypeElements(x+1, y));
+					deplacementlibre =reaction (c);
+					
 					break;
 			}
-		}while(!deplace);
+		}while(!deplacementlibre);
 			
 	}
 	public void tour(){
