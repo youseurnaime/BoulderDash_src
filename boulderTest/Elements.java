@@ -11,4 +11,8 @@ public abstract class Elements {
 	public char getRepresentation(){
 		return representation;
 	}
+	
+	public void changerRepresentation(char c){
+		this.representation = c;
+	}
 }

@@ -31,19 +31,65 @@ public class Partie {
 	
 	private boolean tour(){ //Renvoie true si Rockford est toujours en vie à l'issue de ce tour
 		effacerEcran();
-		char choix = choixDeplacement();
-		if(choix == '0') return false;
-		//TODO
+		Position positionApresDeplacement;
+		char choix;
+		do{
+			choix = choixDeplacement();
+			
+			switch(choix){
+			case '0':
+				return false;
+			case 'z':
+				positionApresDeplacement = new Position(posRockford.getX()-1,posRockford.getY());
+				break;
+			case 's':
+				positionApresDeplacement = new Position(posRockford.getX()+1,posRockford.getY());
+				break;
+			case 'q':
+				positionApresDeplacement = new Position(posRockford.getX(),posRockford.getY()-1);
+				break;
+			case 'd':
+				positionApresDeplacement = new Position(posRockford.getX(),posRockford.getY()+1);
+				break;
+			default : 
+				positionApresDeplacement = posRockford;
+				break;
+			}
+			if(!deplacementPossible(positionApresDeplacement)) System.out.println("Déplacement impossible !");
+		}while(!deplacementPossible(positionApresDeplacement));
+		
+		laMap.removeElement(posRockford);
+		posRockford = positionApresDeplacement;
+		laMap.addElement(posRockford, new Rockford()); 
+		laMap.majMap();
+		time--;
+		//TODO : CONTINUER ET RESOUDRE BUG D'AFFICHAGE
 		return true;
+	}
+	
+	private boolean deplacementPossible(Position pos){
+		if(pos.getX() < 0 || pos.getX() > laMap.getHauteur() || pos.getY() < 0 || pos.getY() > laMap.getLargeur()) return false;
+		char c = laMap.getCharOfElement(pos);
+		if(c == ' ' || c == '.' || c == 'd' || c == 'X') return true;
+		else if(c == 'w' || c == 'W') return false;
+		else if(c == 'r') return rocPoussable(pos);
+		else return true;
+	}
+	
+	private boolean rocPoussable(Position pos){//pos du roc en parametre
+		Position posApresRoc = new Position(pos.getX()*2-posRockford.getX(),pos.getY()*2-posRockford.getY());//formule pour avoir la prochaine case dans la continuité de la direction choisie
+		return (laMap.getCharOfElement(posApresRoc) == ' ');
 	}
 	
 	private char choixDeplacement(){
 		System.out.println(name+"\ntime: "+time+"\tscore: "+score+"\tdiamonds: "+diamonds+"\n");
+		if(laMap.sortieOuverte()) System.out.println("Sortie ouverte !");
 		System.out.println(laMap.ecranDeJeu());
 		System.out.println("Entrez une direction...   :");
 		Scanner sc = new Scanner(System.in);
 		String s = sc.nextLine();
-		return(s.charAt(0));
+		if(!s.equals("")) return(s.charAt(0));
+		else return choixDeplacement();
 	}
 	
 	private void effacerEcran(){
