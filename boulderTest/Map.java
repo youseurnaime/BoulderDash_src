@@ -12,15 +12,12 @@ public class Map {
 	private int amoebaTime;
 	private int magicWallTime;
 	private char[][] laMap; //dans laMap[i][j], i = hauteur j = largeur
-	private static Hashtable<Position,Elements> lesElements;
 	private int hauteurMap;
 	private int largeurMap;
-	private Position positionInitialeRockford;
-	private Position positionSortie;
+	private Position posSortie;
 	private boolean sortieOuverte;
 	
 	public Map(String name, ArrayList<Integer> caveTime, int diamondsRequired, ArrayList<Integer> diamondValue, int amoebaTime, int magicWallTime, ArrayList<String> laMap){
-		this.lesElements = new Hashtable<Position,Elements>();
 		this.name = name;
 		this.caveTime = new int[caveTime.size()];
 		for(int i = 0 ; i < caveTime.size() ; i++) this.caveTime[i] = caveTime.get(i); //on transforme l'arrayList en tableau
@@ -35,18 +32,18 @@ public class Map {
 		//création du tableau aux bonnes dimensions et double boucle pour le remplir
 		for(int j = 0 ; j < hauteurMap ; j++){
 			for(int i = 0 ; i < largeurMap ; i++){
-				if(this.laMap[j][i] == 'X') positionSortie = new Position(j,i);
-				if(this.laMap[j][i] == 'P') positionInitialeRockford = new Position(j,i);
 				this.laMap[j][i] = formatageCaractere(laMap.get(j).charAt(i));
 			}
 		}
+		trouverSortie();
 		this.sortieOuverte = false;
+		this.laMap[posSortie.getX()][posSortie.getY()] = ' ';
+		
 	}
 	
 	public char formatageCaractere(char a){//Afin qu'il n'y est qu'un caractere par element
 		if (a=='F'||a=='Q'||a=='o'||a=='O'||a=='Q') return 'F';//Dans tout ces cas c'est une luciole alors il y a qu'un caractere
 		else if(a=='B'||a=='b'||a=='c'||a=='C') return 'C';
-		else if(a=='X') return ' ';//La sortie est cachée au départ, on la crée une fois le nombre de diamant requis atteint
 		else if(a=='P') return 'R';//sujet : rockford = R fichiers : rockford = P
 		else return a;
 	}
@@ -55,10 +52,16 @@ public class Map {
 		if(!sortieOuverte){
 			if(nbDiamonds >= diamondsRequired){
 				this.sortieOuverte = true;
-				lesElements.remove(positionSortie);
-				lesElements.put(positionSortie, new Sortie());
+				laMap[posSortie.getX()][posSortie.getY()] = 'X';
+			}else{
+				this.sortieOuverte = false;
+				laMap[posSortie.getX()][posSortie.getY()] = ' ';
 			}
 		}
+	}
+	
+	public int getDiamondValue(){
+		return diamondValue;
 	}
 	
 	public boolean sortieOuverte(){
@@ -77,95 +80,69 @@ public class Map {
 		return this.largeurMap;
 	}
 	
-	private void charToElements(){ //Crée un hashtable a partir d'un double tableau de char
-		char c;
-	
+	private void trouverSortie(){
+		Position pos = null;
 		for(int i = 0 ; i < hauteurMap ; i++){
 			for(int j = 0 ; j < largeurMap ; j++){
-				c=laMap[i][j];
-				switch (c){
-					case 'R' :
-						if(this.laMap[i][j] == 'R') positionInitialeRockford = new Position(i,j);
-						lesElements.put(new Position(i,j), new Rockford());
-						break;
-					
-					case '.' :
-						
-						lesElements.put(new Position (i,j), new Poussiere());
-						break;
-			
-					case 'r' :
-						
-						lesElements.put(new Position (i,j), new Roc());
-						break;
-			
-					case 'd' :
-				
-						lesElements.put(new Position (i,j), new Diamant());
-						break;
-			
-					case 'w' :
-						lesElements.put(new Position (i,j), new Mur());
-						break;
-						
-					case 'W' :
-						lesElements.put(new Position (i,j), new TitanMur());
-						break;
-					
-					case 'X' :
-						lesElements.put(new Position (i,j), new Sortie());
-						break;
-						
-					default:
-						lesElements.put(new Position (i,j), new Vide());
-						break;
-						
-				}
+				if(laMap[i][j]=='X') pos = new Position(i,j);
 			}
 		}
+		this.posSortie = pos;
 	}
 	
 	public Position trouverRockford(){
-		return positionInitialeRockford;
-	}
-	
-	private void elementsToChar(){ //crée la map visuelle à partir de l'hashtable d'elements
-		
-		this.laMap = new char[hauteurMap][largeurMap];
-		Enumeration<Position> pos = lesElements.keys();
-		Position currentPos;
-		while(pos.hasMoreElements()){
-			currentPos = pos.nextElement();
-			laMap[currentPos.getX()][currentPos.getY()] = lesElements.get(currentPos).getRepresentation();
+		Position pos = null;
+		for(int i = 0 ; i < hauteurMap ; i++){
+			for(int j = 0 ; j < largeurMap ; j++){
+				if(laMap[i][j]=='R') pos = new Position(i,j);
+			}
 		}
+		return pos;
 	}
 	
-	public void chargerNiveau(){
-		this.charToElements();
+	
+	public boolean majMap(){ //renvoie faux si rockford meure
+		for(int i = 0 ; i < hauteurMap ; i++){
+			for(int j = 0 ; j < largeurMap ; j++){
+				if(laMap[i][j]=='r'){					
+					if (!gravite('r',i,j)) return false;
+				}
+				else if(laMap[i][j]=='d') gravite('d',i,j);
+			}
+		}
+		return true;
 	}
 	
-	public void majMap(){
-		this.elementsToChar();
-		
+	private boolean gravite(char c, int i, int j){ //renvoie faux si rockford meure
+		if(laMap[i+1][j] == ' ' || laMap[i+1][j] == 'R'){
+			if(laMap[i+1][j] == 'R') {
+				laMap[i][j] = ' ';
+				laMap[i+1][j] = c;
+				System.out.println(ecranDeJeu());
+				System.out.println("Rockford est mort sous un rocher !");
+				return false;
+			}
+			laMap[i][j] = ' ';
+			laMap[i+1][j] = c;
+			if(laMap[i+2][j] == ' ' || laMap[i+2][j] == 'R'){
+				if(laMap[i+2][j] == 'R') return false;
+				laMap[i+1][j] = ' ';
+				laMap[i+2][j] = c;
+			}
+		}
+		return true;
 	}
 
-	public Elements getElement(Position pos){
-		return(lesElements.get(pos));
-	}
-	
-	public char getCharOfElement(Position pos){
-		if(lesElements.containsKey(pos)) return(lesElements.get(pos).getRepresentation());
-		else return ' ';
-		
+	public char getElement(Position pos){
+		return(laMap[pos.getX()][pos.getY()]);
 	}
 	
 	public void removeElement(Position pos){
-		lesElements.remove(pos);
+		laMap[pos.getX()][pos.getY()] = ' ';
 	}
 	
-	public void addElement(Position pos, Elements lui){ 
-		if(lesElements.containsKey(pos)) lesElements.remove(pos); // Ecrase l'ancien élément de cette case
-		lesElements.put(pos, lui);
+	public void addElement(Position pos, char lui){ 
+		laMap[pos.getX()][pos.getY()] = lui;
 	}
 	
 	public int getCaveTime(){

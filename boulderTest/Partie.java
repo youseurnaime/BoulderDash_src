@@ -12,7 +12,6 @@ public class Partie {
 	
 	public Partie(Map laMap) throws NoRockfordException{
 		this.laMap = laMap;
-		this.laMap.chargerNiveau();
 		this.posRockford = laMap.trouverRockford();
 		if(this.posRockford==null) throw new NoRockfordException();
 		System.out.println(laMap.getNom()+"\n\nDéplacez Rockford avec les touches z q s d et appuyez sur entrée pour valider le déplacement.\nToute autre caractère immobilisera Rockford pour ce tour.\nA tout moment vous pouvez quitter en tapant 0.\nEntrez une valeur pour lancer la partie...");
@@ -59,17 +58,34 @@ public class Partie {
 		}while(!deplacementPossible(positionApresDeplacement));
 		
 		laMap.removeElement(posRockford);
+		switch(laMap.getElement(positionApresDeplacement)){
+		case 'd':
+			score += laMap.getDiamondValue();
+			diamonds++;
+			laMap.testOuvrirSortie(diamonds);
+			break;
+		case 'X':
+			System.out.println("Bravo !");
+			return false;
+		case 'r':
+			Position posApresRoc = new Position(positionApresDeplacement.getX()*2-posRockford.getX(),positionApresDeplacement.getY()*2-posRockford.getY());
+			laMap.addElement(posApresRoc, 'r');
+			break;
+			
+		}
+		
+		
 		posRockford = positionApresDeplacement;
-		laMap.addElement(posRockford, new Rockford()); 
-		laMap.majMap();
+		laMap.addElement(posRockford, 'R'); 
 		time--;
-		//TODO : CONTINUER ET RESOUDRE BUG D'AFFICHAGE
-		return true;
+		return laMap.majMap();
 	}
+	
+	
 	
 	private boolean deplacementPossible(Position pos){
 		if(pos.getX() < 0 || pos.getX() > laMap.getHauteur() || pos.getY() < 0 || pos.getY() > laMap.getLargeur()) return false;
-		char c = laMap.getCharOfElement(pos);
+		char c = laMap.getElement(pos);
 		if(c == ' ' || c == '.' || c == 'd' || c == 'X') return true;
 		else if(c == 'w' || c == 'W') return false;
 		else if(c == 'r') return rocPoussable(pos);
@@ -78,7 +94,7 @@ public class Partie {
 	
 	private boolean rocPoussable(Position pos){//pos du roc en parametre
 		Position posApresRoc = new Position(pos.getX()*2-posRockford.getX(),pos.getY()*2-posRockford.getY());//formule pour avoir la prochaine case dans la continuité de la direction choisie
-		return (laMap.getCharOfElement(posApresRoc) == ' ');
+		return (laMap.getElement(posApresRoc) == ' ');
 	}
 	
 	private char choixDeplacement(){
