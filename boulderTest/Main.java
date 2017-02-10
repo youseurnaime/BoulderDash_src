@@ -3,7 +3,7 @@ package boulderTest;
 public class Main {
 
 	public static void main(String[] args) {
-		String fichierNiveau="niveaux.bdcff";
+		String fichierNiveau="src/assets/FireFox50.bd.bdcff";
 		if(args==null){
 			// No arguments
 		} else {
@@ -32,7 +32,7 @@ public class Main {
 			EnsembleNiveau lesNiveaux = new EnsembleNiveau(fichierNiveau);
 			System.out.println(lesNiveaux.toString());
 			new Partie(lesNiveaux.choisirNiveau());
-			
+
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}

@@ -2,6 +2,7 @@ package boulderTest;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -10,7 +11,7 @@ import java.util.StringTokenizer;
 public class EnsembleNiveau {
 	private ArrayList<Map> lesNiveaux;
 	
-	public EnsembleNiveau(String fichier) throws FileFormatException{
+	public EnsembleNiveau(String fichier) throws FileFormatException, FileNotFoundException{
 		//on vérifie qu'on a bien un fichier .bdcff
 		lesNiveaux = new ArrayList<Map>();
 		StringTokenizer str = new StringTokenizer(fichier,".");
@@ -106,6 +107,8 @@ public class EnsembleNiveau {
 				}
 			}
 			br.close();
+		}catch(FileNotFoundException e2){
+			throw new FileNotFoundException(fichier+" : Fichier de niveaux innexistant");
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
