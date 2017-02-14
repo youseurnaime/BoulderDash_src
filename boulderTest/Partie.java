@@ -86,6 +86,10 @@ public class Partie {
         posRockford = positionApresDeplacement;
         laMap.addElement(posRockford, 'R');
         time--;
+        if(time==0){
+        	System.out.println("Temps écoulé !");
+        	return false;
+        }
         return laMap.majMap();
     }
 	

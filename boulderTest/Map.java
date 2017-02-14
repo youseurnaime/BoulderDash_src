@@ -104,6 +104,10 @@ public class Map {
 	
 	public boolean majMap(){ //renvoie faux si rockford meure
 		tourAvantAmibe--;
+		if(tourAvantAmibe == 0){
+			if(!grandirAmibe()) return false;
+			tourAvantAmibe = amoebaTime;
+		}
 		for(int i = 0 ; i < hauteurMap ; i++){
 			for(int j = 0 ; j < largeurMap ; j++){
 				switch(laMap[i][j]){
@@ -113,18 +117,43 @@ public class Map {
 				case 'd':
 					gravite('d',i,j);
 					break;
-				case 'a':
-					if (!grandirAmibe(i,j)) return false;
+				case '.' :
+				case ' ' :
+					if (tourAvantAmibe == 0)
 					break;
 				}
 			}
 		}
-		if(tourAvantAmibe == 0) tourAvantAmibe = amoebaTime;
+		
 	
 		return true;
 	}
 	
-	private boolean grandirAmibe(int i, int j){ //renvoie faux si rockford meure
+	private boolean grandirAmibe(){ //renvoie faux si rockford meure
+		ArrayList<Position> lesCases = new ArrayList<Position>();
+		
+		for(int i = 1 ; i < hauteurMap-1 ; i++){
+			for(int j = 1 ; j < largeurMap-1 ; j++){
+				if(laMap[i][j] == ' ' || laMap[i][j] == '.' || laMap[i][j] == 'R'){
+					if(laMap[i-1][j] == 'a' || laMap[i+1][j] == 'a' || laMap[i][j-1] == 'a' || laMap[i][j+1] == 'a'){
+						lesCases.add(new Position(i,j));
+
+					}
+				}
+			}
+		}
+		if(lesCases.isEmpty()){
+		//TODO : tous les 'a' de la map se transforment en rocs
+		}else{
+			int nombreAleatoire = (int)(Math.random() * (lesCases.size()));
+			System.out.println("na="+nombreAleatoire);
+			if(laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'R'){
+				System.out.println("Rockford est mort dans une amibe !");
+				return false;
+			}
+			laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] = 'a';
+		}
+		
 		
 		return true;
 	}

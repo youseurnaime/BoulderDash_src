@@ -606,7 +606,7 @@ CaveDelay=8
 CaveTime=250
 DiamondsRequired=90
 DiamondValue=1 5
-AmoebaTime=250
+AmoebaTime=2
 Colors=Gray3 Black Gray1 Gray2 Red
 
 [map]
