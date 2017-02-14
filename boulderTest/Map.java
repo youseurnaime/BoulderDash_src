@@ -109,14 +109,15 @@ public class Map {
 	
 	
 	public boolean majMap(){ //renvoie faux si rockford meure
+		boolean luciole=false;
 		bonusDiamant = 0;
 		tourAvantAmibe--;
 		if(tourAvantAmibe == 0 && amoebaTime != 0){
 			if(!grandirAmibe()) return false;
 			tourAvantAmibe = amoebaTime;
 		}
-		for(int i = 0 ; i < hauteurMap ; i++){
-			for(int j = 0 ; j < largeurMap ; j++){
+		for(int i = 1 ; i < hauteurMap -1 ; i++){
+			for(int j = 1 ; j < largeurMap -1; j++){
 				switch(laMap[i][j]){
 				case 'r':
 					if (!gravite('r',i,j)) return false;
@@ -124,13 +125,13 @@ public class Map {
 				case 'd':
 					gravite('d',i,j);
 					break;
-				case '.' :
-				case ' ' :
-					if (tourAvantAmibe == 0)
-					break;
 				
 				case 'F' :
-					if(!deplacerLibellule(i,j)) return false;
+				case 'Q' :
+				case 'q' :
+				case 'O' :
+				case 'o' :
+					if(!deplacerLuciole(i,j)) return false;
 					break;
 				}
 			}
@@ -140,12 +141,85 @@ public class Map {
 		return true;
 	}
 	
-	private boolean deplacerLibellule(int i, int j){
-		if(laMap[i][j-1] == ' ' || laMap[i][j-1] == 'R' || laMap[i][j-1] == 'a'){
-			laMap[i][j] = ' ';
-			laMap[i][j-1] = 'F';
+	private boolean deplacerLuciole(int i, int j){
+		switch(laMap[i][j]){
+		case 'F' :
+		case 'Q' :
+			if(laMap[i][j-1] == ' ' || laMap[i][j-1] == 'R' || laMap[i][j-1] == 'a'){
+				if(laMap[i][j-1] == 'R'){
+					System.out.println("Une luciole a mangé Rockford !");
+					return false;
+				} else { 
+					if(laMap[i][j-1] == 'a'){
+						laMap[i][j] = ' ';
+					} else {
+					laMap[i][j] = ' ';
+					laMap[i][j-1] = 'Q';
+					}
+				}
+				break;
+			}else{
+				laMap[i][j] = 'q';
+				return deplacerLuciole(i,j);
+			}
+		case 'q' :
+			
+			
+			if(laMap[i-1][j] == ' ' || laMap[i-1][j] == 'R' || laMap[i-1][j] == 'a'){
+				if(laMap[i-1][j] == 'R'){
+					System.out.println("Une luciole a mangé Rockford !");
+					return false;
+				} else { 
+					if(laMap[i-1][j] == 'a'){
+						laMap[i][j] = ' ';
+					} else {
+					laMap[i][j] = ' ';
+					laMap[i-1][j] = 'q';
+					}
+				}
+				break;
+			}else{
+				laMap[i][j] = 'O';
+				return deplacerLuciole(i,j);
+			}
+		case 'O' :
+			if(laMap[i][j+1] == ' ' || laMap[i][j+1] == 'R' || laMap[i][j+1] == 'a'){
+				if(laMap[i][j+1] == 'R'){
+					System.out.println("Une luciole a mangé Rockford !");
+					return false;
+				} else { 
+					if(laMap[i][j+1] == 'a'){
+						laMap[i][j] = ' ';
+					} else {
+					laMap[i][j] = ' ';
+					laMap[i][j+1] = 'O';
+					}
+				}
+				break;
+			}else{
+				laMap[i][j] = 'o';
+				return deplacerLuciole(i,j);
+			}
+		case 'o' :
+			if(laMap[i+1][j] == ' ' || laMap[i+1][j] == 'R' || laMap[i+1][j] == 'a'){
+				if(laMap[i+1][j] == 'R'){
+					System.out.println("Une luciole a mangé Rockford !");
+					return false;
+				} else { 
+					if(laMap[i+1][j] == 'a'){
+						laMap[i][j] = ' ';
+					} else {
+					laMap[i][j] = ' ';
+					laMap[i+1][j] = 'o';
+					}
+				}
+				break;
+			}else{
+				laMap[i][j] = 'Q';
+				return deplacerLuciole(i,j);
+			}
 		}
-		//TODO
+		
 		return true;
 	}
 	
@@ -240,7 +314,12 @@ public class Map {
 		String s = "";
 		for(int i = 0 ; i < laMap.length ; i++){
 			for(int j = 0 ; j < laMap[i].length ; j++){
-				s += laMap[i][j];
+				if(laMap[i][j]=='F'||laMap[i][j]=='q'||laMap[i][j]=='Q'||laMap[i][j]=='o'||laMap[i][j]=='O'){
+					s+='F'; // Luciole
+				} else {
+					s += laMap[i][j];
+				}
+				
 			}
 			s += "\n";
 		}
