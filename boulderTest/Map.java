@@ -16,6 +16,7 @@ public class Map {
 	private int largeurMap;
 	private Position posSortie;
 	private boolean sortieOuverte;
+	private int tourAvantAmibe;
 	
 	public Map(String name, ArrayList<Integer> caveTime, int diamondsRequired, ArrayList<Integer> diamondValue, int amoebaTime, int magicWallTime, ArrayList<String> laMap){
 		this.name = name;
@@ -38,7 +39,7 @@ public class Map {
 		trouverSortie();
 		this.sortieOuverte = false;
 		this.laMap[posSortie.getX()][posSortie.getY()] = ' ';
-		
+		tourAvantAmibe = amoebaTime;
 	}
 	
 	public char formatageCaractere(char a){//Afin qu'il n'y est qu'un caractere par element
@@ -102,17 +103,31 @@ public class Map {
 	
 	
 	public boolean majMap(){ //renvoie faux si rockford meure
+		tourAvantAmibe--;
 		for(int i = 0 ; i < hauteurMap ; i++){
 			for(int j = 0 ; j < largeurMap ; j++){
-				if(laMap[i][j]=='r'){					
+				switch(laMap[i][j]){
+				case 'r':
 					if (!gravite('r',i,j)) return false;
+					break;
+				case 'd':
+					gravite('d',i,j);
+					break;
+				case 'a':
+					if (!grandirAmibe(i,j)) return false;
+					break;
 				}
-				else if(laMap[i][j]=='d') gravite('d',i,j);
 			}
 		}
+		if(tourAvantAmibe == 0) tourAvantAmibe = amoebaTime;
+	
 		return true;
 	}
 	
+	private boolean grandirAmibe(int i, int j){ //renvoie faux si rockford meure
+		
+		return true;
+	}
 	private boolean gravite(char c, int i, int j){ //renvoie faux si rockford meure
 		switch(laMap[i+1][j]){
 		case ' ':
