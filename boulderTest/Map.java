@@ -114,21 +114,42 @@ public class Map {
 	}
 	
 	private boolean gravite(char c, int i, int j){ //renvoie faux si rockford meure
-		if(laMap[i+1][j] == ' ' || laMap[i+1][j] == 'R'){
-			if(laMap[i+1][j] == 'R') {
-				laMap[i][j] = ' ';
-				laMap[i+1][j] = c;
-				System.out.println(ecranDeJeu());
-				System.out.println("Rockford est mort sous un rocher !");
-				return false;
-			}
+		switch(laMap[i+1][j]){
+		case ' ':
 			laMap[i][j] = ' ';
 			laMap[i+1][j] = c;
-			if(laMap[i+2][j] == ' ' || laMap[i+2][j] == 'R'){
-				if(laMap[i+2][j] == 'R') return false;
-				laMap[i+1][j] = ' ';
-				laMap[i+2][j] = c;
+			break;
+		
+		case 'r':
+			if(j>0){
+				if(laMap[i+1][j-1] == ' ' || laMap[i+1][j-1] == 'R'){
+					if(laMap[i+1][j-1] == 'R'){
+						laMap[i][j] = ' ';
+						laMap[i+1][j-1] = c;
+						System.out.println(ecranDeJeu());
+						System.out.println("Rockford est mort sous un rocher !");
+						return false;
+					}
+					laMap[i][j] = ' ';
+					laMap[i+1][j-1] = c;
+					
+				}
 			}
+			if(j<largeurMap){
+				if(laMap[i+1][j+1] == ' ' || laMap[i+1][j+1] == 'R'){
+					if(laMap[i+1][j+1] == 'R'){
+						laMap[i][j] = ' ';
+						laMap[i+1][j+1] = c;
+						System.out.println(ecranDeJeu());
+						System.out.println("Rockford est mort sous un rocher !");
+						return false;
+					}
+					
+					
+				}
+			}
+			break;
+			
 		}
 		return true;
 	}
