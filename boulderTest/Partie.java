@@ -59,11 +59,7 @@ public class Partie {
 
         laMap.removeElement(posRockford);
         switch (laMap.getElement(positionApresDeplacement)) {
-            case 'd':
-                score += laMap.getDiamondValue();
-                diamonds++;
-                laMap.testOuvrirSortie(diamonds);
-                break;
+
             case 'X':
                 System.out.println("Bravo !");
                 return false;
@@ -80,6 +76,11 @@ public class Partie {
             case 'a':
                 System.out.println("Contact avec l'amibe :(");
                 return false;
+            default: // Diamant
+                score += laMap.getDiamondValue();
+                diamonds++;
+                laMap.testOuvrirSortie(diamonds);
+                break;
         }
 
         posRockford = positionApresDeplacement;
