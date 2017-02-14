@@ -128,11 +128,24 @@ public class Map {
 				case ' ' :
 					if (tourAvantAmibe == 0)
 					break;
+				
+				case 'F' :
+					if(!deplacerLibellule(i,j)) return false;
+					break;
 				}
 			}
 		}
 		
 	
+		return true;
+	}
+	
+	private boolean deplacerLibellule(int i, int j){
+		if(laMap[i][j-1] == ' ' || laMap[i][j-1] == 'R' || laMap[i][j-1] == 'a'){
+			laMap[i][j] = ' ';
+			laMap[i][j-1] = 'F';
+		}
+		//TODO
 		return true;
 	}
 	
