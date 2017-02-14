@@ -32,6 +32,8 @@ public class Partie {
         effacerEcran();
         Position positionApresDeplacement;
         char choix;
+        score += laMap.getBonusDiamant()*laMap.getDiamondValue();
+        diamonds += laMap.getBonusDiamant();
         do {
             choix = choixDeplacement();
 

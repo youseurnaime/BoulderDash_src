@@ -17,6 +17,7 @@ public class Map {
 	private Position posSortie;
 	private boolean sortieOuverte;
 	private int tourAvantAmibe;
+	private int bonusDiamant; //si une libellule meurt par exemple
 	
 	public Map(String name, ArrayList<Integer> caveTime, int diamondsRequired, ArrayList<Integer> diamondValue, int amoebaTime, int magicWallTime, ArrayList<String> laMap){
 		this.name = name;
@@ -40,6 +41,7 @@ public class Map {
 		this.sortieOuverte = false;
 		this.laMap[posSortie.getX()][posSortie.getY()] = ' ';
 		tourAvantAmibe = amoebaTime;
+		this.bonusDiamant = 0;
 	}
 	
 	public char formatageCaractere(char a){//Afin qu'il n'y est qu'un caractere par element
@@ -59,6 +61,10 @@ public class Map {
 				laMap[posSortie.getX()][posSortie.getY()] = ' ';
 			}
 		}
+	}
+	
+	public int getBonusDiamant(){
+		return bonusDiamant;
 	}
 	
 	public int getDiamondValue(){
@@ -103,8 +109,9 @@ public class Map {
 	
 	
 	public boolean majMap(){ //renvoie faux si rockford meure
+		bonusDiamant = 0;
 		tourAvantAmibe--;
-		if(tourAvantAmibe == 0){
+		if(tourAvantAmibe == 0 && amoebaTime != 0){
 			if(!grandirAmibe()) return false;
 			tourAvantAmibe = amoebaTime;
 		}
@@ -134,7 +141,7 @@ public class Map {
 		
 		for(int i = 1 ; i < hauteurMap-1 ; i++){
 			for(int j = 1 ; j < largeurMap-1 ; j++){
-				if(laMap[i][j] == ' ' || laMap[i][j] == '.' || laMap[i][j] == 'R'){
+				if(laMap[i][j] == ' ' || laMap[i][j] == '.' || laMap[i][j] == 'R' || laMap[i][j] == 'C' || laMap[i][j] == 'F'){
 					if(laMap[i-1][j] == 'a' || laMap[i+1][j] == 'a' || laMap[i][j-1] == 'a' || laMap[i][j+1] == 'a'){
 						lesCases.add(new Position(i,j));
 
@@ -150,6 +157,8 @@ public class Map {
 			if(laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'R'){
 				System.out.println("Rockford est mort dans une amibe !");
 				return false;
+			}else if((laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'C')){
+				bonusDiamant += 9; //Si une libellule meurt le joueur gagne 9 diamants
 			}
 			laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] = 'a';
 		}
