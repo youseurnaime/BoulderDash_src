@@ -27,61 +27,66 @@ public class Partie {
 		boolean rockfordAlive = true;
 		while(rockfordAlive) rockfordAlive = tour();
 	}
-	
-	private boolean tour(){ //Renvoie true si Rockford est toujours en vie à l'issue de ce tour
-		effacerEcran();
-		Position positionApresDeplacement;
-		char choix;
-		do{
-			choix = choixDeplacement();
-			
-			switch(choix){
-			case '0':
-				return false;
-			case 'z':
-				positionApresDeplacement = new Position(posRockford.getX()-1,posRockford.getY());
-				break;
-			case 's':
-				positionApresDeplacement = new Position(posRockford.getX()+1,posRockford.getY());
-				break;
-			case 'q':
-				positionApresDeplacement = new Position(posRockford.getX(),posRockford.getY()-1);
-				break;
-			case 'd':
-				positionApresDeplacement = new Position(posRockford.getX(),posRockford.getY()+1);
-				break;
-			default : 
-				positionApresDeplacement = posRockford;
-				break;
-			}
-			if(!deplacementPossible(positionApresDeplacement)) System.out.println("Déplacement impossible !");
-		}while(!deplacementPossible(positionApresDeplacement));
-		
-		laMap.removeElement(posRockford);
-		switch(laMap.getElement(positionApresDeplacement)){
-		case 'd':
-			score += laMap.getDiamondValue();
-			diamonds++;
-			laMap.testOuvrirSortie(diamonds);
-			break;
-		case 'X':
-			System.out.println("Bravo !");
-			return false;
-		case 'r':
-			Position posApresRoc = new Position(positionApresDeplacement.getX()*2-posRockford.getX(),positionApresDeplacement.getY()*2-posRockford.getY());
-			laMap.addElement(posApresRoc, 'r');
-			break;
-			
-		}
-		
-		
-		posRockford = positionApresDeplacement;
-		laMap.addElement(posRockford, 'R'); 
-		time--;
-		return laMap.majMap();
-	}
-	
-	
+
+    private boolean tour() { //Renvoie true si Rockford est toujours en vie à l'issue de ce tour
+        effacerEcran();
+        Position positionApresDeplacement;
+        char choix;
+        do {
+            choix = choixDeplacement();
+
+            switch (choix) {
+                case '0':
+                    return false;
+                case 'z':
+                    positionApresDeplacement = new Position(posRockford.getX() - 1, posRockford.getY());
+                    break;
+                case 's':
+                    positionApresDeplacement = new Position(posRockford.getX() + 1, posRockford.getY());
+                    break;
+                case 'q':
+                    positionApresDeplacement = new Position(posRockford.getX(), posRockford.getY() - 1);
+                    break;
+                case 'd':
+                    positionApresDeplacement = new Position(posRockford.getX(), posRockford.getY() + 1);
+                    break;
+                default:
+                    positionApresDeplacement = posRockford;
+                    break;
+            }
+            if (!deplacementPossible(positionApresDeplacement)) System.out.println("Déplacement impossible !");
+        } while (!deplacementPossible(positionApresDeplacement));
+
+        laMap.removeElement(posRockford);
+        switch (laMap.getElement(positionApresDeplacement)) {
+            case 'd':
+                score += laMap.getDiamondValue();
+                diamonds++;
+                laMap.testOuvrirSortie(diamonds);
+                break;
+            case 'X':
+                System.out.println("Bravo !");
+                return false;
+            case 'r':
+                Position posApresRoc = new Position(positionApresDeplacement.getX() * 2 - posRockford.getX(), positionApresDeplacement.getY() * 2 - posRockford.getY());
+                laMap.addElement(posApresRoc, 'r');
+                break;
+            case 'F':
+                System.out.println("Contact avec luciole :(");
+                return false;
+            case 'C':
+                System.out.println("Contact avec libellule :(");
+                return false;
+            case 'a':
+                System.out.println("Contact avec l'amibe :(");
+                return false;
+        }
+
+        posRockford = positionApresDeplacement;
+        laMap.addElement(posRockford, 'R');
+        time--;
+        return laMap.majMap();
+    }
 	
 	private boolean deplacementPossible(Position pos){
 		if(pos.getX() < 0 || pos.getX() > laMap.getHauteur() || pos.getY() < 0 || pos.getY() > laMap.getLargeur()) return false;
