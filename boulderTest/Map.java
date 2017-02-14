@@ -17,7 +17,8 @@ public class Map {
 	private Position posSortie;
 	private boolean sortieOuverte;
 	private int tourAvantAmibe;
-	private int bonusDiamant; //si une libellule meurt par exemple
+	private int bonusDiamant; //si une libellule meurt --> a changer pour faire apparaitre des diamants
+	Hashtable<Position,Character> mobToAdd;
 	
 	public Map(String name, ArrayList<Integer> caveTime, int diamondsRequired, ArrayList<Integer> diamondValue, int amoebaTime, int magicWallTime, ArrayList<String> laMap){
 		this.name = name;
@@ -109,13 +110,11 @@ public class Map {
 	
 	
 	public boolean majMap(){ //renvoie faux si rockford meure
-		boolean luciole=false;
+		mobToAdd = new Hashtable<Position,Character>();
+		
 		bonusDiamant = 0;
 		tourAvantAmibe--;
-		if(tourAvantAmibe == 0 && amoebaTime != 0){
-			if(!grandirAmibe()) return false;
-			tourAvantAmibe = amoebaTime;
-		}
+		
 		for(int i = 1 ; i < hauteurMap -1 ; i++){
 			for(int j = 1 ; j < largeurMap -1; j++){
 				switch(laMap[i][j]){
@@ -137,11 +136,39 @@ public class Map {
 			}
 		}
 		
+		if(tourAvantAmibe == 0 && amoebaTime != 0){
+			if(!grandirAmibe()) return false;
+			tourAvantAmibe = amoebaTime;
+		}
+		
+		Enumeration<Position> mobPos = mobToAdd.keys();
+		Position currentPos = null;
+		while(mobPos.hasMoreElements()){
+			currentPos = mobPos.nextElement();
+			laMap[currentPos.getX()][currentPos.getY()] = mobToAdd.get(currentPos);
+		}
 	
 		return true;
 	}
 	
-	private boolean deplacerLuciole(int i, int j){
+	private void mortDeLibellule(int i, int j){
+		int nbDiam = 0;
+		int distance = 1;
+		while(nbDiam < 9 && i - distance > 0 && j - distance > 0 && i + distance < hauteurMap && j + distance < largeurMap){
+			for(int x = i - distance ; x < i + distance ; x++){
+				for(int y = j - distance ; y < j + distance ; y++){
+					if(laMap[x][y] == ' '){
+						laMap[x][y] = 'd';
+						nbDiam++;
+					}
+				}
+			}
+			distance++;
+		}
+	}
+	
+	private boolean deplacerLuciole(int i, int j){ // c'est pas bo --> a réécrire avec des for
+
 		switch(laMap[i][j]){
 		case 'F' :
 		case 'Q' :
@@ -150,12 +177,8 @@ public class Map {
 					System.out.println("Une luciole a mangé Rockford !");
 					return false;
 				} else { 
-					if(laMap[i][j-1] == 'a'){
-						laMap[i][j] = ' ';
-					} else {
+					if(laMap[i][j-1] == ' ') mobToAdd.put(new Position(i,j-1), 'Q');
 					laMap[i][j] = ' ';
-					laMap[i][j-1] = 'Q';
-					}
 				}
 				break;
 			}else{
@@ -170,12 +193,8 @@ public class Map {
 					System.out.println("Une luciole a mangé Rockford !");
 					return false;
 				} else { 
-					if(laMap[i-1][j] == 'a'){
-						laMap[i][j] = ' ';
-					} else {
+					if(laMap[i-1][j] == ' ') mobToAdd.put(new Position(i-1,j), 'q');
 					laMap[i][j] = ' ';
-					laMap[i-1][j] = 'q';
-					}
 				}
 				break;
 			}else{
@@ -188,12 +207,8 @@ public class Map {
 					System.out.println("Une luciole a mangé Rockford !");
 					return false;
 				} else { 
-					if(laMap[i][j+1] == 'a'){
-						laMap[i][j] = ' ';
-					} else {
+					if(laMap[i][j+1] == ' ') mobToAdd.put(new Position(i,j+1), 'O');
 					laMap[i][j] = ' ';
-					laMap[i][j+1] = 'O';
-					}
 				}
 				break;
 			}else{
@@ -206,12 +221,8 @@ public class Map {
 					System.out.println("Une luciole a mangé Rockford !");
 					return false;
 				} else { 
-					if(laMap[i+1][j] == 'a'){
-						laMap[i][j] = ' ';
-					} else {
+					if(laMap[i+1][j] == ' ') mobToAdd.put(new Position(i+1,j), 'o');
 					laMap[i][j] = ' ';
-					laMap[i+1][j] = 'o';
-					}
 				}
 				break;
 			}else{
@@ -222,6 +233,7 @@ public class Map {
 		
 		return true;
 	}
+	
 	
 	private boolean grandirAmibe(){ //renvoie faux si rockford meure
 		ArrayList<Position> lesCases = new ArrayList<Position>();
@@ -237,15 +249,18 @@ public class Map {
 			}
 		}
 		if(lesCases.isEmpty()){
-		//TODO : tous les 'a' de la map se transforment en rocs
+			for(int i = 1 ; i < hauteurMap-1 ; i++){
+				for(int j = 1 ; j < largeurMap-1 ; j++){
+					if(laMap[i][j] == 'a') laMap[i][j] = 'r'; //si l'amibe ne peut plus grandire elle se transforme en rocs
+				}
+			}
 		}else{
 			int nombreAleatoire = (int)(Math.random() * (lesCases.size()));
-			System.out.println("na="+nombreAleatoire);
 			if(laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'R'){
 				System.out.println("Rockford est mort dans une amibe !");
 				return false;
-			}else if((laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'C')){
-				bonusDiamant += 9; //Si une libellule meurt le joueur gagne 9 diamants
+			}else if((laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'C' || laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'c' || laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'B') || laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'b'){
+				mortDeLibellule(lesCases.get(nombreAleatoire).getX(),lesCases.get(nombreAleatoire).getY());
 			}
 			laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] = 'a';
 		}
@@ -316,7 +331,10 @@ public class Map {
 			for(int j = 0 ; j < laMap[i].length ; j++){
 				if(laMap[i][j]=='F'||laMap[i][j]=='q'||laMap[i][j]=='Q'||laMap[i][j]=='o'||laMap[i][j]=='O'){
 					s+='F'; // Luciole
-				} else {
+				}else if(laMap[i][j]=='B'||laMap[i][j]=='b'||laMap[i][j]=='C'||laMap[i][j]=='c'){
+					s+='C'; //libellule
+				}
+				else {
 					s += laMap[i][j];
 				}
 				

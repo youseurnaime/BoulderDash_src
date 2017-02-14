@@ -32,8 +32,8 @@ public class Partie {
         effacerEcran();
         Position positionApresDeplacement;
         char choix;
-        score += laMap.getBonusDiamant()*laMap.getDiamondValue();
-        diamonds += laMap.getBonusDiamant();
+        //score += laMap.getBonusDiamant()*laMap.getDiamondValue();
+       // diamonds += laMap.getBonusDiamant();
         do {
             choix = choixDeplacement();
 
@@ -78,6 +78,10 @@ public class Partie {
             case 'a':
                 System.out.println("Contact avec l'amibe :(");
                 return false;
+            case '.':
+            	break;
+            case ' ':
+            	break;
             default: // Diamant
                 score += laMap.getDiamondValue();
                 diamonds++;
