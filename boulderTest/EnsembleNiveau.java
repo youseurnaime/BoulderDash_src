@@ -114,14 +114,21 @@ public class EnsembleNiveau {
 		}
 	}
 	
-	public Map choisirNiveau(){
+	public Map choisirNiveau(int choixNiveau){
+		int choix = -1;
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Liste des niveaux du fichier :");
 		for(int i = 0 ; i < lesNiveaux.size() ; i++){
 			System.out.println(i+" : "+lesNiveaux.get(i).getNom());
 		}
+		if(choixNiveau!=-1){ // Argument -joue utilisé
+			if(choix < 0 || choix > lesNiveaux.size()) {
+				System.out.println("Choix incorrect ! Entrez le numero de niveau à la main");
+			} else {
+				return lesNiveaux.get(choixNiveau);
+			}
+		}
 		System.out.println("Quel niveau voulez-vous charger ? ");
-		int choix = -1;
 		while(choix < 0 || choix > lesNiveaux.size()){
 			choix = sc.nextInt();
 			if(choix < 0 || choix > lesNiveaux.size()) System.out.println("Choix incorrect !");
