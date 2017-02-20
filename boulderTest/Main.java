@@ -1,9 +1,12 @@
 package boulderTest;
 
+import java.io.*;
+
 public class Main {
 
 	public static void main(String[] args) {
 		String fichierNiveau="src/assets/FireFox50.bd.bdcff";
+		boolean fichierValide=true;
 		int choixNiveau=-1;
 		if(args==null){
 			// No arguments
@@ -11,18 +14,26 @@ public class Main {
 			switch (args.length){
 				case 1:
 					switch (args[0]){
-					case "-name":
-						// arg -name
-						break;
-					case "-h" :
-						// arg -h
-						break;
+						case "-name":
+							System.out.println("FABRE Marin\nSENAT Clement\nDE SA Thomas");
+							System.exit(0);
+							break;
+						case "-h" :
+							// arg -h
+							break;
+						default :
+							System.out.println(usage());
+							System.exit(2);
 					}
 					break;
 				case 2:
 					switch (args[0]){
 						case "-lis":
 							fichierNiveau=args[1];
+							break;
+						case "-joue":
+							fichierNiveau=args[1];
+							break;
 						}
 					break;
 				case 4:
@@ -31,9 +42,21 @@ public class Main {
 						choixNiveau=Integer.parseInt(args[3]);
 					} else {
 						System.out.println(usage());
+						System.exit(2);
+						break;
 					}
-					default:
-						System.out.println(usage());
+				case 5:
+					// -cal
+					break;
+				case 6:
+					// -rejoue
+					break;
+				case 7:
+					// -simul
+					break;
+				default:
+					System.out.println(usage());
+					System.exit(2);
 			}
 		}
 		System.out.println("Bonjour");
