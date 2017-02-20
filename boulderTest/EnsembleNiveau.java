@@ -122,7 +122,7 @@ public class EnsembleNiveau {
 			System.out.println(i+" : "+lesNiveaux.get(i).getNom());
 		}
 		if(choixNiveau!=-1){ // Argument -joue utilisé
-			if(choix < 0 || choix > lesNiveaux.size()) {
+			if(choixNiveau < 0 || choixNiveau > lesNiveaux.size()) {
 				System.out.println("Choix incorrect ! Entrez le numero de niveau à la main");
 			} else {
 				return lesNiveaux.get(choixNiveau);
