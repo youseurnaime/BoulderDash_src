@@ -9,6 +9,7 @@ public class Partie {
 	private int time;
 	private int diamonds;
 	private String name;
+	private String historique;
 	
 	public Partie(Map laMap) throws NoRockfordException{
 		this.laMap = laMap;
@@ -26,6 +27,12 @@ public class Partie {
 		this.diamonds = 0;
 		boolean rockfordAlive = true;
 		while(rockfordAlive) rockfordAlive = tour();
+		historique = "#"+this.name+"\n";
+	}
+	private void mortRockford(){
+		effacerEcran();
+		System.out.println("PERDU");
+		historique +="\n#Rockford est MORT";
 	}
 
     private boolean tour() { //Renvoie true si Rockford est toujours en vie à l'issue de ce tour
@@ -42,17 +49,22 @@ public class Partie {
                     return false;
                 case 'z':
                     positionApresDeplacement = new Position(posRockford.getX() - 1, posRockford.getY());
+                    historique+="U";
                     break;
                 case 's':
                     positionApresDeplacement = new Position(posRockford.getX() + 1, posRockford.getY());
+                    historique+="D";
                     break;
                 case 'q':
                     positionApresDeplacement = new Position(posRockford.getX(), posRockford.getY() - 1);
+                    historique+="L";
                     break;
                 case 'd':
                     positionApresDeplacement = new Position(posRockford.getX(), posRockford.getY() + 1);
+                    historique+="R";
                     break;
                 default:
+                    historique+="I";
                     positionApresDeplacement = posRockford;
                     break;
             }
