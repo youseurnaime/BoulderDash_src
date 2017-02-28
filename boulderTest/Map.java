@@ -132,6 +132,12 @@ public class Map {
 				case 'o' :
 					if(!deplacerLuciole(i,j)) return false;
 					break;
+				case 'C' :
+				case 'c' :
+				case 'B' :
+				case 'b' :
+					if(!deplacerLibellule(i,j)) return false;
+					break;
 				}
 			}
 		}
@@ -228,6 +234,73 @@ public class Map {
 			}else{
 				laMap[i][j] = 'Q';
 				return deplacerLuciole(i,j);
+			}
+		}
+		
+		return true;
+	}
+	
+	private boolean deplacerLibellule(int i, int j){ // c'est pas bo --> a réécrire avec des for
+
+		switch(laMap[i][j]){
+		case 'C' :
+			if(laMap[i][j+1] == ' ' || laMap[i][j+1] == 'R' || laMap[i][j+1] == 'a'){
+				if(laMap[i][j+1] == 'R'){
+					System.out.println("Une libellule a mangé Rockford !");
+					return false;
+				} else { 
+					if(laMap[i][j+1] == ' '){
+						mobToAdd.put(new Position(i,j+1), 'C');
+						laMap[i][j] = ' ';
+					}
+					
+				}
+				break;
+			}else{
+				laMap[i][j] = 'c';
+				return deplacerLibellule(i,j);
+			}
+		case 'c' :
+			if(laMap[i-1][j] == ' ' || laMap[i-1][j] == 'R' || laMap[i-1][j] == 'a'){
+				if(laMap[i-1][j] == 'R'){
+					System.out.println("Une libellule a mangé Rockford !");
+					return false;
+				} else { 
+					if(laMap[i-1][j] == ' ') mobToAdd.put(new Position(i-1,j), 'c');
+					laMap[i][j] = ' ';
+				}
+				break;
+			}else{
+				laMap[i][j] = 'b';
+				return deplacerLibellule(i,j);
+			}
+		case 'b' :
+			if(laMap[i][j-1] == ' ' || laMap[i][j-1] == 'R' || laMap[i][j-1] == 'a'){
+				if(laMap[i][j-1] == 'R'){
+					System.out.println("Une libellule a mangé Rockford !");
+					return false;
+				} else { 
+					if(laMap[i][j-1] == ' ') mobToAdd.put(new Position(i,j-1), 'b');
+					laMap[i][j] = ' ';
+				}
+				break;
+			}else{
+				laMap[i][j] = 'B';
+				return deplacerLibellule(i,j);
+			}
+		case 'B' :
+			if(laMap[i+1][j] == ' ' || laMap[i+1][j] == 'R' || laMap[i+1][j] == 'a'){
+				if(laMap[i+1][j] == 'R'){
+					System.out.println("Une libellule a mangé Rockford !");
+					return false;
+				} else { 
+					if(laMap[i+1][j] == ' ') mobToAdd.put(new Position(i+1,j), 'B');
+					laMap[i][j] = ' ';
+				}
+				break;
+			}else{
+				laMap[i][j] = 'C';
+				return deplacerLibellule(i,j);
 			}
 		}
 		

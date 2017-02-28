@@ -8,7 +8,7 @@ public class Main {
 		String fichierNiveau="src/assets/FireFox50.bd.bdcff";
 		boolean fichierValide=true;
 		int choixNiveau=-1;
-		if(args==null){
+		if(args.length == 0){
 			// No arguments
 		} else {
 			switch (args.length){
