@@ -15,7 +15,7 @@ public class Main {
 				case 1:
 					switch (args[0]){
 						case "-name":
-							System.out.println("FABRE Marin\nSENAT Clement\nDE SA Thomas");
+							System.out.println("BEGOUEN DEMEAUX Marine\nFABRE Marin\nSENAT Clement\nDE SA Thomas");
 							System.exit(0);
 							break;
 						case "-h" :
