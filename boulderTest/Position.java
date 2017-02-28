@@ -20,4 +20,8 @@ public class Position {
 	public int getY(){
 		return y;
 	}
+	
+	public boolean equals(Position p){
+		return(this.x == p.x && this.y == p.y);
+	}
 }

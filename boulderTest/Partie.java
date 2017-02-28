@@ -70,8 +70,15 @@ public class Partie {
                 laMap.addElement(posApresRoc, 'r');
                 break;
             case 'F':
+            case 'Q':
+            case 'q':
+            case 'O':
+            case 'o':
                 System.out.println("Contact avec luciole :(");
                 return false;
+            case 'c':
+            case 'b':
+            case 'B':
             case 'C':
                 System.out.println("Contact avec libellule :(");
                 return false;

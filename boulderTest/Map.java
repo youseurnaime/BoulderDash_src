@@ -152,6 +152,11 @@ public class Map {
 		while(mobPos.hasMoreElements()){
 			currentPos = mobPos.nextElement();
 			laMap[currentPos.getX()][currentPos.getY()] = mobToAdd.get(currentPos);
+			if(laMap[currentPos.getX()][currentPos.getY()] == 'R'){
+				System.out.println("Un animal a dévoré Rockford !");
+				return false;
+			}
+			
 		}
 	
 		return true;
@@ -357,6 +362,10 @@ public class Map {
 						System.out.println(ecranDeJeu());
 						System.out.println("Rockford est mort sous un rocher !");
 						return false;
+					}else if(laMap[i+1][j-1] == 'C' || laMap[i+1][j-1] == 'c' || laMap[i+1][j-1] == 'B' || laMap[i+1][j-1] == 'b'){
+						laMap[i][j] = ' ';
+						laMap[i+1][j-1] = c;
+						mortDeLibellule(i+1,j-1);
 					}
 					laMap[i][j] = ' ';
 					laMap[i+1][j-1] = c;
@@ -371,6 +380,10 @@ public class Map {
 						System.out.println(ecranDeJeu());
 						System.out.println("Rockford est mort sous un rocher !");
 						return false;
+					}else if(laMap[i+1][j+1] == 'C' || laMap[i+1][j+1] == 'c' || laMap[i+1][j+1] == 'B' || laMap[i+1][j+1] == 'b'){
+						laMap[i][j] = ' ';
+						laMap[i+1][j-1] = c;
+						mortDeLibellule(i+1,j-1);
 					}
 					
 					
