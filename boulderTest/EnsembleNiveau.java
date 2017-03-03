@@ -136,9 +136,9 @@ public class EnsembleNiveau {
 		return lesNiveaux.get(choix);
 	}
 	
-	public String toString(){
+	public String toString() {
 		String s = "";
-		for(int i = 0 ; i < lesNiveaux.size() ; i++) s += lesNiveaux.get(i).toString() + "\n\n\n";
+		for (int i = 0; i < lesNiveaux.size(); i++) s += lesNiveaux.get(i).toString() + "\n\n\n";
 		return s;
 	}
 }

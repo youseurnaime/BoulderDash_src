@@ -31,7 +31,7 @@ public class Partie {
 	}
 	private void mortRockford(){
 		effacerEcran();
-		System.out.println("PERDU");
+		System.out.println("PERDU!");
 		historique +="\n#Rockford est MORT";
 	}
 
@@ -76,6 +76,7 @@ public class Partie {
 
             case 'X':
                 System.out.println("Bravo !");
+                historique +="\n#Rockford a rejoint la sortie";
                 return false;
             case 'r':
                 Position posApresRoc = new Position(positionApresDeplacement.getX() * 2 - posRockford.getX(), positionApresDeplacement.getY() * 2 - posRockford.getY());
