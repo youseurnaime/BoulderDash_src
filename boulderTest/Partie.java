@@ -1,5 +1,6 @@
 package boulderTest;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class Partie {
@@ -39,9 +40,10 @@ public class Partie {
 	private void sauvegarderHistorique(){
 	    try{
 
-            bos = new BufferedOutputStream(new FileOutputStream(new File(name+".txt")));
-            bos.write(historique);
-            bos.close();
+            FileOutputStream fos = new FileOutputStream(new File(name+".txt"));
+            byte byteHistorique[] = historique.getBytes();
+            fos.write(byteHistorique);
+            fos.close();
         }catch(Exception e){
 	        System.out.println("Erreur de sauvegarde");
         }

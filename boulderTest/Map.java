@@ -179,7 +179,7 @@ public class Map {
 	}
 	
 	private boolean deplacerLuciole(int i, int j){ // c'est pas bo --> a réécrire avec des for
-
+		if(laMap[i][j+1] != ' ' && laMap[i][j+1] != 'R' && laMap[i][j+1] != 'a' && laMap[i][j-1] != ' ' && laMap[i][j-1] != 'R' && laMap[i][j-1] != 'a' && laMap[i-1][j] != ' ' && laMap[i-1][j] != 'R' && laMap[i-1][j] != 'a' && laMap[i+1][j] != ' ' && laMap[i+1][j] != 'R' && laMap[i+1][j] != 'a') return true; //Si l'animal est bloqué
 		switch(laMap[i][j]){
 		case 'F' :
 		case 'Q' :
@@ -246,7 +246,7 @@ public class Map {
 	}
 	
 	private boolean deplacerLibellule(int i, int j){ // c'est pas bo --> a réécrire avec des for
-
+		if(laMap[i][j+1] != ' ' && laMap[i][j+1] != 'R' && laMap[i][j+1] != 'a' && laMap[i][j-1] != ' ' && laMap[i][j-1] != 'R' && laMap[i][j-1] != 'a' && laMap[i-1][j] != ' ' && laMap[i-1][j] != 'R' && laMap[i-1][j] != 'a' && laMap[i+1][j] != ' ' && laMap[i+1][j] != 'R' && laMap[i+1][j] != 'a') return true; //Si l'animal est bloqué
 		switch(laMap[i][j]){
 		case 'C' :
 			if(laMap[i][j+1] == ' ' || laMap[i][j+1] == 'R' || laMap[i][j+1] == 'a'){
