@@ -8,9 +8,7 @@ public class Main {
 		String fichierNiveau="assets/FireFox50.bd.bdcff";
 		boolean fichierValide=true;
 		int choixNiveau=-1;
-		if(args.length == 0){
-			// No arguments
-		} else {
+		if(args.length != 0){
 			switch (args.length){
 				case 1:
 					switch (args[0]){
@@ -34,6 +32,9 @@ public class Main {
 						case "-joue":
 							fichierNiveau=args[1];
 							break;
+						default:
+							System.out.println(usage());
+							System.exit(2);
 						}
 					break;
 				case 4:
