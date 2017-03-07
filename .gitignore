@@ -7,3 +7,4 @@ BoulderDash_src
 out
 out/*
 BoulderDash_src.iml
+*.dash
