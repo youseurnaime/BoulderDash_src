@@ -105,15 +105,18 @@ public class Partie {
             case 'O':
             case 'o':
                 System.out.println("Contact avec luciole :(");
+                mortRockford();
                 return false;
             case 'c':
             case 'b':
             case 'B':
             case 'C':
                 System.out.println("Contact avec libellule :(");
+                mortRockford();
                 return false;
             case 'a':
                 System.out.println("Contact avec l'amibe :(");
+                mortRockford();
                 return false;
             case '.':
             	break;
@@ -131,11 +134,17 @@ public class Partie {
         time--;
         if(time==0){
         	System.out.println("Temps écoulé !");
+        	historique+="\nTemps écoulé !";
         	return false;
         }
-        return laMap.majMap();
+        if(!laMap.majMap()){
+            mortRockford();
+            return false;
+        } else {
+            return true;
+        }
     }
-	
+
 	private boolean deplacementPossible(Position pos){
 		if(pos.getX() < 0 || pos.getX() > laMap.getHauteur() || pos.getY() < 0 || pos.getY() > laMap.getLargeur()) return false;
 		char c = laMap.getElement(pos);
