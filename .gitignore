@@ -8,3 +8,15 @@ out
 out/*
 BoulderDash_src.iml
 *.dash
+
+
+
+
+
+
+
+
+
+*.class*
+.project
+/*.class
