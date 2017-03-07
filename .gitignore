@@ -5,4 +5,5 @@ BoulderDash_src
 .idea/modules.xml
 .idea/vcs.xml
 .idea/workspace.xml
-
+BoulderDash_src.iml
+.idea/_mylyn.xml

@@ -5,7 +5,7 @@ import java.io.*;
 public class Main {
 
 	public static void main(String[] args) {
-		String fichierNiveau="src/assets/FireFox50.bd.bdcff";
+		String fichierNiveau="assets/FireFox50.bd.bdcff";
 		boolean fichierValide=true;
 		int choixNiveau=-1;
 		if(args.length == 0){
