@@ -10,7 +10,8 @@ import java.util.StringTokenizer;
 
 public class EnsembleNiveau {
 	private ArrayList<Map> lesNiveaux;
-	
+
+
 	public EnsembleNiveau(String fichier) throws FileFormatException, FileNotFoundException{
 		//on vérifie qu'on a bien un fichier .bdcff
 		lesNiveaux = new ArrayList<Map>();
