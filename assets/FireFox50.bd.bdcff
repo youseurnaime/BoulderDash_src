@@ -660,5 +660,30 @@ W                 PWW
 WWWWWWWWWWWWWWWWWWWWW
 [/map]
 [/cave]
+
+[cave]
+Name=Niveau facile pour tester
+CaveDelay=0
+CaveTime=200
+DiamondsRequired=3
+DiamondValue=33 0
+Colors=Black Orange Orange Orange Black
+
+[map]
+WWWWWWWWWWWWWWWWWWWW
+W.....F...F.F......W
+W..F..F.....F.....FW
+W..FF.F.FF..F......W
+WFd.F.F..F..FF.F...W
+WFF.F.F..F.d.F.F...W
+W.F.F.F..FF.......FW
+W.F.F..F...F....F..W
+W..................W
+X                  W
+W       ddddd     PW
+WWWWWWWWWWWWWWWWWWWW
+[/map]
+[/cave]
+
 [/game]
 [/BDCFF]

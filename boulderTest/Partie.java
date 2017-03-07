@@ -27,8 +27,11 @@ public class Partie {
 		this.name = laMap.getNom();
 		this.diamonds = 0;
 		boolean rockfordAlive = true;
+		historique = "";
+		historique += "#"+this.name+"\n";
 		while(rockfordAlive) rockfordAlive = tour();
-		historique = "#"+this.name+"\n";
+
+		sauvegarderHistorique();
 	}
 
 	private void mortRockford(){
@@ -40,7 +43,7 @@ public class Partie {
 	private void sauvegarderHistorique(){
 	    try{
 
-            FileOutputStream fos = new FileOutputStream(new File(name+".txt"));
+            FileOutputStream fos = new FileOutputStream(new File(name+".dash"));
             byte byteHistorique[] = historique.getBytes();
             fos.write(byteHistorique);
             fos.close();
