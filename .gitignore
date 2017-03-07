@@ -1,9 +1,5 @@
 .DS_Store
 BoulderDash_src
-.idea/BoulderDash_src.iml
-.idea/misc.xml
-.idea/modules.xml
-.idea/vcs.xml
-.idea/workspace.xml
+.idea/*
+.metadata/*
 BoulderDash_src.iml
-.idea/_mylyn.xml
