@@ -29,11 +29,23 @@ public class Partie {
 		while(rockfordAlive) rockfordAlive = tour();
 		historique = "#"+this.name+"\n";
 	}
+
 	private void mortRockford(){
 		effacerEcran();
 		System.out.println("PERDU!");
 		historique +="\n#Rockford est MORT";
 	}
+
+	private void sauvegarderHistorique(){
+	    try{
+
+            bos = new BufferedOutputStream(new FileOutputStream(new File(name+".txt")));
+            bos.write(historique);
+            bos.close();
+        }catch(Exception e){
+	        System.out.println("Erreur de sauvegarde");
+        }
+    }
 
     private boolean tour() { //Renvoie true si Rockford est toujours en vie à l'issue de ce tour
         effacerEcran();
