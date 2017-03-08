@@ -52,9 +52,12 @@ public class Main {
 							choixNiveau=Integer.parseInt(args[2]);
 							break;
 						case "-rejoue":
+							System.out.println("BITE");
 							fichierNiveau=args[2];
 							try{
 								fichierChemin = dashToString(args[1]);
+								EnsembleNiveau lesNiveaux = new EnsembleNiveau(fichierNiveau);
+								new Partie(lesNiveaux.choisirNiveau(choixNiveau),fichierChemin);
 							}catch(Exception e){
 								System.out.println("Erreur de lecture du fichier .dash");
 								System.exit(2);
@@ -94,17 +97,17 @@ public class Main {
 					System.out.println(usage());
 					System.exit(2);
 			}
-		}
-		System.out.println("Bonjour");
-		
-		try{
-			EnsembleNiveau lesNiveaux = new EnsembleNiveau(fichierNiveau);
-			System.out.println(lesNiveaux.toString());
+		}else{
+			System.out.println("Bonjour !");
+			try{
+				EnsembleNiveau lesNiveaux = new EnsembleNiveau(fichierNiveau);
+				System.out.println(lesNiveaux.toString());
 
-			new Partie(lesNiveaux.choisirNiveau(choixNiveau));
+				new Partie(lesNiveaux.choisirNiveau(choixNiveau));
 
-		}catch(Exception e){
-			System.out.println(e.getMessage());
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+			}
 		}
 
 	}

@@ -11,8 +11,10 @@ public class Partie {
 	private int diamonds;
 	private String name;
 	private String historique;
-	
-	public Partie(Map laMap) throws NoRockfordException{
+	private char[] lesDeplacements; //Vaudra null si la partie est jouée par l'utilisateur
+
+	public Partie(Map laMap) throws NoRockfordException{ //constructeur pour une partie controlée par le joueur
+	    this.lesDeplacements = null;
 		this.laMap = laMap;
 		this.posRockford = laMap.trouverRockford();
 		if(this.posRockford==null) throw new NoRockfordException();
@@ -33,6 +35,33 @@ public class Partie {
 
 		sauvegarderHistorique();
 	}
+
+	public Partie(Map laMap, String lesDeplacements) throws NoRockfordException{ //constructeur pour une partie avec un chemin défini
+        this.lesDeplacements = lesDeplacements.toCharArray();
+        this.laMap = laMap;
+        this.posRockford = laMap.trouverRockford();
+        if(this.posRockford==null) throw new NoRockfordException();
+        boolean attendre = true;
+        Scanner sc = new Scanner(System.in);
+        String s = "";
+        System.out.println("Entrez \"o\" pour jouer immédiatement toute la partie.");
+        System.out.println("Entrez une autre valeur et vous devrez taper une valeur à la fin de chaque tour pour passer au suivant.");
+        do{
+            s = sc.next();
+        }while(s.equals(""));
+        if(s.equals("o")) attendre = false;
+        this.score = 0;
+        this.time = laMap.getCaveTime();
+        this.name = laMap.getNom();
+        this.diamonds = 0;
+        boolean rockfordAlive = true;
+        int numTour = 0;
+        while(rockfordAlive){
+            rockfordAlive = tour();
+            if(attendre) s = sc.nextLine();
+        }
+
+    }
 
 	private void mortRockford(){
 		effacerEcran();
@@ -55,11 +84,13 @@ public class Partie {
     private boolean tour() { //Renvoie true si Rockford est toujours en vie à l'issue de ce tour
         effacerEcran();
         Position positionApresDeplacement;
-        char choix;
-        //score += laMap.getBonusDiamant()*laMap.getDiamondValue();
-       // diamonds += laMap.getBonusDiamant();
+        char choix = '.';
+        score += laMap.getBonusDiamant()*laMap.getDiamondValue();
+        diamonds += laMap.getBonusDiamant();
+        afficherMap();
+        if(lesDeplacements != null) choix = getDeplacement();
         do {
-            choix = choixDeplacement();
+            if(lesDeplacements == null) choix = choixDeplacement();
 
             switch (choix) {
                 case '0':
@@ -160,15 +191,37 @@ public class Partie {
 	}
 	
 	private char choixDeplacement(){
-		System.out.println(name+"\ntime: "+time+"\tscore: "+score+"\tdiamonds: "+diamonds+"\n");
-		if(laMap.sortieOuverte()) System.out.println("Sortie ouverte !");
-		System.out.println(laMap.ecranDeJeu());
 		System.out.println("Entrez une direction...   :");
 		Scanner sc = new Scanner(System.in);
 		String s = sc.nextLine();
 		if(!s.equals("")) return(s.charAt(0));
 		else return choixDeplacement();
 	}
+
+	private void afficherMap(){
+        System.out.println(name+"\ntime: "+time+"\tscore: "+score+"\tdiamonds: "+diamonds+"\n");
+        if(laMap.sortieOuverte()) System.out.println("Sortie ouverte !");
+        System.out.println(laMap.ecranDeJeu());
+    }
+
+	private char getDeplacement(){//lit les déplacements dans la chaine des fichiers .dash
+	    int i = 0;
+	    while(i < lesDeplacements.length && lesDeplacements[i] == 0) i++;//0 = traité, on cherche le 1er char non traité dans la chaine
+        if(i == lesDeplacements.length) return '0';//quand il n'y a plus de caractères a lire on renvoie 0 pour le signaler
+        System.out.println(lesDeplacements[i]);
+        switch(lesDeplacements[i]){
+            case 'U':
+                return 'z';
+            case 'D':
+                return 's';
+            case 'L':
+                return 'q';
+            case 'R':
+                return 'd';
+            default:
+                return 'i';//Toute autre valeur = immobile
+        }
+    }
 	
 	private void effacerEcran(){
 		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");//loooool
