@@ -6,7 +6,7 @@ BoulderDash_src
 .metadata
 out
 out/*
-BoulderDash_src.iml
+*.iml
 *.dash
 
 
