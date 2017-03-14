@@ -1,9 +1,9 @@
 package boulderTest;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.awt.Point;
 
 /**
  * Created by clement on 14/03/17.
@@ -44,6 +44,7 @@ public class Mobs {
             if (!grandirAmibe()) return false;
             tourAvantAmibe = amoebaTime;
         }
+
 
         Enumeration<Point> mobPos = mobToAdd.keys();
         Point currentPos = null;
