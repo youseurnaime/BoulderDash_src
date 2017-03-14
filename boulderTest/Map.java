@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.awt.Point;
 
+
 public class Map {
 	private String name;
 	private int[] caveTime;
