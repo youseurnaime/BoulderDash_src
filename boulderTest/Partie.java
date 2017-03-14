@@ -2,10 +2,11 @@ package boulderTest;
 
 import java.io.*;
 import java.util.Scanner;
+import java.awt.Point;
 
 public class Partie {
 	private Map laMap;
-	private Position posRockford;
+	private Point posRockford;
 	private int score;
 	private int time;
 	private int diamonds;
@@ -83,7 +84,7 @@ public class Partie {
 
     private boolean tour() { //Renvoie true si Rockford est toujours en vie à l'issue de ce tour
         effacerEcran();
-        Position positionApresDeplacement;
+        Point positionApresDeplacement;
         char choix = '.';
         score += laMap.getBonusDiamant()*laMap.getDiamondValue();
         diamonds += laMap.getBonusDiamant();
@@ -96,19 +97,19 @@ public class Partie {
                 case '0':
                     return false;
                 case 'z':
-                    positionApresDeplacement = new Position(posRockford.getX() - 1, posRockford.getY());
+                    positionApresDeplacement = new Point((int)posRockford.getX() - 1,(int) posRockford.getY());
                     historique+="U";
                     break;
                 case 's':
-                    positionApresDeplacement = new Position(posRockford.getX() + 1, posRockford.getY());
+                    positionApresDeplacement = new Point((int)posRockford.getX() + 1, (int)posRockford.getY());
                     historique+="D";
                     break;
                 case 'q':
-                    positionApresDeplacement = new Position(posRockford.getX(), posRockford.getY() - 1);
+                    positionApresDeplacement = new Point((int)posRockford.getX(), (int)posRockford.getY() - 1);
                     historique+="L";
                     break;
                 case 'd':
-                    positionApresDeplacement = new Position(posRockford.getX(), posRockford.getY() + 1);
+                    positionApresDeplacement = new Point((int)posRockford.getX(), (int)posRockford.getY() + 1);
                     historique+="R";
                     break;
                 default:
@@ -127,7 +128,7 @@ public class Partie {
                 historique +="\n#Rockford a rejoint la sortie";
                 return false;
             case 'r':
-                Position posApresRoc = new Position(positionApresDeplacement.getX() * 2 - posRockford.getX(), positionApresDeplacement.getY() * 2 - posRockford.getY());
+                Point posApresRoc = new Point((int) positionApresDeplacement.getX() * 2 - (int) posRockford.getX(),(int) positionApresDeplacement.getY() * 2 - (int) posRockford.getY());
                 laMap.addElement(posApresRoc, 'r');
                 break;
             case 'F':
@@ -176,8 +177,8 @@ public class Partie {
         }
     }
 
-	private boolean deplacementPossible(Position pos){
-		if(pos.getX() < 0 || pos.getX() > laMap.getHauteur() || pos.getY() < 0 || pos.getY() > laMap.getLargeur()) return false;
+	private boolean deplacementPossible(Point pos){
+		if((pos.getX() < 0 || pos.getX() > laMap.getHauteur() || pos.getY() < 0 || pos.getY() > laMap.getLargeur())) return false;
 		char c = laMap.getElement(pos);
 		if(c == ' ' || c == '.' || c == 'd' || c == 'X') return true;
 		else if(c == 'w' || c == 'W') return false;
@@ -185,8 +186,8 @@ public class Partie {
 		else return true;
 	}
 	
-	private boolean rocPoussable(Position pos){//pos du roc en parametre
-		Position posApresRoc = new Position(pos.getX()*2-posRockford.getX(),pos.getY()*2-posRockford.getY());//formule pour avoir la prochaine case dans la continuité de la direction choisie
+	private boolean rocPoussable(Point pos){//pos du roc en parametre
+		Point posApresRoc = new Point((int) pos.getX()*2- (int) posRockford.getX(),(int) pos.getY()*2- (int) posRockford.getY());//formule pour avoir la prochaine case dans la continuité de la direction choisie
 		return (laMap.getElement(posApresRoc) == ' ');
 	}
 	

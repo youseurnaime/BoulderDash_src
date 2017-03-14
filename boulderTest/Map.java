@@ -3,6 +3,7 @@ package boulderTest;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.awt.Point;
 
 public class Map {
 	private String name;
@@ -14,11 +15,11 @@ public class Map {
 	private char[][] laMap; //dans laMap[i][j], i = hauteur j = largeur
 	private int hauteurMap;
 	private int largeurMap;
-	private Position posSortie;
+	private Point posSortie;
 	private boolean sortieOuverte;
 	private int tourAvantAmibe;
 	private int bonusDiamant; //si une libellule meurt --> a changer pour faire apparaitre des diamants
-	Hashtable<Position,Character> mobToAdd;
+	Hashtable<Point,Character> mobToAdd;
 	
 	public Map(String name, ArrayList<Integer> caveTime, int diamondsRequired, ArrayList<Integer> diamondValue, int amoebaTime, int magicWallTime, ArrayList<String> laMap){
 		this.name = name;
@@ -40,7 +41,7 @@ public class Map {
 		}
 		trouverSortie();
 		this.sortieOuverte = false;
-		this.laMap[posSortie.getX()][posSortie.getY()] = ' ';
+		this.laMap[(int) posSortie.getX()][ (int) posSortie.getY()] = ' ';
 		tourAvantAmibe = amoebaTime;
 		this.bonusDiamant = 0;
 	}
@@ -56,10 +57,10 @@ public class Map {
 		if(!sortieOuverte){
 			if(nbDiamonds >= diamondsRequired){
 				this.sortieOuverte = true;
-				laMap[posSortie.getX()][posSortie.getY()] = 'X';
+				laMap[(int)posSortie.getX()][(int)posSortie.getY()] = 'X';
 			}else{
 				this.sortieOuverte = false;
-				laMap[posSortie.getX()][posSortie.getY()] = ' ';
+				laMap[(int)posSortie.getX()][(int)posSortie.getY()] = ' ';
 			}
 		}
 	}
@@ -89,20 +90,20 @@ public class Map {
 	}
 	
 	private void trouverSortie(){
-		Position pos = null;
+		Point pos = null;
 		for(int i = 0 ; i < hauteurMap ; i++){
 			for(int j = 0 ; j < largeurMap ; j++){
-				if(laMap[i][j]=='X') pos = new Position(i,j);
+				if(laMap[i][j]=='X') pos = new Point(i,j);
 			}
 		}
 		this.posSortie = pos;
 	}
 	
-	public Position trouverRockford(){
-		Position pos = null;
+	public Point trouverRockford(){
+		Point pos = null;
 		for(int i = 0 ; i < hauteurMap ; i++){
 			for(int j = 0 ; j < largeurMap ; j++){
-				if(laMap[i][j]=='R') pos = new Position(i,j);
+				if(laMap[i][j]=='R') pos = new Point(i,j);
 			}
 		}
 		return pos;
@@ -110,7 +111,7 @@ public class Map {
 	
 	
 	public boolean majMap(){ //renvoie faux si rockford meure
-		mobToAdd = new Hashtable<Position,Character>();
+		mobToAdd = new Hashtable<Point,Character>();
 		
 		bonusDiamant = 0;
 		tourAvantAmibe--;
@@ -147,12 +148,12 @@ public class Map {
 			tourAvantAmibe = amoebaTime;
 		}
 		
-		Enumeration<Position> mobPos = mobToAdd.keys();
-		Position currentPos = null;
+		Enumeration<Point> mobPos = mobToAdd.keys();
+		Point currentPos = null;
 		while(mobPos.hasMoreElements()){
 			currentPos = mobPos.nextElement();
-			laMap[currentPos.getX()][currentPos.getY()] = mobToAdd.get(currentPos);
-			if(laMap[currentPos.getX()][currentPos.getY()] == 'R'){
+			laMap[(int)currentPos.getX()][(int)currentPos.getY()] = mobToAdd.get(currentPos);
+			if(laMap[(int)currentPos.getX()][(int)currentPos.getY()] == 'R'){
 				System.out.println("Un animal a dévoré Rockford !");
 				return false;
 			}
@@ -188,7 +189,7 @@ public class Map {
 					System.out.println("Une luciole a mangé Rockford !");
 					return false;
 				} else { 
-					if(laMap[i][j-1] == ' ') mobToAdd.put(new Position(i,j-1), 'Q');
+					if(laMap[i][j-1] == ' ') mobToAdd.put(new Point(i,j-1), 'Q');
 					laMap[i][j] = ' ';
 				}
 				break;
@@ -204,7 +205,7 @@ public class Map {
 					System.out.println("Une luciole a mangé Rockford !");
 					return false;
 				} else { 
-					if(laMap[i-1][j] == ' ') mobToAdd.put(new Position(i-1,j), 'q');
+					if(laMap[i-1][j] == ' ') mobToAdd.put(new Point(i-1,j), 'q');
 					laMap[i][j] = ' ';
 				}
 				break;
@@ -218,7 +219,7 @@ public class Map {
 					System.out.println("Une luciole a mangé Rockford !");
 					return false;
 				} else { 
-					if(laMap[i][j+1] == ' ') mobToAdd.put(new Position(i,j+1), 'O');
+					if(laMap[i][j+1] == ' ') mobToAdd.put(new Point(i,j+1), 'O');
 					laMap[i][j] = ' ';
 				}
 				break;
@@ -232,7 +233,7 @@ public class Map {
 					System.out.println("Une luciole a mangé Rockford !");
 					return false;
 				} else { 
-					if(laMap[i+1][j] == ' ') mobToAdd.put(new Position(i+1,j), 'o');
+					if(laMap[i+1][j] == ' ') mobToAdd.put(new Point(i+1,j), 'o');
 					laMap[i][j] = ' ';
 				}
 				break;
@@ -255,7 +256,7 @@ public class Map {
 					return false;
 				} else { 
 					if(laMap[i][j+1] == ' '){
-						mobToAdd.put(new Position(i,j+1), 'C');
+						mobToAdd.put(new Point(i,j+1), 'C');
 						laMap[i][j] = ' ';
 					}
 					
@@ -271,7 +272,7 @@ public class Map {
 					System.out.println("Une libellule a mangé Rockford !");
 					return false;
 				} else { 
-					if(laMap[i-1][j] == ' ') mobToAdd.put(new Position(i-1,j), 'c');
+					if(laMap[i-1][j] == ' ') mobToAdd.put(new Point(i-1,j), 'c');
 					laMap[i][j] = ' ';
 				}
 				break;
@@ -285,7 +286,7 @@ public class Map {
 					System.out.println("Une libellule a mangé Rockford !");
 					return false;
 				} else { 
-					if(laMap[i][j-1] == ' ') mobToAdd.put(new Position(i,j-1), 'b');
+					if(laMap[i][j-1] == ' ') mobToAdd.put(new Point(i,j-1), 'b');
 					laMap[i][j] = ' ';
 				}
 				break;
@@ -299,7 +300,7 @@ public class Map {
 					System.out.println("Une libellule a mangé Rockford !");
 					return false;
 				} else { 
-					if(laMap[i+1][j] == ' ') mobToAdd.put(new Position(i+1,j), 'B');
+					if(laMap[i+1][j] == ' ') mobToAdd.put(new Point(i+1,j), 'B');
 					laMap[i][j] = ' ';
 				}
 				break;
@@ -314,13 +315,13 @@ public class Map {
 	
 	
 	private boolean grandirAmibe(){ //renvoie faux si rockford meure
-		ArrayList<Position> lesCases = new ArrayList<Position>();
+		ArrayList<Point> lesCases = new ArrayList<Point>();
 		
 		for(int i = 1 ; i < hauteurMap-1 ; i++){
 			for(int j = 1 ; j < largeurMap-1 ; j++){
 				if(laMap[i][j] == ' ' || laMap[i][j] == '.' || laMap[i][j] == 'R' || laMap[i][j] == 'C' || laMap[i][j] == 'F'){
 					if(laMap[i-1][j] == 'a' || laMap[i+1][j] == 'a' || laMap[i][j-1] == 'a' || laMap[i][j+1] == 'a'){
-						lesCases.add(new Position(i,j));
+						lesCases.add(new Point(i,j));
 
 					}
 				}
@@ -334,13 +335,13 @@ public class Map {
 			}
 		}else{
 			int nombreAleatoire = (int)(Math.random() * (lesCases.size()));
-			if(laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'R'){
+			if(laMap[(int)lesCases.get(nombreAleatoire).getX()][(int)lesCases.get(nombreAleatoire).getY()] == 'R'){
 				System.out.println("Rockford est mort dans une amibe !");
 				return false;
-			}else if((laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'C' || laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'c' || laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'B') || laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] == 'b'){
-				mortDeLibellule(lesCases.get(nombreAleatoire).getX(),lesCases.get(nombreAleatoire).getY());
+			}else if((laMap[(int)lesCases.get(nombreAleatoire).getX()][(int)lesCases.get(nombreAleatoire).getY()] == 'C' || laMap[(int)lesCases.get(nombreAleatoire).getX()][(int)lesCases.get(nombreAleatoire).getY()] == 'c' || laMap[(int)lesCases.get(nombreAleatoire).getX()][(int)lesCases.get(nombreAleatoire).getY()] == 'B') || laMap[(int)lesCases.get(nombreAleatoire).getX()][(int)lesCases.get(nombreAleatoire).getY()] == 'b'){
+				mortDeLibellule((int)lesCases.get(nombreAleatoire).getX(),(int)lesCases.get(nombreAleatoire).getY());
 			}
-			laMap[lesCases.get(nombreAleatoire).getX()][lesCases.get(nombreAleatoire).getY()] = 'a';
+			laMap[(int)lesCases.get(nombreAleatoire).getX()][(int)lesCases.get(nombreAleatoire).getY()] = 'a';
 		}
 		
 		
@@ -395,16 +396,16 @@ public class Map {
 		return true;
 	}
 
-	public char getElement(Position pos){
-		return(laMap[pos.getX()][pos.getY()]);
+	public char getElement(Point pos){
+		return(laMap[(int)pos.getX()][(int)pos.getY()]);
 	}
 	
-	public void removeElement(Position pos){
-		laMap[pos.getX()][pos.getY()] = ' ';
+	public void removeElement(Point pos){
+		laMap[(int)pos.getX()][(int)pos.getY()] = ' ';
 	}
 	
-	public void addElement(Position pos, char lui){ 
-		laMap[pos.getX()][pos.getY()] = lui;
+	public void addElement(Point pos, char lui){
+		laMap[(int)pos.getX()][(int)pos.getY()] = lui;
 	}
 	
 	public int getCaveTime(){
