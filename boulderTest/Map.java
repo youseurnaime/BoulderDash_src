@@ -54,7 +54,7 @@ public class Map {
         this.tourAvantAmibe=x;
     }
     public int getAmoebaTime(){
-        return amoebaTime;
+        return this.amoebaTime;
     }
 
     public char formatageCaractere(char a) {//Afin qu'il n'y est qu'un caractere par element

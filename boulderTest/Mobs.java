@@ -8,7 +8,7 @@ import java.util.Hashtable;
 /**
  * Created by clement on 14/03/17.
  */
-public class Mobs {
+public class Mobs {//Tout ce qui est relatif au actioins du monde
 
 
     public static Map majMob(Map laMap) {
@@ -36,7 +36,7 @@ public class Mobs {
                     case 'B':
                     case 'b':
                         deplacerLibellule(i, j, map,mobToAdd);
-                      break;
+                        break;
                 }
             }
         }

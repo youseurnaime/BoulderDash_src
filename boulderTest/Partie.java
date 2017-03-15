@@ -1,10 +1,11 @@
 package boulderTest;
 
-import java.io.*;
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Scanner;
-import java.awt.Point;
 
-public class Partie {
+public class Partie { // Tout cee qui est relatif au deroulement de la partie aux affichages de jeu ect
     private Map laMap;
     private Point posRockford;
     private int score;
