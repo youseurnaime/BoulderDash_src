@@ -19,7 +19,6 @@ public class Map {
     private Point posSortie;
     private boolean sortieOuverte;
     private int tourAvantAmibe;
-    private int bonusDiamant; //si une libellule meurt --> a changer pour faire apparaitre des diamants
     Hashtable<Point, Character> mobToAdd;
 
     public Map(String name, ArrayList<Integer> caveTime, int diamondsRequired, ArrayList<Integer> diamondValue, int amoebaTime, int magicWallTime, ArrayList<String> laMap) {
@@ -31,6 +30,7 @@ public class Map {
         this.diamondValue = 0;
         for (int i = 0; i < diamondValue.size(); i++) this.diamondValue += diamondValue.get(i);
         this.amoebaTime = amoebaTime;
+        if(this.amoebaTime == 0) this.amoebaTime = 10; //Pour les niveaux qui ne précisent pas amoeabaTime
         this.magicWallTime = magicWallTime;
         hauteurMap = laMap.size();
         largeurMap = laMap.get(0).length();
@@ -45,7 +45,6 @@ public class Map {
         this.sortieOuverte = false;
         this.laMap[(int) posSortie.getX()][(int) posSortie.getY()] = ' ';
         tourAvantAmibe = amoebaTime;
-        this.bonusDiamant = 0;
     }
     public int getTourAvantAmibe(){
         return tourAvantAmibe;
@@ -83,10 +82,6 @@ public class Map {
 
     public void setLaMap(char[][] map) {
         this.laMap = map;
-    }
-
-    public int getBonusDiamant() {
-        return bonusDiamant;
     }
 
     public int getDiamondValue() {
