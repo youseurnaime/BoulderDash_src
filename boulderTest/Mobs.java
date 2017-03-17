@@ -41,6 +41,8 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
             }
         }
 
+        laMap.setTourAvantAmibe(laMap.getTourAvantAmibe()-1);
+
         if (laMap.getTourAvantAmibe() == 0 && laMap.getAmoebaTime() != 0) {
             grandirAmibe(laMap);
             laMap.setTourAvantAmibe( laMap.getAmoebaTime());
@@ -80,6 +82,7 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
 
         if (map[i][j + 1] != ' ' && map[i][j + 1] != 'R' && map[i][j + 1] != 'a' && map[i][j - 1] != ' ' && map[i][j - 1] != 'R' && map[i][j - 1] != 'a' && map[i - 1][j] != ' ' && map[i - 1][j] != 'R' && map[i - 1][j] != 'a' && map[i + 1][j] != ' ' && map[i + 1][j] != 'R' && map[i + 1][j] != 'a')
             return mobToAdd;
+
         switch (map[i][j]) {
             case 'F':
             case 'Q':
@@ -137,6 +140,7 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
     private static Hashtable<Point, Character> deplacerLibellule(int i, int j, char[][] map, Hashtable<Point, Character> mobToAdd) { // c'est pas bo --> a réécrire avec des for
         if (map[i][j + 1] != ' ' && map[i][j + 1] != 'R' && map[i][j + 1] != 'a' && map[i][j - 1] != ' ' && map[i][j - 1] != 'R' && map[i][j - 1] != 'a' && map[i - 1][j] != ' ' && map[i - 1][j] != 'R' && map[i - 1][j] != 'a' && map[i + 1][j] != ' ' && map[i + 1][j] != 'R' && map[i + 1][j] != 'a')
             return mobToAdd; //Si l'animal est bloqué
+
         switch (map[i][j]) {
             case 'C':
                 if (map[i][j + 1] == ' ' || map[i][j + 1] == 'R'||map[i][j + 1] == 'a') {
@@ -154,7 +158,7 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
                 }
             case 'c':
                 if (map[i-1][j] == ' ' || map[i-1][j] == 'R'||map[i-1][j] == 'a') {
-                    map[i-1][j] = ' ';
+                    map[i][j] = ' ';
                     if (map[i-1][j] == ' '|| map[i-1][j] == 'R') {
                         mobToAdd.put(new Point(i-1, j), 'c');
                     }
@@ -182,7 +186,7 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
                 }
             case 'B':
                 if (map[i+1][j] == ' ' || map[i+1][j] == 'R'||map[i+1][j] == 'a') {
-                    map[i+1][j] = ' ';
+                    map[i][j] = ' ';
                     if (map[i+1][j] == ' '|| map[i+1][j] == 'R') {
                         mobToAdd.put(new Point(i+1, j), 'B');
                     }

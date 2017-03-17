@@ -32,7 +32,7 @@ public class IA {//Tout ce qui est relatif au choix de direction de Rockford
         }
     }
 
-    private boolean rocPoussable(Point pos) {//pos du roc en parametre
+    /*private boolean rocPoussable(Point pos) {//pos du roc en parametre
         Point posApresRoc = new Point((int) pos.getX() * 2 - (int) posRockford.getX(), (int) pos.getY() * 2 - (int) posRockford.getY());//formule pour avoir la prochaine case dans la continuité de la direction choisie
         return (laMap.getElement(posApresRoc) == ' ');
     }
@@ -90,5 +90,5 @@ public class IA {//Tout ce qui est relatif au choix de direction de Rockford
     }
     private void parfait(){
 
-    }
+    }*/
 }

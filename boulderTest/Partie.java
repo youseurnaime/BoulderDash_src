@@ -170,7 +170,9 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
             historique += "\nTemps écoulé !";
             return false;
         }
-        if (!laMap.majMap()) {
+        laMap = Mobs.majMob(laMap);
+        if(laMap.trouverRockford() == null){
+            afficherMap();
             mortRockford();
             return false;
         } else {

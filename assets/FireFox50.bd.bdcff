@@ -668,6 +668,7 @@ CaveTime=200
 DiamondsRequired=3
 DiamondValue=33 0
 Colors=Black Orange Orange Orange Black
+AmoebaTime=3
 
 [map]
 WWWWWWWWWWWWWWWWWWWW
@@ -679,7 +680,7 @@ WFF.F.F..F.d.F.F...W
 W.F.F.F..FF.......FW
 W.F.F..F...F....F..W
 W..................W
-X                  W
+X    aaa           W
 W       ddddd     PW
 WWWWWWWWWWWWWWWWWWWW
 [/map]
