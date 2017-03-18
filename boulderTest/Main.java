@@ -103,7 +103,7 @@ public class Main {
                 EnsembleNiveau lesNiveaux = new EnsembleNiveau(fichierNiveau);
                 System.out.println(lesNiveaux.toString());
 
-                new Partie(lesNiveaux.choisirNiveau(choixNiveau),new FichierDash("Cave 8. Hot1.dash")); //TEST
+                new Partie(lesNiveaux.choisirNiveau(choixNiveau),new Joueur()); //TEST
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());

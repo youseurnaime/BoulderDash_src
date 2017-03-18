@@ -35,11 +35,13 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
 
     private void mortRockford() {
         effacerEcran();
-        System.out.println("PERDU!");
+        System.out.println("PERDU !");
+        afficherStat();
         historique += "\n#Rockford est MORT";
     }
 
     private void sauvegarderHistorique() {
+        historique += " Score : "+score+" - Temps : "+time+" - Diamants : "+diamonds;
         try {
 
             FileOutputStream fos = new FileOutputStream(new File(name + ".dash"));
@@ -69,12 +71,11 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
         majHistorique(positionApresDeplacement);
         laMap.removeElement(posRockford);
 
-        System.out.println(positionApresDeplacement.toString());
-        System.out.println(posRockford.toString());
         switch (laMap.getElement(positionApresDeplacement)) {
 
             case 'X':
-                System.out.println("Bravo !");
+                System.out.println("Rockford a rejoint la sortie, Bravo !\n");
+                afficherStat();
                 historique += "\n#Rockford a rejoint la sortie";
                 return false;
             case 'r':
@@ -86,18 +87,18 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
             case 'q':
             case 'O':
             case 'o':
-                System.out.println("Contact avec luciole :(");
+                System.out.println("Contact avec une luciole");
                 mortRockford();
                 return false;
             case 'c':
             case 'b':
             case 'B':
             case 'C':
-                System.out.println("Contact avec libellule :(");
+                System.out.println("Contact avec une libellule");
                 mortRockford();
                 return false;
             case 'a':
-                System.out.println("Contact avec l'amibe :(");
+                System.out.println("Contact avec l'amibe");
                 mortRockford();
                 return false;
             case '.':
@@ -119,9 +120,13 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
     }
 
     private void afficherMap() {
-        System.out.println(name + "\ntime: " + time + "\tscore: " + score + "\tdiamonds: " + diamonds + "\n");
+        System.out.println(name + "\nScore : "+score+"\tTemps : "+time+"\tDiamants : "+diamonds+ "\n");
         if (laMap.sortieOuverte()) System.out.println("Sortie ouverte !");
         System.out.println(laMap.ecranDeJeu());
+    }
+
+    private void afficherStat(){
+        System.out.println("Score : "+score+"\tTemps : "+time+"\tDiamants : "+diamonds);
     }
 
     private void majHistorique(Point posApresDeplacement){
