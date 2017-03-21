@@ -1,4 +1,6 @@
-package boulderTest;
+package boulderTest.com.bd.ia;
+
+import boulderTest.Map;
 
 import java.awt.*;
 

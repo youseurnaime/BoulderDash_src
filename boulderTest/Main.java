@@ -1,7 +1,7 @@
 package boulderTest;
 
-import java.io.*;
-import java.util.StringTokenizer;
+import boulderTest.com.bd.ia.Joueur;
+import boulderTest.com.bd.ia.Simplet;
 
 public class Main {
 
@@ -103,7 +103,7 @@ public class Main {
                 EnsembleNiveau lesNiveaux = new EnsembleNiveau(fichierNiveau);
                 System.out.println(lesNiveaux.toString());
 
-                new Partie(lesNiveaux.choisirNiveau(choixNiveau),new Simplet()); //TEST
+                new Partie(lesNiveaux.choisirNiveau(choixNiveau),new Joueur()); //TEST
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());

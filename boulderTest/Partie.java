@@ -3,7 +3,6 @@ package boulderTest;
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Scanner;
 
 public class Partie { // Tout cee qui est relatif au deroulement de la partie aux affichages de jeu ect
     private Map laMap;

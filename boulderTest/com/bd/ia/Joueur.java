@@ -1,8 +1,10 @@
-package boulderTest;
+package boulderTest.com.bd.ia;
+
+import boulderTest.Map;
+import boulderTest.Rockford;
 
 import java.awt.*;
 import java.util.Scanner;
-import java.util.StringJoiner;
 
 /**
  * Created by marin on 17/03/2017.

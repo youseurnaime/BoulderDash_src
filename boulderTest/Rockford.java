@@ -1,5 +1,8 @@
 package boulderTest;
 
+import boulderTest.Map;
+import boulderTest.com.bd.ia.IAlgorithme;
+
 import java.awt.*;
 
 /**
