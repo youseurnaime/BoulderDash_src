@@ -50,7 +50,6 @@ public class FichierDash extends Rockford {
             default:
                 return posRockford;//Toute autre valeur = immobile
         }
-
     }
 
     private static String dashToString(String fichier) throws FileFormatException {
