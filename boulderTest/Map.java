@@ -71,7 +71,7 @@ public class Map {
                 laMap[(int) posSortie.getX()][(int) posSortie.getY()] = 'X';
             } else {
                 this.sortieOuverte = false;
-                laMap[(int) posSortie.getX()][(int) posSortie.getY()] = ' ';
+                laMap[(int) posSortie.getX()][(int) posSortie.getY()] = 'W';
             }
         }
     }
