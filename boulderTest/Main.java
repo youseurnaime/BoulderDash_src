@@ -1,6 +1,7 @@
 package boulderTest;
 
-import boulderTest.com.bd.ia.Joueur;
+import boulderTest.com.bd.ia.Evolue;
+import boulderTest.com.bd.ia.FichierDash;
 import boulderTest.com.bd.ia.Simplet;
 
 public class Main {
@@ -104,7 +105,7 @@ public class Main {
                 EnsembleNiveau lesNiveaux = new EnsembleNiveau(fichierNiveau);
                 System.out.println(lesNiveaux.toString());
 
-                new Partie(lesNiveaux.choisirNiveau(choixNiveau),new Joueur(journal),journal); //TEST
+                new Partie(lesNiveaux.choisirNiveau(choixNiveau),new Evolue(),journal); //TEST
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());

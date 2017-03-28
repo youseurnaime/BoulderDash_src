@@ -1,7 +1,6 @@
 package boulderTest.com.bd.ia;
 
 import boulderTest.Map;
-import boulderTest.Rockford;
 
 import java.awt.*;
 
@@ -14,7 +13,7 @@ public class Simplet extends Rockford {
         int choixRandom; // Int random entre 0 et 5
         Point essaieDeDeplacement;
         do{
-            choixRandom = (int) (Math.random() * 6); // Int random entre 0 et 5
+            choixRandom = (int) (Math.random() * 5); // Int random entre 0 et 4
             switch (choixRandom){
                 case 1:
                     essaieDeDeplacement = new Point((int) posRockford.getX() + 1, (int) posRockford.getY());

@@ -1,12 +1,9 @@
 package boulderTest.com.bd.ia;
 
-import boulderTest.FichierDash;
 import boulderTest.Map;
 import boulderTest.Mobs;
-import boulderTest.Rockford;
 
 import java.awt.*;
-import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**

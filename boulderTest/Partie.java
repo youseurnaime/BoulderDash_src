@@ -1,5 +1,7 @@
 package boulderTest;
 
+import boulderTest.com.bd.ia.Rockford;
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,6 +16,7 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
     private String name;
     private String historique;
     private boolean journal;
+    private boolean victoire;
 
     public Partie(Map laMap, Rockford rockford, boolean journal) throws NoRockfordException { //constructeur pour une partie controlée par le joueur
         this.rockford = rockford;
@@ -25,6 +28,7 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
         this.name = laMap.getNom();
         this.diamonds = 0;
         boolean rockfordAlive = true;
+        victoire = false;
         historique = "";
         historique += "#" + this.name + "\n";
         this.journal=journal;
@@ -93,6 +97,7 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
                     afficherStat();
                 }
                 historique += "\n#Rockford a rejoint la sortie";
+                victoire = true;
                 return false;
             case 'r':
                 Point posApresRoc = new Point((int) positionApresDeplacement.getX() * 2 - (int) posRockford.getX(), (int) positionApresDeplacement.getY() * 2 - (int) posRockford.getY());
@@ -167,4 +172,9 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");//loooool
         }
     }
+
+    public boolean getVictoire(){
+        return victoire;
+    }
+
 }

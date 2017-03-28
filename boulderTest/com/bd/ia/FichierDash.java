@@ -1,4 +1,8 @@
-package boulderTest;
+package boulderTest.com.bd.ia;
+
+import boulderTest.FileFormatException;
+import boulderTest.Map;
+import boulderTest.com.bd.ia.Rockford;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -17,7 +21,7 @@ public class FichierDash extends Rockford {
     private ConcurrentLinkedQueue<Character> lesDeplacements;
     private boolean attendre;
 
-    public FichierDash (String fichier) throws FileFormatException{
+    public FichierDash (String fichier) throws FileFormatException {
         String strDeplacements = dashToString(fichier);
         System.out.println("Entrez \"o\" pour jouer immédiatement toute la partie.");
         System.out.println("Entrez une autre valeur et vous devrez taper une valeur à la fin de chaque tour pour passer au suivant.");

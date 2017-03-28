@@ -1,7 +1,6 @@
 package boulderTest.com.bd.ia;
 
 import boulderTest.Map;
-import boulderTest.Rockford;
 
 import java.awt.*;
 import java.util.Scanner;
