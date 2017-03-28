@@ -56,6 +56,15 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
         }
     }
 
+    public int getDiamonds() {
+        return diamonds;
+    }
+
+    public int Time() {
+       return this.time;
+    }
+
+
     private boolean tour(){
         laMap = Mobs.majMob(laMap);
         afficherMap();
