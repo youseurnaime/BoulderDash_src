@@ -13,8 +13,9 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
     private int diamonds;
     private String name;
     private String historique;
+    private boolean journal;
 
-    public Partie(Map laMap, Rockford rockford) throws NoRockfordException { //constructeur pour une partie controlée par le joueur
+    public Partie(Map laMap, Rockford rockford, boolean journal) throws NoRockfordException { //constructeur pour une partie controlée par le joueur
         this.rockford = rockford;
         this.laMap = laMap;
         this.posRockford = laMap.trouverRockford();
@@ -26,6 +27,7 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
         boolean rockfordAlive = true;
         historique = "";
         historique += "#" + this.name + "\n";
+        this.journal=journal;
         while (rockfordAlive) rockfordAlive = tour();
 
         sauvegarderHistorique();
@@ -34,7 +36,9 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
 
     private void mortRockford() {
         effacerEcran();
-        System.out.println("PERDU !");
+        if(journal) {
+            System.out.println("PERDU !");
+        }
         afficherStat();
         historique += "\n#Rockford est MORT";
     }
@@ -48,7 +52,7 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
             fos.write(byteHistorique);
             fos.close();
         } catch (Exception e) {
-            System.out.println("Erreur de sauvegarde");
+            System.out.println("Erreur de sauvegarde de l'historique de partie");
         }
     }
 
@@ -61,7 +65,9 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
             return false;
         }
         if (time == 0) {
-            System.out.println("Temps écoulé !");
+            if(journal) {
+                System.out.println("Temps écoulé !");
+            }
             historique += "\n#Temps écoulé !";
             return false;
         }
@@ -73,8 +79,10 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
         switch (laMap.getElement(positionApresDeplacement)) {
 
             case 'X':
-                System.out.println("Rockford a rejoint la sortie, Bravo !\n");
-                afficherStat();
+                if(journal) {
+                    System.out.println("Rockford a rejoint la sortie, Bravo !\n");
+                    afficherStat();
+                }
                 historique += "\n#Rockford a rejoint la sortie";
                 return false;
             case 'r':
@@ -86,18 +94,24 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
             case 'q':
             case 'O':
             case 'o':
-                System.out.println("Contact avec une luciole");
+                if(journal) {
+                    System.out.println("Contact avec une luciole");
+                }
                 mortRockford();
                 return false;
             case 'c':
             case 'b':
             case 'B':
             case 'C':
-                System.out.println("Contact avec une libellule");
+                if(journal) {
+                    System.out.println("Contact avec une libellule");
+                }
                 mortRockford();
                 return false;
             case 'a':
-                System.out.println("Contact avec l'amibe");
+                if(journal) {
+                    System.out.println("Contact avec l'amibe");
+                }
                 mortRockford();
                 return false;
             case '.':
@@ -119,9 +133,11 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
     }
 
     private void afficherMap() {
-        System.out.println(name + "\nScore : "+score+"\tTemps : "+time+"\tDiamants : "+diamonds+ "\n");
-        if (laMap.sortieOuverte()) System.out.println("Sortie ouverte !");
-        System.out.println(laMap.ecranDeJeu());
+        if(journal) {
+            System.out.println(name + "\nScore : " + score + "\tTemps : " + time + "\tDiamants : " + diamonds + "\n");
+            if (laMap.sortieOuverte()) System.out.println("Sortie ouverte !");
+            System.out.println(laMap.ecranDeJeu());
+        }
     }
 
     private void afficherStat(){
@@ -138,6 +154,8 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
 
 
     private void effacerEcran() {
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");//loooool
+        if(journal) {
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");//loooool
+        }
     }
 }

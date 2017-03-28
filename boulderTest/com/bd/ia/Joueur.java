@@ -11,8 +11,13 @@ import java.util.Scanner;
  */
 public class Joueur extends Rockford {
 
-    public Joueur(){
-        System.out.println("\nDéplacez Rockford avec les touches z q s d et appuyez sur entrée pour valider le déplacement.\nToute autre caractère immobilisera Rockford pour ce tour.\n");
+    private boolean journal;
+
+    public Joueur(boolean journal) {
+        this.journal = journal;
+        if (journal) {
+            System.out.println("\nDéplacez Rockford avec les touches z q s d et appuyez sur entrée pour valider le déplacement.\nToute autre caractère immobilisera Rockford pour ce tour.\n");
+        }
     }
 
     public Point getDeplacement(Point posRockford, Map laMap) {
@@ -38,13 +43,15 @@ public class Joueur extends Rockford {
                     positionApresDeplacement = posRockford;
                     break;
             }
-            if (!deplacementPossible(positionApresDeplacement,posRockford,laMap)) System.out.println("Déplacement impossible !");
+            if (!deplacementPossible(positionApresDeplacement,posRockford,laMap)&& journal) System.out.println("Déplacement impossible !");
         } while (!deplacementPossible(positionApresDeplacement,posRockford,laMap));
         return positionApresDeplacement;
     }
 
     private char choixDeplacement() {
-        System.out.println("Entrez une direction...   :");
+        if(journal) {
+            System.out.println("Entrez une direction...   :");
+        }
         Scanner sc = new Scanner(System.in);
         String s = sc.nextLine();
         if (!s.equals("")) return (s.charAt(0));

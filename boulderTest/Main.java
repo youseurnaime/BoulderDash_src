@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
         String fichierNiveau = "assets/FireFox50.bd.bdcff";
         String fichierChemin = "";
+        final boolean journal=true;
         int choixNiveau = -1;
         if (args.length != 0) {
             switch (args.length) {
@@ -56,7 +57,7 @@ public class Main {
                             try {
                                 fichierChemin = args[1];
                                 EnsembleNiveau lesNiveaux = new EnsembleNiveau(fichierNiveau);
-                                new Partie(lesNiveaux.choisirNiveau(choixNiveau), new FichierDash(fichierChemin));
+                                new Partie(lesNiveaux.choisirNiveau(choixNiveau), new FichierDash(fichierChemin),journal);
                             } catch (Exception e) {
                                 System.out.println("Erreur de lecture du fichier .dash");
                                 System.exit(2);
@@ -103,7 +104,7 @@ public class Main {
                 EnsembleNiveau lesNiveaux = new EnsembleNiveau(fichierNiveau);
                 System.out.println(lesNiveaux.toString());
 
-                new Partie(lesNiveaux.choisirNiveau(choixNiveau),new Joueur()); //TEST
+                new Partie(lesNiveaux.choisirNiveau(choixNiveau),new Joueur(journal),journal); //TEST
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());
