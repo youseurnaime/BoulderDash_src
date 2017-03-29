@@ -11,42 +11,36 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class Simulation{
     private Map laMap;
+    private ConcurrentLinkedQueue<Character> lesDeplacements;
     private int score;
     private int time;
     private int diamonds;
-    private ConcurrentLinkedQueue<Character> lesDeplacements;
     private boolean rockfordAlive;
     private Point posRockford;
     private boolean niveauFini;
     private String chemin;
 
-    public Simulation (Map laMap,String chemin){
+    public Simulation (Map laMap, String lesDepl){
         this.laMap=laMap;
-        this.chemin = "";
-        this.lesDeplacements= new ConcurrentLinkedQueue<Character>();
-        for (int i=0;i<chemin.length();i++){
-            lesDeplacements.add(chemin.charAt(i));
-        }
-        this.score=this.diamonds=0;
+        this.chemin = lesDepl;
+        this.score= 0;
+        this.diamonds=0;
         this.time=laMap.getCaveTime();
         this.rockfordAlive=true;
         this.posRockford=laMap.trouverRockford();
         this.niveauFini=false;
-        while(!niveauFini) niveauFini=tour(' ');
-
+        this.lesDeplacements= new ConcurrentLinkedQueue<Character>();
+        for (int i=0;i<lesDepl.length();i++) {
+            lesDeplacements.add(lesDepl.charAt(i));
+        }
+        while(!niveauFini && rockfordAlive) niveauFini = tour(' ');
     }
 
     public void jouerTour(char c){
         tour(c);
     }
 
-    private Point getDeplacement() {
-        char c = lesDeplacements.remove();
-        chemin += c;
-        return Rockford.charToPos(posRockford,c);
-    }
-
-    private boolean tour(char c){ // c : ' ' si on prend un deplacement dans la pile ou le deplacement a jouer
+    private boolean tour(char c){
         laMap = Mobs.majMob(laMap);
         if(laMap.trouverRockford() == null){
             rockfordAlive = false;
@@ -58,8 +52,10 @@ public class Simulation{
         }
         Point positionApresDeplacement;
 
-        if(c == ' ') positionApresDeplacement = getDeplacement();
-        else{
+
+        if(c == ' '){
+            positionApresDeplacement = getDeplacement(posRockford,laMap);
+        }else{
             chemin += c;
             positionApresDeplacement = Rockford.charToPos(posRockford,c);
         }
@@ -110,6 +106,15 @@ public class Simulation{
         return rockfordAlive;
     }
 
+    public boolean isNiveauReussi(){
+        return (niveauFini&&rockfordAlive);
+    }
+
+    public Point getDeplacement(Point posRockford, Map laMap) {
+        char c = lesDeplacements.remove();
+        return Rockford.charToPos(posRockford,c);
+    }
+
     public int getTime() {
 
         return time;
@@ -139,5 +144,10 @@ public class Simulation{
 
     public boolean equals(Simulation s){
         return(chemin == s.getChemin());
+    }
+
+    public int evaluer(){
+        if(!rockfordAlive) return -1;
+        else return ((1+score)*time/laMap.getCaveTime());
     }
 }
