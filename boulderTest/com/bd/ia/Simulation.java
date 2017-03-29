@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Created by clement on 28/03/17.
  */
-public class Simulation {
+public class Simulation{
     private Map laMap;
     private int score;
     private int time;
@@ -18,9 +18,11 @@ public class Simulation {
     private boolean rockfordAlive;
     private Point posRockford;
     private boolean niveauFini;
+    private String chemin;
 
     public Simulation (Map laMap,String chemin){
         this.laMap=laMap;
+        this.chemin = "";
         this.lesDeplacements= new ConcurrentLinkedQueue<Character>();
         for (int i=0;i<chemin.length();i++){
             lesDeplacements.add(chemin.charAt(i));
@@ -30,35 +32,38 @@ public class Simulation {
         this.rockfordAlive=true;
         this.posRockford=laMap.trouverRockford();
         this.niveauFini=false;
-        while(!niveauFini) niveauFini=tour();
+        while(!niveauFini) niveauFini=tour(' ');
 
     }
+
+    public void jouerTour(char c){
+        tour(c);
+    }
+
     private Point getDeplacement() {
         char c = lesDeplacements.remove();
-        switch (c) {
-            case 'U':
-                return new Point((int) posRockford.getX()-1, (int) posRockford.getY());
-            case 'D':
-                return new Point((int) posRockford.getX()+1, (int) posRockford.getY());
-            case 'L':
-                return new Point((int) posRockford.getX(), (int) posRockford.getY()-1);
-            case 'R':
-                return new Point((int) posRockford.getX(), (int) posRockford.getY()+1);
-            default:
-                return posRockford;//Toute autre valeur = immobile
-        }
+        chemin += c;
+        return Rockford.charToPos(posRockford,c);
     }
 
-    private boolean tour(){
+    private boolean tour(char c){ // c : ' ' si on prend un deplacement dans la pile ou le deplacement a jouer
         laMap = Mobs.majMob(laMap);
         if(laMap.trouverRockford() == null){
+            rockfordAlive = false;
             return false;
         }
         if (time == 0) {
+            rockfordAlive = false;
             return false;
         }
+        Point positionApresDeplacement;
 
-        Point positionApresDeplacement = getDeplacement();
+        if(c == ' ') positionApresDeplacement = getDeplacement();
+        else{
+            chemin += c;
+            positionApresDeplacement = Rockford.charToPos(posRockford,c);
+        }
+
         laMap.removeElement(posRockford);
         switch (laMap.getElement(positionApresDeplacement)) {
             case 'X':
@@ -118,5 +123,21 @@ public class Simulation {
     public int getScore() {
 
         return score;
+    }
+
+    public Map getLaMap(){
+        return laMap;
+    }
+
+    public Point getPosRockford(){
+        return posRockford;
+    }
+
+    public String getChemin(){
+        return chemin;
+    }
+
+    public boolean equals(Simulation s){
+        return(chemin == s.getChemin());
     }
 }

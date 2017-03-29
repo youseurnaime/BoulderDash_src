@@ -42,18 +42,7 @@ public class FichierDash extends Rockford {
         Scanner sc = new Scanner(System.in);
         if(attendre) sc.nextLine();
         char c = lesDeplacements.remove();
-        switch (c) {
-            case 'U':
-                return new Point((int) posRockford.getX()-1, (int) posRockford.getY());
-            case 'D':
-                return new Point((int) posRockford.getX()+1, (int) posRockford.getY());
-            case 'L':
-                return new Point((int) posRockford.getX(), (int) posRockford.getY()-1);
-            case 'R':
-                return new Point((int) posRockford.getX(), (int) posRockford.getY()+1);
-            default:
-                return posRockford;//Toute autre valeur = immobile
-        }
+        return charToPos(posRockford,c);
     }
 
     private static String dashToString(String fichier) throws FileFormatException {

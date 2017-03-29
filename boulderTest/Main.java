@@ -105,7 +105,7 @@ public class Main {
                 EnsembleNiveau lesNiveaux = new EnsembleNiveau(fichierNiveau);
                 System.out.println(lesNiveaux.toString());
 
-                new Partie(lesNiveaux.choisirNiveau(choixNiveau),new Evolue(),journal); //TEST
+                new Partie(lesNiveaux.choisirNiveau(choixNiveau),new Evolue(3),journal); //TEST
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());

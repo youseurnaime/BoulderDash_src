@@ -19,7 +19,7 @@ public class Map {
     private Point posSortie;
     private boolean sortieOuverte;
     private int tourAvantAmibe;
-    Hashtable<Point, Character> mobToAdd;
+
 
     public Map(String name, ArrayList<Integer> caveTime, int diamondsRequired, ArrayList<Integer> diamondValue, int amoebaTime, int magicWallTime, ArrayList<String> laMap) {
         this.name = name;
