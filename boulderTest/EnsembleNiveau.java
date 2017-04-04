@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 
 public class EnsembleNiveau {
     private ArrayList<Map> lesNiveaux;
+    private int dernierChoix;
 
 
     public EnsembleNiveau(String fichier) throws FileFormatException, FileNotFoundException {
@@ -134,7 +135,12 @@ public class EnsembleNiveau {
             choix = sc.nextInt();
             if (choix < 0 || choix > lesNiveaux.size()) System.out.println("Choix incorrect !");
         }
-        return lesNiveaux.get(choix);
+        dernierChoix = choix;
+        return lesNiveaux.get(choix).clone();
+    }
+
+    public Map getDernierChoix(){
+        return lesNiveaux.get(dernierChoix);
     }
 
     public String toString() {

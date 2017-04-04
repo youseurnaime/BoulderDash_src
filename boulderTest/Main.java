@@ -3,6 +3,7 @@ package boulderTest;
 import boulderTest.com.bd.ia.Evolue;
 import boulderTest.com.bd.ia.FichierDash;
 import boulderTest.com.bd.ia.Simplet;
+import boulderTest.com.bd.ia.Simulation;
 
 public class Main {
 
@@ -106,7 +107,8 @@ public class Main {
                 System.out.println(lesNiveaux.toString());
                 Map laMap = lesNiveaux.choisirNiveau(choixNiveau);
 
-                new Partie(laMap,new Evolue(200,laMap),journal); //TEST
+                System.out.println(laMap.ecranDeJeu());
+                new Partie(laMap,new Evolue(100,laMap.clone()),true); //TEST
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());

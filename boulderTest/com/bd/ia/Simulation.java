@@ -20,8 +20,9 @@ public class Simulation{
     private boolean niveauFini;
     private String chemin;
 
-    public Simulation (Map laMap, String lesDepl){
-        this.laMap=laMap;
+    public Simulation (Map laMap, String lesDepl) throws CheminNonValideException{
+
+        this.laMap= laMap.clone();
         this.chemin = lesDepl;
         this.score= 0;
         this.diamonds=0;
@@ -33,22 +34,27 @@ public class Simulation{
         for (int i=0;i<lesDepl.length();i++) {
             lesDeplacements.add(lesDepl.charAt(i));
         }
-        while(!niveauFini && rockfordAlive) niveauFini = tour(' ');
+        int numTour = 0;
+        while(!niveauFini && rockfordAlive && !lesDeplacements.isEmpty()){
+            try{
+                numTour++;
+                niveauFini = tour(' ');
+            }catch (CheminNonValideException e){
+                throw new CheminNonValideException(numTour);
+            }
+        }
     }
 
-    public void jouerTour(char c){
-        tour(c);
-    }
 
-    private boolean tour(char c){
+    private boolean tour(char c) throws CheminNonValideException{
         laMap = Mobs.majMob(laMap);
         if(laMap.trouverRockford() == null){
             rockfordAlive = false;
-            return false;
+            return true;
         }
         if (time == 0) {
             rockfordAlive = false;
-            return false;
+            return true;
         }
         Point positionApresDeplacement;
 
@@ -62,6 +68,7 @@ public class Simulation{
 
         laMap.removeElement(posRockford);
         switch (laMap.getElement(positionApresDeplacement)) {
+            case 'W': throw new CheminNonValideException(-1);
             case 'X':
                 return true;
 
@@ -102,6 +109,17 @@ public class Simulation{
         return false;
     }
 
+    public boolean deplacementPossible(char d){
+        Point pos = Rockford.charToPos(posRockford,d);
+        if ((pos.getX() < 0 || pos.getX() > laMap.getHauteur() || pos.getY() < 0 || pos.getY() > laMap.getLargeur()))
+            return false;
+        char c = laMap.getElement(pos);
+        if (c == ' ' || c == '.' || c == 'd' || c == 'X') return true;
+        else if (c == 'w' || c == 'W') return false;
+        else if (c == 'r') return Rockford.rocPoussable(pos, posRockford, laMap);
+        else return true;
+    }
+
     public boolean isRockfordAlive() {
         return rockfordAlive;
     }
@@ -111,6 +129,7 @@ public class Simulation{
     }
 
     public Point getDeplacement(Point posRockford, Map laMap) {
+
         char c = lesDeplacements.remove();
         return Rockford.charToPos(posRockford,c);
     }
@@ -131,7 +150,7 @@ public class Simulation{
     }
 
     public Map getLaMap(){
-        return laMap;
+        return laMap.clone();
     }
 
     public Point getPosRockford(){
@@ -146,8 +165,35 @@ public class Simulation{
         return(chemin == s.getChemin());
     }
 
-    public int evaluer(){
-        if(!rockfordAlive) return -1;
-        else return ((1+score)*time/laMap.getCaveTime());
+    public double evaluer(){
+        int note = 0;
+        for(int i = 1 ; i < chemin.length() ; i++){
+            switch (chemin.charAt(i-1)){//diminution de la note si rockford revient sur ses pas
+                case 'U':
+                    if(chemin.charAt(i) == 'D') note -= 3;
+                    break;
+                case 'D':
+                    if(chemin.charAt(i) == 'U') note -= 3;
+                    break;
+                case 'L':
+                    if(chemin.charAt(i) == 'R') note -= 3;
+                    break;
+                case 'R':
+                    if(chemin.charAt(i) == 'L') note -= 3;
+                    break;
+                case 'I':
+                    note--;
+                    break;
+            }
+        }
+        note += score;
+        if(!rockfordAlive) note -= 500;
+        if(laMap.sortieOuverte()) note += 100;
+        if(rockfordAlive && niveauFini) note += 1000;
+        return note;
+    }
+
+    public String toString(){
+        return laMap.ecranDeJeu();
     }
 }

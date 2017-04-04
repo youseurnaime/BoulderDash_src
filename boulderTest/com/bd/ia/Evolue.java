@@ -1,6 +1,7 @@
 package boulderTest.com.bd.ia;
 
 import boulderTest.Map;
+import boulderTest.Partie;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,17 +14,17 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class Evolue extends Rockford {
     private int nbMutations;
-    private ArrayList<Simulation> population;
+    private ArrayList<String> population;
     private ConcurrentLinkedQueue<Character> lesDeplacements;
 
-    final int effectifMax = 40; //nombre d'individus max
+    final int effectifMax = 50; //nombre d'individus max
 
     public Evolue(int nbMutations,Map laMap){
         this.nbMutations = nbMutations;
-        this.population = new ArrayList<Simulation>();
+        this.population = new ArrayList<String>();
         lesDeplacements = new ConcurrentLinkedQueue<Character>();
         System.out.println("Calcul du joueur évolué...");
-        String strDeplacements = algoEvolue(laMap);
+        String strDeplacements = algoEvolue(laMap.clone());
         System.out.println("ok !\n\n");
         System.out.println(strDeplacements);
 
@@ -33,6 +34,15 @@ public class Evolue extends Rockford {
 
     }
 
+    private void testAfficherArrayList(Map laMap){
+        for(int i = 0 ; i < population.size() ; i++){
+            try{
+                System.out.println(i+" : "+population.get(i)+" "+new Simulation(laMap.clone(),population.get(i)).evaluer());
+            }catch (Exception e){
+
+            }
+        }
+    }
 
 
 
@@ -45,64 +55,140 @@ public class Evolue extends Rockford {
         init(laMap);
         for(int i = 0 ; i < nbMutations ; i++){
             System.out.println("MUTATION "+i);
-            mutation(laMap);
-            selection();
+            mutation();
+            testAfficherArrayList(laMap);
+            selection(laMap);
         }
-        return selectionFinale();
+        return selectionFinale(laMap);
     }
 
     private void init(Map laMap){
-        population.add(new Simulation(laMap,""));
-    }
-
-    private void mutation(Map laMap){
-        int tailleInit = population.size();
-        Simulation fils;
-        char modif;
-        for(int i = 0 ; i < tailleInit ; i++){
-            modif = getDeplacementRandom(population.get(i).getPosRockford(),population.get(i).getLaMap());
-           fils = new Simulation(laMap,population.get(i).getChemin()+modif);
-           if(fils.evaluer() >= 0) population.add(fils); //on élimine directement les simulations ou rockford meurt
-        }
-    }
-
-    private void selection(){
-        int evalMin = 9999999;//faudrait changer ca
-        int indexMin = -1;
-        if(population.size() > effectifMax){
-            for(int i = 0 ; i < population.size() ; i++){
-                System.out.println(population.get(i).getChemin());
-                if(population.get(i).evaluer() < evalMin){
-                    indexMin = i;
-                    evalMin = population.get(i).evaluer();
-                }
-            }
-            population.remove(indexMin);
-            selection();
-        }
-    }
-
-    private String selectionFinale(){
+        boolean cheminValide = false;
         String chemin;
-        int evalMax = 0;
-        int indexMax = -1;
-        if(population.isEmpty()) return "";
-        for(int i = 0 ; i < population.size() ; i++){
-            System.out.println(population.get(i).evaluer());
-            if(population.get(i).evaluer() > evalMax && population.get(i).isNiveauReussi()){
-                indexMax = i;
-                evalMax = population.get(i).evaluer();
+        do{
+            try{
+                chemin = cheminRandom(laMap.getCaveTime());
+                new Simulation(laMap.clone(),chemin);
+                population.add(chemin);
+            }catch (Exception e){
+
+            }
+
+        }while(population.size() < effectifMax);
+
+    }
+
+    private void mutation (){
+        int tailleInit = population.size();
+        int rand;
+        for(int i = 0 ; i < tailleInit ; i++){
+            rand = (int) (Math.random() * population.get(i).length()); //on tire une position au hasard;
+            population.add(changeChar(population.get(i),rand,directionRandom()));
+        }
+    }
+
+    private void selection(Map laMap){
+        double evalMin;
+        int index;
+        double eval;
+        while(population.size() > effectifMax){
+            evalMin = 99999;
+            index = -1;
+            for(int i = 0 ; i < population.size() ; i++){
+                try{
+                    eval = new Simulation(laMap.clone(),population.get(i)).evaluer();
+                    if(eval < evalMin){
+                        index = i;
+                        evalMin = eval;
+                    }
+                }catch (CheminNonValideException e){
+                    if(e.getNumTour() - 1000 < evalMin){
+                        index = i;
+                        evalMin = e.getNumTour() - 1000;
+                    }
+                }
+            }
+            population.remove(index);
+        }
+    }
+
+    private String selectionFinale(Map laMap){
+        double evalMax = -1000;
+        int index = -1;
+        for (int i = 0 ; i < population.size() ; i++){//on tente d'abord de sélectionner un chemin qui gagne
+            try{
+                if(new Simulation(laMap.clone(),population.get(i)).isRockfordAlive() && new Simulation(laMap.clone(),population.get(i)).evaluer() > evalMax){
+                    index = i;
+                    evalMax = new Simulation(laMap.clone(),population.get(i)).evaluer();
+                }
+            }catch (CheminNonValideException e){
+
             }
         }
-        if(indexMax == -1){
-            for(int i = 0 ; i < population.size() ; i++){
-                if(population.get(i).evaluer() > evalMax){
-                    indexMax = i;
-                    evalMax = population.get(i).evaluer();
+        if (index != -1) return population.get(index);
+
+        for (int i = 0 ; i < population.size() ; i++){//on tente d'abord de sélectionner un chemin qui gagne
+            try{
+                if(new Simulation(laMap.clone(),population.get(i)).evaluer() > evalMax) {
+                    index = i;
+                    evalMax = new Simulation(laMap.clone(),population.get(i)).evaluer();
+                }
+            }catch (CheminNonValideException e){
+                if(e.getNumTour() - 1000 > evalMax){
+                    index = i;
+                    evalMax = e.getNumTour() - 1000;
                 }
             }
         }
-        return population.get(indexMax).getChemin();
+        return population.get(index);
+    }
+
+    private String cheminRandom(int taille){
+        String s = "";
+        int rand;
+        for(int i = 0 ; i < taille ; i++){
+            rand = (int) (Math.random() * 5); // Int random entre 0 et 4
+            switch (rand){
+                case 1:
+                    s += 'U';
+                    break;
+                case 2:
+                    s += 'D';
+                    break;
+                case 3:
+                    s += 'L';
+                    break;
+                case 4:
+                    s += 'R';
+                    break;
+                case 0:
+                default:
+                    s += 'I';
+                    break;
+            }
+        }
+        return s;
+    }
+
+    private char directionRandom(){
+        int rand = (int) (Math.random() * 5); // Int random entre 0 et 4
+        switch (rand) {
+            case 1:
+                return 'U';
+            case 2:
+                return 'D';
+            case 3:
+                return 'L';
+            case 4:
+                return 'R';
+        }
+        return 'I';
+    }
+
+    private String changeChar(String chaine, int idx, char monCharRempl) {
+        char[] tab = chaine.toCharArray();
+        tab[idx] = monCharRempl;
+        return String.valueOf(tab);
     }
 
 }

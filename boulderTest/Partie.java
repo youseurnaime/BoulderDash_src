@@ -22,6 +22,7 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
         this.rockford = rockford;
         this.laMap = laMap;
         this.posRockford = laMap.trouverRockford();
+        System.out.println(laMap.ecranDeJeu());
         if (this.posRockford == null) throw new NoRockfordException();
         this.score = 0;
         this.time = laMap.getCaveTime();
@@ -173,6 +174,7 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
         }
     }
 
+    public String getChemin(){return historique;}
     public boolean getVictoire(){
         return victoire;
     }

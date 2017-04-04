@@ -664,7 +664,7 @@ WWWWWWWWWWWWWWWWWWWWW
 [cave]
 Name=Niveau facile pour tester
 CaveDelay=0
-CaveTime=200
+CaveTime=30
 DiamondsRequired=3
 DiamondValue=33 0
 Colors=Black Orange Orange Orange Black

@@ -6,7 +6,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 
-public class Map {
+public class Map implements Cloneable {
     private String name;
     private int[] caveTime;
     private int diamondsRequired;
@@ -125,6 +125,21 @@ public class Map {
     }
     public char getElement(Point pos) {
         return (laMap[(int) pos.getX()][(int) pos.getY()]);
+    }
+    public Map clone(){
+        try{
+            Map cloneDeMap = (Map)super.clone();
+            cloneDeMap.laMap = new char[hauteurMap][largeurMap];
+            for (int j = 0; j < hauteurMap; j++) {
+                for (int i = 0; i < largeurMap; i++) {
+                    cloneDeMap.laMap[j][i] = laMap[j][i];
+                }
+            }
+            return cloneDeMap;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public void removeElement(Point pos) {

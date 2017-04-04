@@ -22,7 +22,7 @@ public abstract class Rockford implements IAlgorithme {
     }
 
 
-    private boolean rocPoussable(Point pos, Point posRockford, Map laMap) {
+    public static boolean rocPoussable(Point pos, Point posRockford, Map laMap) {
         Point posApresRoc = new Point((int) pos.getX() * 2 - (int) posRockford.getX(), (int) pos.getY() * 2 - (int) posRockford.getY());//formule pour avoir la prochaine case dans la continuité de la direction choisie
         return (laMap.getElement(posApresRoc) == ' ');
     }
