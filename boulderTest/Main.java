@@ -8,7 +8,7 @@ import boulderTest.com.bd.ia.Simulation;
 public class Main {
 
     public static void main(String[] args) {
-        String fichierNiveau = "assets/FireFox50.bd.bdcff";
+        String fichierNiveau = "assets/ArnoDash01.bdcff";
         String fichierChemin = "";
         final boolean journal=true;
         int choixNiveau = -1;
@@ -111,7 +111,7 @@ public class Main {
                 new Partie(laMap,new Evolue(100,laMap.clone()),true); //TEST
 
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println("Erreur au lancement");
             }
         }
 
