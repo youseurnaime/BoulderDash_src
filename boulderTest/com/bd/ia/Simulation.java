@@ -4,6 +4,7 @@ import boulderTest.Map;
 import boulderTest.Mobs;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -19,6 +20,7 @@ public class Simulation{
     private Point posRockford;
     private boolean niveauFini;
     private String chemin;
+    private ArrayList<Point> casesVisitees;
 
     public Simulation (Map laMap, String lesDepl) throws CheminNonValideException{
 
@@ -30,6 +32,7 @@ public class Simulation{
         this.rockfordAlive=true;
         this.posRockford=laMap.trouverRockford();
         this.niveauFini=false;
+        this.casesVisitees = new ArrayList<Point>();
         this.lesDeplacements= new ConcurrentLinkedQueue<Character>();
         for (int i=0;i<lesDepl.length();i++) {
             lesDeplacements.add(lesDepl.charAt(i));
@@ -65,7 +68,7 @@ public class Simulation{
             chemin += c;
             positionApresDeplacement = Rockford.charToPos(posRockford,c);
         }
-
+        if(!casesVisitees.contains(posRockford)) casesVisitees.add(new Point((int)posRockford.getX(),(int)posRockford.getY()));
         laMap.removeElement(posRockford);
         switch (laMap.getElement(positionApresDeplacement)) {
             case 'W': throw new CheminNonValideException(-1);
@@ -187,6 +190,7 @@ public class Simulation{
             }
         }
         note += score;
+        note += casesVisitees.size() * 5;
         if(!rockfordAlive) note -= 500;
         if(laMap.sortieOuverte()) note += 100;
         if(rockfordAlive && niveauFini) note += 1000;
