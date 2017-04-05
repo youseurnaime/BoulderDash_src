@@ -10,6 +10,7 @@ import java.awt.*;
 public class Directif extends Rockford {
 
     public Point getDeplacement(Point posRockford, Map laMap) {
+
         return null;
     }
 }
