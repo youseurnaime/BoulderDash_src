@@ -5,12 +5,10 @@ import boulderTest.com.bd.ia.IAlgorithme;
 
 import java.awt.*;
 
-// JGraphX
-import javax.swing.JFrame;
-import com.mxgraph.model.mxCell;
-import com.mxgraph.model.mxGeometry;
-import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.view.mxGraph;
+import org.jgraph.*;
+import org.jgraph.graph.*;
+import org.jgrapht.*;
+import org.jgrapht.graph.DefaultDirectedGraph;
 
 
 /**
@@ -80,35 +78,30 @@ public abstract class Rockford implements IAlgorithme {
         }
     }
 
-    public mxGraph mapToGraph(Map laMap){
-        Object v1=null;
+    public DirectedGraph mapToGraph(Map laMap){
+        DirectedGraph<String, DefaultEdge> leGraph =
+                new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);
         char[][]grille=laMap.getLaMap();
-        mxGraph graph = new mxGraph();
-        Object parent = graph.getDefaultParent();
-        Object[] sauvegarde= new Object[grille.length];//a toute les vertex de la ligne d'avant
-        graph.getModel().beginUpdate();
+
         for (int i=0;i<grille.length;i++){
             for (int j=0;j<grille[0].length;j++){
-                Object v2 = graph.insertVertex(parent,"("+i+";"+j+")",new Point(i,j),i,j,i,j);
+                leGraph.addVertex(i+","+j);
                 if(i!=0){
                     if(deplacementPossible(new Point(i-1,j),new Point(i,j),laMap)){
-                        graph.insertEdge(parent, null, "("+(i-1)+";"+j+")->("+i+";"+j+")", v1, v2);
-                        graph.insertEdge(parent, null, "("+(i)+";"+j+")->("+(i-1)+";"+j+")", v2, v1);
+                        leGraph.addEdge((i-1)+","+j,i+","+j);
+                        leGraph.addEdge(i+","+j,(i-1)+","+j);
                     }
                 }
 
                 if (j!=0){
                     if(deplacementPossible(new Point(i,j-1),new Point(i,j),laMap)){
-                        graph.insertEdge(parent, null, "("+i+";"+(j-1)+")->("+i+";"+j+")", v1, sauvegarde[i]);
-                        graph.insertEdge(parent, null, "("+(i)+";"+j+")->("+i+";"+(j-1)+")", sauvegarde[i], v1);
+                        leGraph.addEdge(i+","+(j-1),i+","+j);
+                        leGraph.addEdge(i+","+j,i+","+(j-1));
                     }
                 }
-                v1=v2;
-                sauvegarde[i]=v2;
             }
         }
-        graph.getModel().endUpdate();
-        return graph;
+        return leGraph;
     }
 
     public Object[] shortestPath(){

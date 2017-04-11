@@ -1,14 +1,11 @@
 package boulderTest;
 
-import boulderTest.com.bd.ia.Evolue;
-import boulderTest.com.bd.ia.FichierDash;
-import boulderTest.com.bd.ia.Simplet;
-import boulderTest.com.bd.ia.Simulation;
+import boulderTest.com.bd.ia.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        String fichierNiveau = "assets/ArnoDash01.bdcff";
+        String fichierNiveau = "assets/Firefox50.bd.bdcff";
         String fichierChemin = "";
         final boolean journal=true;
         int choixNiveau = -1;
@@ -108,7 +105,8 @@ public class Main {
                 Map laMap = lesNiveaux.choisirNiveau(choixNiveau);
 
                 System.out.println(laMap.ecranDeJeu());
-                new Partie(laMap,new Evolue(100,laMap.clone()),true); //TEST
+                new Partie(laMap,new Evolue(50,laMap.clone()),true); //TEST
+
 
             } catch (Exception e) {
                 System.out.println("Erreur au lancement");
