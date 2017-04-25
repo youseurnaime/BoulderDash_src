@@ -8,7 +8,7 @@ import java.awt.*;
 import org.jgraph.*;
 import org.jgraph.graph.*;
 import org.jgrapht.*;
-import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.Pseudograph;
 
 
 /**
@@ -78,9 +78,9 @@ public abstract class Rockford implements IAlgorithme {
         }
     }
 
-    public DirectedGraph mapToGraph(Map laMap){
-        DirectedGraph<String, DefaultEdge> leGraph =
-                new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);
+    public UndirectedGraph mapToGraph(Map laMap){
+        UndirectedGraph<String, DefaultEdge> leGraph =
+                new Pseudograph<String, DefaultEdge>(DefaultEdge.class);
         char[][]grille=laMap.getLaMap();
 
         for (int i=0;i<grille.length;i++){
@@ -89,14 +89,12 @@ public abstract class Rockford implements IAlgorithme {
                 if(i!=0){
                     if(deplacementPossible(new Point(i-1,j),new Point(i,j),laMap)){
                         leGraph.addEdge((i-1)+","+j,i+","+j);
-                        leGraph.addEdge(i+","+j,(i-1)+","+j);
                     }
                 }
 
                 if (j!=0){
                     if(deplacementPossible(new Point(i,j-1),new Point(i,j),laMap)){
                         leGraph.addEdge(i+","+(j-1),i+","+j);
-                        leGraph.addEdge(i+","+j,i+","+(j-1));
                     }
                 }
             }
