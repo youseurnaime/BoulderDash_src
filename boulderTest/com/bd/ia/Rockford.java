@@ -4,10 +4,16 @@ import boulderTest.Map;
 import boulderTest.com.bd.ia.IAlgorithme;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
+import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
 import org.jgraph.*;
 import org.jgraph.graph.*;
 import org.jgrapht.*;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.Pseudograph;
 
 
@@ -78,8 +84,8 @@ public abstract class Rockford implements IAlgorithme {
         }
     }
 
-    public UndirectedGraph mapToGraph(Map laMap){
-        UndirectedGraph<String, DefaultEdge> leGraph =
+    public Pseudograph<String, DefaultEdge> mapToGraph(Map laMap){
+        Pseudograph<String, DefaultEdge> leGraph =
                 new Pseudograph<String, DefaultEdge>(DefaultEdge.class);
         char[][]grille=laMap.getLaMap();
 
@@ -102,18 +108,37 @@ public abstract class Rockford implements IAlgorithme {
         return leGraph;
     }
 
-    public Object[] shortestPath(){
-        return null;
+    public char shortestPath(Graph leGraph,Map laMap,String posRockford, String posObjectif){
+        DijkstraShortestPath despe = new DijkstraShortestPath<String, DefaultEdge>(leGraph);
+        GraphPath<String, DefaultEdge> gp = despe.getPath(posRockford , posObjectif);
+        gp.toString();
+        return 'a';
     }
 
-    public Point[]PlusProcheDiamant(Map laMap, Point posRockford){
-        char[][]grille=laMap.getLaMap();
-        Point diamPlusProche=null;
-        double distance=grille.length*grille[0].length; // CHemin le plus long possible
-        Point[]tabDiam=new Point[laMap.nbDiam()];
-        for (Point i:tabDiam) {
-            // Graph ://///
-        }
+    private Point vertexToPos(String v){
+        StringTokenizer st = new StringTokenizer(v,",");
+        return new Point(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
+    }
+
+    public Point elementLePlusProche(Map laMap, Graph leGraph, Point posRockford, char charATrouver){
+       Point plusProche=null;
+       String s;
+       PriorityQueue<String> fifo =new PriorityQueue();
+       String depart = posRockford.getX()+","+posRockford.getY();
+        fifo.add(depart);
+       ArrayList marque= new ArrayList();
+
+       marque.add(depart);
+       while (!fifo.isEmpty()){
+           s = fifo.poll();
+           List<> l =  Graphs.neighborListOf(leGraph,s);
+           for (String voisin : Graphs.neighborListOf(leGraph,s)) {
+               System.out.println("Jack");
+               if (laMap.getElement(vertexToPos(voisin))==charATrouver) return vertexToPos(voisin);
+                if (!marque.contains(voisin)) fifo.add(voisin);
+                marque.add(voisin);
+           }
+       }
         return null;
     }
 }
