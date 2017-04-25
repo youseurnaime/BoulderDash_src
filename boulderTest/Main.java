@@ -5,7 +5,7 @@ import boulderTest.com.bd.ia.*;
 public class Main {
 
     public static void main(String[] args) {
-        String fichierNiveau = "assets/Firefox50.bd.bdcff";
+        String fichierNiveau = "assets/FireFox50.bd.bdcff";
         String fichierChemin = "";
         final boolean journal=true;
         int choixNiveau = -1;
@@ -109,7 +109,7 @@ public class Main {
 
 
             } catch (Exception e) {
-                System.out.println("Erreur au lancement");
+                System.out.println(e.getClass());
             }
         }
 
