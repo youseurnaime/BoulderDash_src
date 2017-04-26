@@ -241,8 +241,11 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
         switch (map[i + 1][j]) {
             case ' ':
             case 'R':
-                map[i][j] = ' ';
-                map[i + 1][j] = c;
+                if(c == 'r'){
+                    map[i][j] = ' ';
+                    map[i + 1][j] = c;
+                    System.out.println("Rockford a été écrasé.");
+                }
                 break;
 
             case 'r':

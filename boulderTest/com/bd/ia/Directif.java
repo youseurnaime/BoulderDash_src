@@ -12,12 +12,24 @@ import java.awt.*;
 public class Directif extends Rockford {
 
     private SimpleGraph leGraph;
+    private Point cibleActuelle;
+    private boolean init;
 
-    public Directif(Map laMap){
-        leGraph = mapToGraph(laMap);
+    public Directif(){
+        this.init = false;
     }
 
     public Point getDeplacement(Point posRockford, Map laMap) {
-        return null;
+        leGraph = mapToGraph(laMap);
+        if(!init){
+            init = true;
+            cibleActuelle = laMap.cibleLaPlusProche();
+        }
+
+        if(posRockford.equals(cibleActuelle)){
+            cibleActuelle = laMap.cibleLaPlusProche();
+        }
+        System.out.println(cibleActuelle.toString());
+        return(shortestPath(leGraph,laMap,posRockford,cibleActuelle));
     }
 }

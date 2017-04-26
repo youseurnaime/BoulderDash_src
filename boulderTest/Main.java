@@ -105,7 +105,7 @@ public class Main {
                 Map laMap = lesNiveaux.choisirNiveau(choixNiveau);
 
                 System.out.println(laMap.ecranDeJeu());
-                new Partie(laMap,new Evolue(50,laMap.clone()),true); //TEST
+                new Partie(laMap,new Directif(),true); //TEST
 
 
             } catch (Exception e) {

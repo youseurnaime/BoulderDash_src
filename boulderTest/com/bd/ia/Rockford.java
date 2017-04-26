@@ -12,10 +12,10 @@ import java.util.Vector;
 import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
 import org.jgraph.*;
 import org.jgraph.graph.*;
+import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.*;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.graph.Pseudograph;
-import org.jgrapht.graph.SimpleGraph;
+import org.jgrapht.graph.*;
 
 
 /**
@@ -109,17 +109,24 @@ public abstract class Rockford implements IAlgorithme {
         return leGraph;
     }
 
-    public char shortestPath(Graph leGraph,Map laMap,String posRockford, String posObjectif){
+    public Point shortestPath(Graph leGraph,Map laMap,Point posRockford, Point posObjectif){
         DijkstraShortestPath despe = new DijkstraShortestPath<String, DefaultEdge>(leGraph);
-        GraphPath<String, DefaultEdge> gp = despe.getPath(posRockford , posObjectif);
-        gp.toString();
-        return 'a';
+        GraphPath chemin = despe.getPath(posToVertex(posRockford),posToVertex(posObjectif));
+        System.out.println(chemin.getStartVertex().toString());
+        return(vertexToPos((String)chemin.getVertexList().get(1)));
+
     }
 
     private Point vertexToPos(String v){
         StringTokenizer st = new StringTokenizer(v,",");
         return new Point(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
     }
+
+    private String posToVertex(Point p){
+        return ((int)p.getX()+","+(int)p.getY());
+    }
+
+
 
 
 }
