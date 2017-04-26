@@ -136,6 +136,32 @@ public class Map implements Cloneable {
         }
         return pos;
     }
+
+    public ArrayList<Point> trouverLesCibles(char cible){
+        ArrayList<Point> lesPos = new ArrayList<>();
+        for (int i = 0; i < hauteurMap; i++) {
+            for (int j = 0; j < largeurMap; j++) {
+                if (laMap[i][j] == cible) lesPos.add(new Point(i, j));
+            }
+        }
+        return lesPos;
+    }
+
+    public Point cibleLaPlusProche(char cible){
+        ArrayList<Point> lesPos = trouverLesCibles(cible);
+        if(lesPos.isEmpty()) return null;
+        Point posRockford = trouverRockford();
+        Point laPlusProche = lesPos.get(0);
+        double distanceMin = posRockford.distance(lesPos.get(0).getX(),lesPos.get(0).getY());
+        for(int i = 0 ; i < lesPos.size() ; i++){
+            if(posRockford.distance(lesPos.get(i).getX(),lesPos.get(i).getY()) < distanceMin){
+                distanceMin = posRockford.distance(lesPos.get(i).getX(),lesPos.get(i).getY());
+                laPlusProche = lesPos.get(i);
+            }
+        }
+        return laPlusProche;
+    }
+
     public char getElement(Point pos) {
         return (laMap[(int) pos.getX()][(int) pos.getY()]);
     }

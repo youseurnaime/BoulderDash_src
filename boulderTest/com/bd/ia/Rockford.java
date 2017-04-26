@@ -15,6 +15,7 @@ import org.jgraph.graph.*;
 import org.jgrapht.*;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.Pseudograph;
+import org.jgrapht.graph.SimpleGraph;
 
 
 /**
@@ -84,9 +85,9 @@ public abstract class Rockford implements IAlgorithme {
         }
     }
 
-    public Pseudograph<String, DefaultEdge> mapToGraph(Map laMap){
-        Pseudograph<String, DefaultEdge> leGraph =
-                new Pseudograph<String, DefaultEdge>(DefaultEdge.class);
+    public SimpleGraph<String, DefaultEdge> mapToGraph(Map laMap){
+        SimpleGraph<String, DefaultEdge> leGraph =
+                new SimpleGraph(DefaultEdge.class);
         char[][]grille=laMap.getLaMap();
 
         for (int i=0;i<grille.length;i++){
@@ -120,25 +121,5 @@ public abstract class Rockford implements IAlgorithme {
         return new Point(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
     }
 
-    public Point elementLePlusProche(Map laMap, Graph leGraph, Point posRockford, char charATrouver){
-       Point plusProche=null;
-       String s;
-       PriorityQueue<String> fifo =new PriorityQueue();
-       String depart = posRockford.getX()+","+posRockford.getY();
-        fifo.add(depart);
-       ArrayList marque= new ArrayList();
 
-       marque.add(depart);
-       while (!fifo.isEmpty()){
-           s = fifo.poll();
-           List<> l =  Graphs.neighborListOf(leGraph,s);
-           for (String voisin : Graphs.neighborListOf(leGraph,s)) {
-               System.out.println("Jack");
-               if (laMap.getElement(vertexToPos(voisin))==charATrouver) return vertexToPos(voisin);
-                if (!marque.contains(voisin)) fifo.add(voisin);
-                marque.add(voisin);
-           }
-       }
-        return null;
-    }
 }

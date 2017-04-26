@@ -1,6 +1,8 @@
 package boulderTest.com.bd.ia;
 
 import boulderTest.Map;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
 
 import java.awt.*;
 
@@ -9,8 +11,13 @@ import java.awt.*;
  */
 public class Directif extends Rockford {
 
-    public Point getDeplacement(Point posRockford, Map laMap) {
+    private SimpleGraph leGraph;
 
+    public Directif(Map laMap){
+        leGraph = mapToGraph(laMap);
+    }
+
+    public Point getDeplacement(Point posRockford, Map laMap) {
         return null;
     }
 }
