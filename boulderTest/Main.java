@@ -5,7 +5,7 @@ import boulderTest.com.bd.ia.*;
 public class Main {
 
     public static void main(String[] args) {
-        String fichierNiveau = "assets/FireFox50.bd.bdcff";
+        String fichierNiveau = "assets/BD01plus.bdcff";
         String fichierChemin = "";
         final boolean journal=true;
         int choixNiveau = -1;

@@ -137,7 +137,7 @@ public class Map implements Cloneable {
         return pos;
     }
 
-    private ArrayList<Point> trouverLesCibles(char cible){
+    public ArrayList<Point> trouverLesCibles(char cible){
         ArrayList<Point> lesPos = new ArrayList<>();
         for (int i = 0; i < hauteurMap; i++) {
             for (int j = 0; j < largeurMap; j++) {
@@ -161,6 +161,15 @@ public class Map implements Cloneable {
             }
         }
         return laPlusProche;
+    }
+
+
+    public Point getCibleRandom(){
+        ArrayList<Point> lesPos = trouverLesCibles('d');
+        if(sortieOuverte) lesPos.add(trouverLesCibles('X').get(0));
+        if(lesPos.isEmpty()) return null;
+        int n = (int) (Math.random() * lesPos.size());
+        return lesPos.get(n);
     }
 
     public char getElement(Point pos) {

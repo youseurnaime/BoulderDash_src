@@ -108,9 +108,11 @@ public class Simulation{
 
         posRockford = positionApresDeplacement;
         laMap.addElement(posRockford, 'R');
+
         time--;
         return false;
     }
+
 
     public boolean deplacementPossible(char d){
         Point pos = Rockford.charToPos(posRockford,d);

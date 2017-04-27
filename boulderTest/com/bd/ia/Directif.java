@@ -5,6 +5,7 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
 import java.awt.*;
+import java.util.NoSuchElementException;
 
 /**
  * Created by marin on 18/03/2017.
@@ -21,6 +22,13 @@ public class Directif extends Rockford {
 
     public Point getDeplacement(Point posRockford, Map laMap) {
         leGraph = mapToGraph(laMap);
+        if(laMap.cibleLaPlusProche() == null){
+            System.out.println("Rockford ne voit ni diamants ni sortie. Il est perdu et fait des déplacements aléatoires...\nL'IA directif n'est pas adaptée pour ce niveau.");
+            return charToPos(posRockford,getDeplacementRandom(posRockford,laMap));
+        }
+        if(!ciblesAccessibles(leGraph,posRockford,laMap)){
+            return charToPos(posRockford,getDeplacementRandom(posRockford,laMap));
+        }
         if(!init){
             init = true;
             cibleActuelle = laMap.cibleLaPlusProche();
@@ -29,7 +37,13 @@ public class Directif extends Rockford {
         if(posRockford.equals(cibleActuelle)){
             cibleActuelle = laMap.cibleLaPlusProche();
         }
-        System.out.println(cibleActuelle.toString());
-        return(shortestPath(leGraph,laMap,posRockford,cibleActuelle));
+        Point futurDeplacement = shortestPath(leGraph,laMap,posRockford,cibleActuelle);
+        while(futurDeplacement == null){
+            cibleActuelle = laMap.getCibleRandom();
+            futurDeplacement = shortestPath(leGraph,laMap,posRockford,cibleActuelle);
+        }
+        System.out.println("Rockford : "+posRockford.toString());
+        System.out.println("Cible : "+cibleActuelle.toString());
+        return(futurDeplacement);
     }
 }

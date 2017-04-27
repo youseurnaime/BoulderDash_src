@@ -71,7 +71,6 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
 
 
     private boolean tour(){
-        laMap = Mobs.majMob(laMap);
         afficherMap();
 
         if(laMap.trouverRockford() == null){
@@ -142,6 +141,7 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
 
         posRockford = positionApresDeplacement;
         laMap.addElement(posRockford, 'R');
+        laMap = Mobs.majMob(laMap);
         time--;
         effacerEcran();
         return true;

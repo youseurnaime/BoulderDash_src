@@ -240,16 +240,12 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
         int largeurMap = laMap.getLargeur();
         switch (map[i + 1][j]) {
             case ' ':
-            case 'R':
-                if(c == 'r'){
-                    map[i][j] = ' ';
-                    map[i + 1][j] = c;
-                    System.out.println("Rockford a été écrasé.");
-                }
+                map[i][j] = ' ';
+                map[i + 1][j] = c;
                 break;
 
             case 'r':
-                if (j > 0) {
+                if (j > 0 && map[i][j-1] == ' ') {
                     if (map[i + 1][j - 1] == ' ' || map[i + 1][j - 1] == 'R') {
                         map[i][j] = ' ';
                         map[i + 1][j - 1] = c;
@@ -259,7 +255,7 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
                         map=mortDeLibellule(i + 1, j - 1, map);
                     }
                 }
-                if (j < largeurMap) {
+                if (j < largeurMap && map[i][j+1] == ' ') {
                     if (map[i + 1][j + 1] == ' ' || map[i + 1][j + 1] == 'R') {
                         map[i][j] = ' ';
                         map[i + 1][j + 1] = c;

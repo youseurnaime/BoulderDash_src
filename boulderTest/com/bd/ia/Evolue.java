@@ -17,7 +17,7 @@ public class Evolue extends Rockford {
     private ArrayList<String> population;
     private ConcurrentLinkedQueue<Character> lesDeplacements;
 
-    final int effectifMax = 50; //nombre d'individus max
+    final int effectifMax = 25; //nombre d'individus max
 
     public Evolue(int nbMutations,Map laMap){
         this.nbMutations = nbMutations;

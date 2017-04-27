@@ -112,9 +112,19 @@ public abstract class Rockford implements IAlgorithme {
     public Point shortestPath(Graph leGraph,Map laMap,Point posRockford, Point posObjectif){
         DijkstraShortestPath despe = new DijkstraShortestPath<String, DefaultEdge>(leGraph);
         GraphPath chemin = despe.getPath(posToVertex(posRockford),posToVertex(posObjectif));
-        System.out.println(chemin.getStartVertex().toString());
+        if(chemin == null) return null;
         return(vertexToPos((String)chemin.getVertexList().get(1)));
 
+    }
+
+    public boolean ciblesAccessibles(Graph leGraph, Point posRockford, Map laMap){
+        ArrayList<Point> lesPos = laMap.trouverLesCibles('d');
+        if(laMap.sortieOuverte()) lesPos.add(laMap.trouverLesCibles('X').get(0));
+        boolean oui = false;
+        for(int i = 0 ; i < lesPos.size() ; i++){
+            if(shortestPath(leGraph,laMap,posRockford,lesPos.get(i)) != null) oui = true;
+        }
+        return oui;
     }
 
     private Point vertexToPos(String v){
