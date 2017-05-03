@@ -19,12 +19,12 @@ public class Evolue extends Rockford {
 
     final int effectifMax = 25; //nombre d'individus max
 
-    public Evolue(int nbMutations,Map laMap){
+    public Evolue(int nbMutations,Map laMap, boolean manuel, String chemin){
         this.nbMutations = nbMutations;
         this.population = new ArrayList<String>();
         lesDeplacements = new ConcurrentLinkedQueue<Character>();
         System.out.println("Calcul du joueur évolué...");
-        String strDeplacements = algoEvolue(laMap.clone());
+        String strDeplacements = algoEvolue(laMap.clone(),manuel,chemin);
         System.out.println("ok !\n\n");
         System.out.println(strDeplacements);
 
@@ -51,8 +51,8 @@ public class Evolue extends Rockford {
         return charToPos(posRockford,c);
     }
 
-    private String algoEvolue(Map laMap) {
-        init(laMap);
+    private String algoEvolue(Map laMap,boolean manuel, String chemin) {
+        init(laMap,manuel,chemin);
         for(int i = 0 ; i < nbMutations ; i++){
             System.out.println("MUTATION "+i);
             mutation();
@@ -62,16 +62,20 @@ public class Evolue extends Rockford {
         return selectionFinale(laMap);
     }
 
-    private void init(Map laMap){
+    private void init(Map laMap,boolean manuel, String chem){
         boolean cheminValide = false;
         String chemin;
         do{
-            try{
-                chemin = cheminRandom(laMap.getCaveTime());
-                new Simulation(laMap.clone(),chemin);
-                population.add(chemin);
-            }catch (Exception e){
+            if(!manuel) {
+                try {
+                    chemin = cheminRandom(laMap.getCaveTime());
+                    new Simulation(laMap.clone(), chemin);
+                    population.add(chemin);
+                } catch (Exception e) {
 
+                }
+            } else {
+                population.add(chem);
             }
 
         }while(population.size() < effectifMax);

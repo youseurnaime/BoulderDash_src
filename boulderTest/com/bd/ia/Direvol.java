@@ -1,6 +1,8 @@
 package boulderTest.com.bd.ia;
 
 import boulderTest.Map;
+import boulderTest.NoRockfordException;
+import boulderTest.Partie;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.SimpleGraph;
 
@@ -21,15 +23,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * A la fin la string sera envoyer a l'algo genetique qui fera simplement son taf.
  */
 public class Direvol extends Rockford {
-    final int effectifMax = 25; //nombre d'individus max
-    private int nbMutations;
-    private ArrayList<String> population;
-    private ConcurrentLinkedQueue<Character> lesDeplacements;
-    private SimpleGraph leGraph;
-    private Point cibleActuelle;
-    private boolean init;
+    private Evolue e;
 
-    public Direvol(int nbMutations, Map laMap) {
+    public Direvol(int nbMutations, Map laMap) throws NoRockfordException{
+        String cheminInitial = new Partie(laMap.clone(),new Directif(),false).getChemin();
+        e = new Evolue(nbMutations,laMap.clone(),true,cheminInitial);
+    }
+    /*public Direvol(int nbMutations, Map laMap) {
         this.nbMutations = nbMutations;
         this.population = new ArrayList<String>();
         lesDeplacements = new ConcurrentLinkedQueue<Character>();
@@ -106,7 +106,7 @@ public class Direvol extends Rockford {
      * s=+directifRandom();
      * }
      * }
-     */
+
 
     private LinkedList<Point> diamAccessible(Map laMap) {//Tableau des point accessible, mais je pense que LikedList c'est plus efficace
         LinkedList<Point> diamAccess = new LinkedList<>();
@@ -130,8 +130,8 @@ public class Direvol extends Rockford {
         } while (population.size() < effectifMax);
 
     }
-
+    */
     public Point getDeplacement(Point posRockford, Map laMap) {
-        return null;
+        return e.getDeplacement(posRockford,laMap);
     }
 }
