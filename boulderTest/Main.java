@@ -105,7 +105,7 @@ public class Main {
                 Map laMap = lesNiveaux.choisirNiveau(choixNiveau);
 
                 System.out.println(laMap.ecranDeJeu());
-                new Partie(laMap,new Direvol(20000,laMap),true); //TEST
+                new Partie(laMap,new Parfait(laMap),true); //TEST
 
 
             } catch (Exception e) {

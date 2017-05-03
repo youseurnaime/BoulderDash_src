@@ -68,8 +68,11 @@ public class Simulation{
             chemin += c;
             positionApresDeplacement = Rockford.charToPos(posRockford,c);
         }
-        if(!casesVisitees.contains(posRockford)) casesVisitees.add(new Point((int)posRockford.getX(),(int)posRockford.getY()));
+        if(!casesVisitees.contains(posRockford)){
+            casesVisitees.add(new Point((int)posRockford.getX(),(int)posRockford.getY()));
+        }
         laMap.removeElement(posRockford);
+
         switch (laMap.getElement(positionApresDeplacement)) {
             case 'W': throw new CheminNonValideException(-1);
             case 'X':
@@ -197,6 +200,10 @@ public class Simulation{
         if(laMap.sortieOuverte()) note += 100;
         if(rockfordAlive && niveauFini) note += 1000;
         return note;
+    }
+
+    public Map getMap() {
+        return laMap;
     }
 
     public String toString(){

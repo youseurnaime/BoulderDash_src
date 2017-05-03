@@ -670,5 +670,27 @@ Wwr...wd...w....wdXW
 WWWWWWWWWWWWWWWWWWWW
 [/map]
 [/cave]
+
+[cave]
+Name=Mini Test
+Intermission=true
+CaveDelay=7
+CaveTime=15
+DiamondsRequired=3
+DiamondValue=20 99
+Colors=Black Black Brown Brown Blue
+
+[map]
+WWWWWWWW
+W  d X W
+Wd wwwwW
+W. dww W
+W wwww W
+W   Rw W
+WWWWWWWW
+[/map]
+[/cave]
+
+
 [/game]
 [/BDCFF]
