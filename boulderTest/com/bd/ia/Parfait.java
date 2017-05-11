@@ -13,20 +13,28 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Parfait extends Rockford {
     private ArrayList<String> lesChemins;
     private ConcurrentLinkedQueue<Character> lesDeplacements;
+    private int[][] lesPosAtteintes;
+
+    final private int NB_MEME_CHEMINS = 5; //nombre maximum de chemin ayant une même destination
 
     public Parfait(Map laMap){
         lesChemins = new ArrayList<>();
+        /*lesPosAtteintes = new int[laMap.getHauteur()+1][laMap.getLargeur()+1];
+        for(int i = 0 ; i < lesPosAtteintes.length ; i++){
+            for(int j = 0 ; j < lesPosAtteintes[i].length ; j++){
+                lesPosAtteintes[i][j] = 0;
+            }
+        }*/
         init(laMap);
         int longueurMax = laMap.getCaveTime();
         String chemin = null;
         int i=1;
         do{
-            chemin = testerLesChemins(laMap);
+            chemin = creerFilles(laMap);
             System.out.println(lesChemins.toString());
-
-            if(chemin==null)creerFilles(laMap);
             i++;
-            System.out.println("Chemin de longueur "+i);
+            System.out.println("Chemins de longueur "+i);
+            System.out.println(lesChemins.size()+" chemins en cours de test...");
 
         }while (chemin== null&&longueurMax>i);
         if(chemin!=null){
@@ -36,6 +44,7 @@ public class Parfait extends Rockford {
                 lesDeplacements.add(chemin.charAt(j));
             }
         }
+        else System.out.println("Rockford n'a pas trouvé de chemins.");
 
     }
 
@@ -61,39 +70,35 @@ public class Parfait extends Rockford {
 
     }
 
-    private String testerLesChemins(Map laMap){
-        for(int i = 0 ; i < lesChemins.size() ; i++){
-            try{
-                Simulation s = new Simulation(laMap,lesChemins.get(i));
+    private String testerChemin(Map laMap, Simulation s, int i){
+        if(s.getLaMap().getElement(new Point(s.getPosRockford().x+1,s.getPosRockford().y)) == 'X') return lesChemins.get(i)+'D';//On teste si rockford est a coté de la sortie
+        if(s.getLaMap().getElement(new Point(s.getPosRockford().x-1,s.getPosRockford().y)) == 'X') return lesChemins.get(i)+'U';
+        if(s.getLaMap().getElement(new Point(s.getPosRockford().x,s.getPosRockford().y+1)) == 'X') return lesChemins.get(i)+'R';
+        if(s.getLaMap().getElement(new Point(s.getPosRockford().x,s.getPosRockford().y-1)) == 'X') return lesChemins.get(i)+'L';
 
-                if(s.getLaMap().getElement(new Point(s.getPosRockford().x+1,s.getPosRockford().y)) == 'X') return lesChemins.get(i)+'D';
-                if(s.getLaMap().getElement(new Point(s.getPosRockford().x-1,s.getPosRockford().y)) == 'X') return lesChemins.get(i)+'U';
-                if(s.getLaMap().getElement(new Point(s.getPosRockford().x,s.getPosRockford().y+1)) == 'X') return lesChemins.get(i)+'R';
-                if(s.getLaMap().getElement(new Point(s.getPosRockford().x,s.getPosRockford().y-1)) == 'X') return lesChemins.get(i)+'L';
-            }catch (Exception e){
-
-            }
-        }
         return null;
     }
-    private void creerFilles(Map laMap){
+    private String creerFilles(Map laMap){
         ArrayList <String> sortie= new ArrayList<>();
         for(int i = 0 ; i < lesChemins.size() ; i++){
             try {
                 Simulation s = new Simulation(laMap, lesChemins.get(i));
                 Point posRockord = s.getPosRockford();
-
                 if(deplacementPossible(new Point((posRockord.x)+1,posRockord.y),posRockord,laMap)){
+                    if(testerChemin(laMap,s,i) != null) return testerChemin(laMap,s,i);
                     sortie.add(lesChemins.get(i)+"D");
                 }
                 if(deplacementPossible(new Point((posRockord.x)-1,posRockord.y),posRockord,laMap)){
+                    if(testerChemin(laMap,s,i) != null) return testerChemin(laMap,s,i);
                     sortie.add(lesChemins.get(i)+"U");
                 }
 
                 if(deplacementPossible(new Point(posRockord.x,(posRockord.y)-1),posRockord,laMap)){
+                    if(testerChemin(laMap,s,i) != null) return testerChemin(laMap,s,i);
                     sortie.add(lesChemins.get(i)+"L");
                 }
                 if(deplacementPossible(new Point(posRockord.x,(posRockord.y)+1),posRockord,laMap)){
+                    if(testerChemin(laMap,s,i) != null) return testerChemin(laMap,s,i);
                     sortie.add(lesChemins.get(i)+"R");
                 }
                 /*
@@ -102,11 +107,12 @@ public class Parfait extends Rockford {
                 }
                 */
             } catch (Exception e){
-
+                System.out.println("boucle infiniiiiiiiiie");
             }
 
         }
         this.lesChemins=sortie;
+        return null;
     }
 
     public Point getDeplacement(Point posRockford, Map laMap) {
