@@ -2,8 +2,6 @@ package boulderTest;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 
 public class Map implements Cloneable {
@@ -47,17 +45,6 @@ public class Map implements Cloneable {
         tourAvantAmibe = amoebaTime;
     }
 
-    public int nbDiam(){
-        int cpt=0;
-        for (int i=0;i<laMap.length;i++){
-            for(int j=0;j<laMap[0].length;j++){
-                if(laMap[i][j]=='d'){
-                    cpt++;
-                }
-            }
-        }
-        return cpt;
-    }
 
     public int getTourAvantAmibe(){
         return tourAvantAmibe;

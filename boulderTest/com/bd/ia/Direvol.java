@@ -3,25 +3,14 @@ package boulderTest.com.bd.ia;
 import boulderTest.Map;
 import boulderTest.NoRockfordException;
 import boulderTest.Partie;
-import org.jgrapht.Graph;
-import org.jgrapht.graph.SimpleGraph;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by marin on 18/03/2017.
  */
 
-/**
- * Bon, je pense que c'est pas claire pour toi alors je m'éxplique,
- * ce que je veux c'est pouvoir faire une simulation avec une chaine de caractere ca c'est facile
- * mais je veux faire une simulation a chaque tours et recuperer la map de fin
- * ainsi je peux oklm continuer l'algo génétique jusqu'a la mort de rockford ou la fin du temps.
- * A la fin la string sera envoyer a l'algo genetique qui fera simplement son taf.
- */
+
 public class Direvol extends Rockford {
     private Evolue e;
 
