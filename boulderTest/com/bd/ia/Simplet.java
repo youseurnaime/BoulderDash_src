@@ -12,4 +12,8 @@ public class Simplet extends Rockford {
     public Point getDeplacement(Point posRockford, Map laMap) {
         return charToPos(posRockford,getDeplacementRandom(posRockford,laMap));
     }
+
+    public String toString(){
+        return "simplet";
+    }
 }

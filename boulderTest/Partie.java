@@ -52,7 +52,7 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
         historique += " Score : "+score+" - Temps : "+time+" - Diamants : "+diamonds;
         try {
 
-            FileOutputStream fos = new FileOutputStream(new File(name + ".dash"));
+            FileOutputStream fos = new FileOutputStream(new File(name + "_" + rockford.toString() + ".dash"));
             byte byteHistorique[] = historique.getBytes();
             fos.write(byteHistorique);
             fos.close();

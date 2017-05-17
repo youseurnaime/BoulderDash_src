@@ -123,4 +123,8 @@ public class Direvol extends Rockford {
     public Point getDeplacement(Point posRockford, Map laMap) {
         return e.getDeplacement(posRockford,laMap);
     }
+
+    public String toString(){
+        return "direvol";
+    }
 }

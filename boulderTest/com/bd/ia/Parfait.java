@@ -120,5 +120,9 @@ public class Parfait extends Rockford {
         return charToPos(posRockford,c);
     }
 
+    public String toString(){
+        return "parfait";
+    }
+
 
 }

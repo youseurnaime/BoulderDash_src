@@ -56,4 +56,8 @@ public class Joueur extends Rockford {
         if (!s.equals("")) return (s.charAt(0));
         else return choixDeplacement();
     }
+
+    public String toString(){
+        return "joueur";
+    }
 }

@@ -9,4 +9,5 @@ import java.awt.*;
  */
 public interface IAlgorithme {
     Point getDeplacement(Point posRockford, Map laMap);
+    String toString();
 }

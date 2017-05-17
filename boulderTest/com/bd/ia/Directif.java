@@ -46,4 +46,8 @@ public class Directif extends Rockford {
         System.out.println("Cible : "+cibleActuelle.toString());
         return(futurDeplacement);
     }
+
+    public String toString(){
+        return "directif";
+    }
 }
