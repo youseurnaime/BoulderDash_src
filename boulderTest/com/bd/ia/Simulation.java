@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Created by clement on 28/03/17.
  */
-public class Simulation{
+public class Simulation {
     private Map laMap;
     private ConcurrentLinkedQueue<Character> lesDeplacements;
     private int score;
@@ -22,36 +22,36 @@ public class Simulation{
     private String chemin;
     private ArrayList<Point> casesVisitees;
 
-    public Simulation (Map laMap, String lesDepl) throws CheminNonValideException{
+    public Simulation(Map laMap, String lesDepl) throws CheminNonValideException {
 
-        this.laMap= laMap.clone();
+        this.laMap = laMap.clone();
         this.chemin = lesDepl;
-        this.score= 0;
-        this.diamonds=0;
-        this.time=laMap.getCaveTime();
-        this.rockfordAlive=true;
-        this.posRockford=laMap.trouverRockford();
-        this.niveauFini=false;
+        this.score = 0;
+        this.diamonds = 0;
+        this.time = laMap.getCaveTime();
+        this.rockfordAlive = true;
+        this.posRockford = laMap.trouverRockford();
+        this.niveauFini = false;
         this.casesVisitees = new ArrayList<Point>();
-        this.lesDeplacements= new ConcurrentLinkedQueue<Character>();
-        for (int i=0;i<lesDepl.length();i++) {
+        this.lesDeplacements = new ConcurrentLinkedQueue<Character>();
+        for (int i = 0; i < lesDepl.length(); i++) {
             lesDeplacements.add(lesDepl.charAt(i));
         }
         int numTour = 0;
-        while(!niveauFini && rockfordAlive && !lesDeplacements.isEmpty()){
-            try{
+        while (!niveauFini && rockfordAlive && !lesDeplacements.isEmpty()) {
+            try {
                 numTour++;
                 niveauFini = tour(' ');
-            }catch (CheminNonValideException e){
+            } catch (CheminNonValideException e) {
                 throw new CheminNonValideException(numTour);
             }
         }
     }
 
 
-    private boolean tour(char c) throws CheminNonValideException{
+    private boolean tour(char c) throws CheminNonValideException {
         laMap = Mobs.majMob(laMap);
-        if(laMap.trouverRockford() == null){
+        if (laMap.trouverRockford() == null) {
             rockfordAlive = false;
             return true;
         }
@@ -62,19 +62,20 @@ public class Simulation{
         Point positionApresDeplacement;
 
 
-        if(c == ' '){
-            positionApresDeplacement = getDeplacement(posRockford,laMap);
-        }else{
+        if (c == ' ') {
+            positionApresDeplacement = getDeplacement(posRockford, laMap);
+        } else {
             chemin += c;
-            positionApresDeplacement = Rockford.charToPos(posRockford,c);
+            positionApresDeplacement = Rockford.charToPos(posRockford, c);
         }
-        if(!casesVisitees.contains(posRockford)){
-            casesVisitees.add(new Point((int)posRockford.getX(),(int)posRockford.getY()));
+        if (!casesVisitees.contains(posRockford)) {
+            casesVisitees.add(new Point((int) posRockford.getX(), (int) posRockford.getY()));
         }
         laMap.removeElement(posRockford);
 
         switch (laMap.getElement(positionApresDeplacement)) {
-            case 'W': throw new CheminNonValideException(-1);
+            case 'W':
+                throw new CheminNonValideException(-1);
             case 'X':
                 return true;
 
@@ -87,16 +88,16 @@ public class Simulation{
             case 'q':
             case 'O':
             case 'o':
-                rockfordAlive=false;
+                rockfordAlive = false;
                 return true;
             case 'c':
             case 'b':
             case 'B':
             case 'C':
-                rockfordAlive=false;
+                rockfordAlive = false;
                 return true;
             case 'a':
-                rockfordAlive=false;
+                rockfordAlive = false;
                 return true;
             case '.':
                 break;
@@ -117,8 +118,8 @@ public class Simulation{
     }
 
 
-    public boolean deplacementPossible(char d){
-        Point pos = Rockford.charToPos(posRockford,d);
+    public boolean deplacementPossible(char d) {
+        Point pos = Rockford.charToPos(posRockford, d);
         if ((pos.getX() < 0 || pos.getX() > laMap.getHauteur() || pos.getY() < 0 || pos.getY() > laMap.getLargeur()))
             return false;
         char c = laMap.getElement(pos);
@@ -132,14 +133,14 @@ public class Simulation{
         return rockfordAlive;
     }
 
-    public boolean isNiveauReussi(){
-        return (niveauFini&&rockfordAlive);
+    public boolean isNiveauReussi() {
+        return (niveauFini && rockfordAlive);
     }
 
     public Point getDeplacement(Point posRockford, Map laMap) {
 
         char c = lesDeplacements.remove();
-        return Rockford.charToPos(posRockford,c);
+        return Rockford.charToPos(posRockford, c);
     }
 
     public int getTime() {
@@ -157,37 +158,37 @@ public class Simulation{
         return score;
     }
 
-    public Map getLaMap(){
+    public Map getLaMap() {
         return laMap.clone();
     }
 
-    public Point getPosRockford(){
+    public Point getPosRockford() {
         return posRockford;
     }
 
-    public String getChemin(){
+    public String getChemin() {
         return chemin;
     }
 
-    public boolean equals(Simulation s){
-        return(chemin == s.getChemin());
+    public boolean equals(Simulation s) {
+        return (chemin == s.getChemin());
     }
 
-    public double evaluer(){
+    public double evaluer() {
         int note = 0;
-        for(int i = 1 ; i < chemin.length() ; i++){
-            switch (chemin.charAt(i-1)){//diminution de la note si rockford revient sur ses pas
+        for (int i = 1; i < chemin.length(); i++) {
+            switch (chemin.charAt(i - 1)) {//diminution de la note si rockford revient sur ses pas
                 case 'U':
-                    if(chemin.charAt(i) == 'D') note -= 3;
+                    if (chemin.charAt(i) == 'D') note -= 3;
                     break;
                 case 'D':
-                    if(chemin.charAt(i) == 'U') note -= 3;
+                    if (chemin.charAt(i) == 'U') note -= 3;
                     break;
                 case 'L':
-                    if(chemin.charAt(i) == 'R') note -= 3;
+                    if (chemin.charAt(i) == 'R') note -= 3;
                     break;
                 case 'R':
-                    if(chemin.charAt(i) == 'L') note -= 3;
+                    if (chemin.charAt(i) == 'L') note -= 3;
                     break;
                 case 'I':
                     note--;
@@ -196,9 +197,9 @@ public class Simulation{
         }
         note += score;
         note += casesVisitees.size() * 5;
-        if(!rockfordAlive) note -= 500;
-        if(laMap.sortieOuverte()) note += 100;
-        if(rockfordAlive && niveauFini) note += 1000;
+        if (!rockfordAlive) note -= 500;
+        if (laMap.sortieOuverte()) note += 100;
+        if (rockfordAlive && niveauFini) note += 1000;
         return note;
     }
 
@@ -206,7 +207,7 @@ public class Simulation{
         return laMap;
     }
 
-    public String toString(){
+    public String toString() {
         return laMap.ecranDeJeu();
     }
 }

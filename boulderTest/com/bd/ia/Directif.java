@@ -16,38 +16,38 @@ public class Directif extends Rockford {
     private Point cibleActuelle;
     private boolean init;
 
-    public Directif(){
+    public Directif() {
         this.init = false;
     }
 
     public Point getDeplacement(Point posRockford, Map laMap) {
         leGraph = mapToGraph(laMap);
-        if(laMap.cibleLaPlusProche() == null){
+        if (laMap.cibleLaPlusProche() == null) {
             System.out.println("Rockford ne voit ni diamants ni sortie. Il est perdu et fait des déplacements aléatoires...\nL'IA directif n'est pas adaptée pour ce niveau.");
-            return charToPos(posRockford,getDeplacementRandom(posRockford,laMap));
+            return charToPos(posRockford, getDeplacementRandom(posRockford, laMap));
         }
-        if(!ciblesAccessibles(leGraph,posRockford,laMap)){
-            return charToPos(posRockford,getDeplacementRandom(posRockford,laMap));
+        if (!ciblesAccessibles(leGraph, posRockford, laMap)) {
+            return charToPos(posRockford, getDeplacementRandom(posRockford, laMap));
         }
-        if(!init){
+        if (!init) {
             init = true;
             cibleActuelle = laMap.cibleLaPlusProche();
         }
 
-        if(posRockford.equals(cibleActuelle)){
+        if (posRockford.equals(cibleActuelle)) {
             cibleActuelle = laMap.cibleLaPlusProche();
         }
-        Point futurDeplacement = shortestPath(leGraph,laMap,posRockford,cibleActuelle);
-        while(futurDeplacement == null){
+        Point futurDeplacement = shortestPath(leGraph, laMap, posRockford, cibleActuelle);
+        while (futurDeplacement == null) {
             cibleActuelle = laMap.getCibleRandom();
-            futurDeplacement = shortestPath(leGraph,laMap,posRockford,cibleActuelle);
+            futurDeplacement = shortestPath(leGraph, laMap, posRockford, cibleActuelle);
         }
-        System.out.println("Rockford : "+posRockford.toString());
-        System.out.println("Cible : "+cibleActuelle.toString());
-        return(futurDeplacement);
+        System.out.println("Rockford : " + posRockford.toString());
+        System.out.println("Cible : " + cibleActuelle.toString());
+        return (futurDeplacement);
     }
 
-    public String toString(){
+    public String toString() {
         return "directif";
     }
 }

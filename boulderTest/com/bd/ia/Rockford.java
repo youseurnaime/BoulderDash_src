@@ -41,13 +41,13 @@ public abstract class Rockford implements IAlgorithme {
     }
 
 
-    protected char getDeplacementRandom(Point posRockford, Map laMap){
+    protected char getDeplacementRandom(Point posRockford, Map laMap) {
         int choixRandom;
         char deplacement;
         Point essaieDeDeplacement;
-        do{
+        do {
             choixRandom = (int) (Math.random() * 5); // Int random entre 0 et 4
-            switch (choixRandom){
+            switch (choixRandom) {
                 case 1:
                     deplacement = 'U';
                     break;
@@ -65,43 +65,43 @@ public abstract class Rockford implements IAlgorithme {
                     deplacement = 'I';
                     break;
             }
-            essaieDeDeplacement = charToPos(posRockford,deplacement);
-        }while(!deplacementPossible(essaieDeDeplacement,posRockford,laMap));
+            essaieDeDeplacement = charToPos(posRockford, deplacement);
+        } while (!deplacementPossible(essaieDeDeplacement, posRockford, laMap));
         return deplacement;
     }
 
-    public static Point charToPos(Point posRockford, char c){
+    public static Point charToPos(Point posRockford, char c) {
         switch (c) {
             case 'U':
-                return new Point((int) posRockford.getX()-1, (int) posRockford.getY());
+                return new Point((int) posRockford.getX() - 1, (int) posRockford.getY());
             case 'D':
-                return new Point((int) posRockford.getX()+1, (int) posRockford.getY());
+                return new Point((int) posRockford.getX() + 1, (int) posRockford.getY());
             case 'L':
-                return new Point((int) posRockford.getX(), (int) posRockford.getY()-1);
+                return new Point((int) posRockford.getX(), (int) posRockford.getY() - 1);
             case 'R':
-                return new Point((int) posRockford.getX(), (int) posRockford.getY()+1);
+                return new Point((int) posRockford.getX(), (int) posRockford.getY() + 1);
             default:
                 return posRockford;//Toute autre valeur = immobile
         }
     }
 
-    public SimpleGraph<String, DefaultEdge> mapToGraph(Map laMap){
+    public SimpleGraph<String, DefaultEdge> mapToGraph(Map laMap) {
         SimpleGraph<String, DefaultEdge> leGraph =
                 new SimpleGraph(DefaultEdge.class);
-        char[][]grille=laMap.getLaMap();
+        char[][] grille = laMap.getLaMap();
 
-        for (int i=0;i<grille.length;i++){
-            for (int j=0;j<grille[0].length;j++){
-                leGraph.addVertex(i+","+j);
-                if(i!=0){
-                    if(deplacementPossible(new Point(i-1,j),new Point(i,j),laMap)){
-                        leGraph.addEdge((i-1)+","+j,i+","+j);
+        for (int i = 0; i < grille.length; i++) {
+            for (int j = 0; j < grille[0].length; j++) {
+                leGraph.addVertex(i + "," + j);
+                if (i != 0) {
+                    if (deplacementPossible(new Point(i - 1, j), new Point(i, j), laMap)) {
+                        leGraph.addEdge((i - 1) + "," + j, i + "," + j);
                     }
                 }
 
-                if (j!=0){
-                    if(deplacementPossible(new Point(i,j-1),new Point(i,j),laMap)){
-                        leGraph.addEdge(i+","+(j-1),i+","+j);
+                if (j != 0) {
+                    if (deplacementPossible(new Point(i, j - 1), new Point(i, j), laMap)) {
+                        leGraph.addEdge(i + "," + (j - 1), i + "," + j);
                     }
                 }
             }
@@ -109,34 +109,32 @@ public abstract class Rockford implements IAlgorithme {
         return leGraph;
     }
 
-    public Point shortestPath(Graph leGraph,Map laMap,Point posRockford, Point posObjectif){
+    public Point shortestPath(Graph leGraph, Map laMap, Point posRockford, Point posObjectif) {
         DijkstraShortestPath despe = new DijkstraShortestPath<String, DefaultEdge>(leGraph);
-        GraphPath chemin = despe.getPath(posToVertex(posRockford),posToVertex(posObjectif));
-        if(chemin == null) return null;
-        return(vertexToPos((String)chemin.getVertexList().get(1)));
+        GraphPath chemin = despe.getPath(posToVertex(posRockford), posToVertex(posObjectif));
+        if (chemin == null) return null;
+        return (vertexToPos((String) chemin.getVertexList().get(1)));
 
     }
 
-    public boolean ciblesAccessibles(Graph leGraph, Point posRockford, Map laMap){
+    public boolean ciblesAccessibles(Graph leGraph, Point posRockford, Map laMap) {
         ArrayList<Point> lesPos = laMap.trouverLesCibles('d');
-        if(laMap.sortieOuverte()) lesPos.add(laMap.trouverLesCibles('X').get(0));
+        if (laMap.sortieOuverte()) lesPos.add(laMap.trouverLesCibles('X').get(0));
         boolean oui = false;
-        for(int i = 0 ; i < lesPos.size() ; i++){
-            if(shortestPath(leGraph,laMap,posRockford,lesPos.get(i)) != null) oui = true;
+        for (int i = 0; i < lesPos.size(); i++) {
+            if (shortestPath(leGraph, laMap, posRockford, lesPos.get(i)) != null) oui = true;
         }
         return oui;
     }
 
-    private Point vertexToPos(String v){
-        StringTokenizer st = new StringTokenizer(v,",");
-        return new Point(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
+    private Point vertexToPos(String v) {
+        StringTokenizer st = new StringTokenizer(v, ",");
+        return new Point(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
     }
 
-    private String posToVertex(Point p){
-        return ((int)p.getX()+","+(int)p.getY());
+    private String posToVertex(Point p) {
+        return ((int) p.getX() + "," + (int) p.getY());
     }
-
-
 
 
 }

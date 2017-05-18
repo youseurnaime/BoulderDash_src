@@ -14,10 +14,11 @@ import java.awt.*;
 public class Direvol extends Rockford {
     private Evolue e;
 
-    public Direvol(int nbMutations, Map laMap) throws NoRockfordException{
-        String cheminInitial = new Partie(laMap.clone(),new Directif(),false).getChemin();
-        e = new Evolue(nbMutations,laMap.clone(),true,cheminInitial);
+    public Direvol(int nbMutations, Map laMap) throws NoRockfordException {
+        String cheminInitial = new Partie(laMap.clone(), new Directif(), false, false, null).getChemin();
+        e = new Evolue(nbMutations, laMap.clone(), true, cheminInitial);
     }
+
     /*public Direvol(int nbMutations, Map laMap) {
         this.nbMutations = nbMutations;
         this.population = new ArrayList<String>();
@@ -121,10 +122,10 @@ public class Direvol extends Rockford {
     }
     */
     public Point getDeplacement(Point posRockford, Map laMap) {
-        return e.getDeplacement(posRockford,laMap);
+        return e.getDeplacement(posRockford, laMap);
     }
 
-    public String toString(){
+    public String toString() {
         return "direvol";
     }
 }

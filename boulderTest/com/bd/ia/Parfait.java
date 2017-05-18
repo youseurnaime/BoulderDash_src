@@ -1,7 +1,6 @@
 package boulderTest.com.bd.ia;
 
 import boulderTest.Map;
-import org.jgrapht.graph.SimpleGraph;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -62,11 +61,10 @@ public class Parfait extends Rockford {
         if(deplacementPossible(new Point(posRockord.x,posRockord.y-1),posRockord,laMap)){
             lesChemins.add("L");
         }
-        /*
         if(deplacementPossible(new Point(posRockord.x,posRockord.y),posRockord,laMap)){
             lesChemins.add("I");
         }
-        */
+
 
     }
 
@@ -101,11 +99,9 @@ public class Parfait extends Rockford {
                     if(testerChemin(laMap,s,i) != null) return testerChemin(laMap,s,i);
                     sortie.add(lesChemins.get(i)+"R");
                 }
-                /*
                 if(deplacementPossible(new Point(posRockord.x,posRockord.y),posRockord,laMap)){
                     sortie.add(lesChemins.get(i)+"I");
                 }
-                */
             } catch (Exception e){
                 System.out.println("boucle infiniiiiiiiiie");
             }
@@ -117,7 +113,7 @@ public class Parfait extends Rockford {
 
     public Point getDeplacement(Point posRockford, Map laMap) {
         char c = lesDeplacements.remove();
-        return charToPos(posRockford,c);
+        return charToPos(posRockford, c);
     }
 
     public String toString(){

@@ -15,7 +15,7 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
         Hashtable<Point, Character> mobToAdd = new Hashtable<Point, Character>();
         int hauteurMap = laMap.getHauteur();
         int largeurMap = laMap.getLargeur();
-        char[][] map= laMap.getLaMap();
+        char[][] map = laMap.getLaMap();
         for (int i = 1; i < hauteurMap - 1; i++) {
             for (int j = 1; j < largeurMap - 1; j++) {
                 switch (laMap.getLaMap()[i][j]) {
@@ -29,26 +29,26 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
                     case 'q':
                     case 'O':
                     case 'o':
-                        deplacerLuciole(i, j, map,mobToAdd);
+                        deplacerLuciole(i, j, map, mobToAdd);
                         break;
                     case 'C':
                     case 'c':
                     case 'B':
                     case 'b':
-                        deplacerLibellule(i, j, map,mobToAdd);
+                        deplacerLibellule(i, j, map, mobToAdd);
                         break;
                 }
             }
         }
 
-        laMap.setTourAvantAmibe(laMap.getTourAvantAmibe()-1);
+        laMap.setTourAvantAmibe(laMap.getTourAvantAmibe() - 1);
 
         if (laMap.getTourAvantAmibe() == 0 && laMap.getAmoebaTime() != 0) {
             grandirAmibe(laMap);
-            laMap.setTourAvantAmibe( laMap.getAmoebaTime());
+            laMap.setTourAvantAmibe(laMap.getAmoebaTime());
         }
 
-        map=laMap.getLaMap();
+        map = laMap.getLaMap();
         Enumeration<Point> mobPos = mobToAdd.keys();
         Point currentPos = null;
         while (mobPos.hasMoreElements()) {
@@ -61,10 +61,10 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
         return laMap;
     }
 
-    private static char[][] mortDeLibellule(int i, int j, char [][] map) {
+    private static char[][] mortDeLibellule(int i, int j, char[][] map) {
         int nbDiam = 0;
         int distance = 1;
-        while (nbDiam < 9 && i - distance > 0 && j - distance > 0 && i + distance <map.length && j + distance < map[0].length) {
+        while (nbDiam < 9 && i - distance > 0 && j - distance > 0 && i + distance < map.length && j + distance < map[0].length) {
             for (int x = i - distance; x < i + distance; x++) {
                 for (int y = j - distance; y < j + distance; y++) {
                     if (map[x][y] == ' ') {
@@ -143,60 +143,60 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
 
         switch (map[i][j]) {
             case 'C':
-                if (map[i][j + 1] == ' ' || map[i][j + 1] == 'R'||map[i][j + 1] == 'a') {
+                if (map[i][j + 1] == ' ' || map[i][j + 1] == 'R' || map[i][j + 1] == 'a') {
                     map[i][j] = ' ';
-                        if (map[i][j + 1] == ' '|| map[i][j + 1] == 'R') {
-                            mobToAdd.put(new Point(i, j + 1), 'C');
-                        }
-                        if(map[i][j + 1] == 'a') {
-                            map=mortDeLibellule(i,j,map);
-                        }
+                    if (map[i][j + 1] == ' ' || map[i][j + 1] == 'R') {
+                        mobToAdd.put(new Point(i, j + 1), 'C');
+                    }
+                    if (map[i][j + 1] == 'a') {
+                        map = mortDeLibellule(i, j, map);
+                    }
                     break;
                 } else {
                     map[i][j] = 'c';
-                    return deplacerLibellule(i, j,map,mobToAdd);
+                    return deplacerLibellule(i, j, map, mobToAdd);
                 }
             case 'c':
-                if (map[i-1][j] == ' ' || map[i-1][j] == 'R'||map[i-1][j] == 'a') {
+                if (map[i - 1][j] == ' ' || map[i - 1][j] == 'R' || map[i - 1][j] == 'a') {
                     map[i][j] = ' ';
-                    if (map[i-1][j] == ' '|| map[i-1][j] == 'R') {
-                        mobToAdd.put(new Point(i-1, j), 'c');
+                    if (map[i - 1][j] == ' ' || map[i - 1][j] == 'R') {
+                        mobToAdd.put(new Point(i - 1, j), 'c');
                     }
-                    if(map[i][j + 1] == 'a') {
-                        map=mortDeLibellule(i,j,map);
+                    if (map[i][j + 1] == 'a') {
+                        map = mortDeLibellule(i, j, map);
                     }
                     break;
                 } else {
                     map[i][j] = 'b';
-                    return deplacerLibellule(i, j,map,mobToAdd);
+                    return deplacerLibellule(i, j, map, mobToAdd);
                 }
             case 'b':
-                if (map[i][j - 1] == ' ' || map[i][j - 1] == 'R'||map[i][j - 1] == 'a') {
+                if (map[i][j - 1] == ' ' || map[i][j - 1] == 'R' || map[i][j - 1] == 'a') {
                     map[i][j] = ' ';
-                    if (map[i][j - 1] == ' '|| map[i][j - 1] == 'R') {
+                    if (map[i][j - 1] == ' ' || map[i][j - 1] == 'R') {
                         mobToAdd.put(new Point(i, j - 1), 'b');
                     }
-                    if(map[i][j - 1] == 'a') {
-                        map=mortDeLibellule(i,j,map);
+                    if (map[i][j - 1] == 'a') {
+                        map = mortDeLibellule(i, j, map);
                     }
                     break;
                 } else {
                     map[i][j] = 'B';
-                    return deplacerLibellule(i, j,map,mobToAdd);
+                    return deplacerLibellule(i, j, map, mobToAdd);
                 }
             case 'B':
-                if (map[i+1][j] == ' ' || map[i+1][j] == 'R'||map[i+1][j] == 'a') {
+                if (map[i + 1][j] == ' ' || map[i + 1][j] == 'R' || map[i + 1][j] == 'a') {
                     map[i][j] = ' ';
-                    if (map[i+1][j] == ' '|| map[i+1][j] == 'R') {
-                        mobToAdd.put(new Point(i+1, j), 'B');
+                    if (map[i + 1][j] == ' ' || map[i + 1][j] == 'R') {
+                        mobToAdd.put(new Point(i + 1, j), 'B');
                     }
-                    if(map[i][j + 1] == 'a') {
-                        map=mortDeLibellule(i,j,map);
+                    if (map[i][j + 1] == 'a') {
+                        map = mortDeLibellule(i, j, map);
                     }
                     break;
                 } else {
                     map[i][j] = 'C';
-                    return deplacerLibellule(i, j,map,mobToAdd);
+                    return deplacerLibellule(i, j, map, mobToAdd);
                 }
         }
 
@@ -205,9 +205,9 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
 
     private static void grandirAmibe(Map laMap) { //renvoie faux si rockford meure
         ArrayList<Point> lesCases = new ArrayList<Point>();
-        char[][] map=laMap.getLaMap();
-        int hauteurMap=laMap.getHauteur();
-        int largeurMap=laMap.getLargeur();
+        char[][] map = laMap.getLaMap();
+        int hauteurMap = laMap.getHauteur();
+        int largeurMap = laMap.getLargeur();
         for (int i = 1; i < hauteurMap - 1; i++) {
             for (int j = 1; j < largeurMap - 1; j++) {
                 if (map[i][j] == ' ' || map[i][j] == '.' || map[i][j] == 'R' || map[i][j] == 'C' || map[i][j] == 'F') {
@@ -228,7 +228,7 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
         } else {
             int nombreAleatoire = (int) (Math.random() * (lesCases.size()));
             if ((map[(int) lesCases.get(nombreAleatoire).getX()][(int) lesCases.get(nombreAleatoire).getY()] == 'C' || map[(int) lesCases.get(nombreAleatoire).getX()][(int) lesCases.get(nombreAleatoire).getY()] == 'c' || map[(int) lesCases.get(nombreAleatoire).getX()][(int) lesCases.get(nombreAleatoire).getY()] == 'B') || map[(int) lesCases.get(nombreAleatoire).getX()][(int) lesCases.get(nombreAleatoire).getY()] == 'b') {
-                mortDeLibellule((int) lesCases.get(nombreAleatoire).getX(), (int) lesCases.get(nombreAleatoire).getY(),map);
+                mortDeLibellule((int) lesCases.get(nombreAleatoire).getX(), (int) lesCases.get(nombreAleatoire).getY(), map);
             }
             map[(int) lesCases.get(nombreAleatoire).getX()][(int) lesCases.get(nombreAleatoire).getY()] = 'a';
         }
@@ -245,24 +245,24 @@ public class Mobs {//Tout ce qui est relatif au actioins du monde
                 break;
 
             case 'r':
-                if (j > 0 && map[i][j-1] == ' ') {
+                if (j > 0 && map[i][j - 1] == ' ') {
                     if (map[i + 1][j - 1] == ' ' || map[i + 1][j - 1] == 'R') {
                         map[i][j] = ' ';
                         map[i + 1][j - 1] = c;
                     } else if (map[i + 1][j - 1] == 'C' || map[i + 1][j - 1] == 'c' || map[i + 1][j - 1] == 'B' || map[i + 1][j - 1] == 'b') {
                         map[i][j] = ' ';
                         map[i + 1][j - 1] = c;
-                        map=mortDeLibellule(i + 1, j - 1, map);
+                        map = mortDeLibellule(i + 1, j - 1, map);
                     }
                 }
-                if (j < largeurMap && map[i][j+1] == ' ') {
+                if (j < largeurMap && map[i][j + 1] == ' ') {
                     if (map[i + 1][j + 1] == ' ' || map[i + 1][j + 1] == 'R') {
                         map[i][j] = ' ';
                         map[i + 1][j + 1] = c;
                     } else if (map[i + 1][j + 1] == 'C' || map[i + 1][j + 1] == 'c' || map[i + 1][j + 1] == 'B' || map[i + 1][j + 1] == 'b') {
                         map[i][j] = ' ';
                         map[i + 1][j - 1] = c;
-                        map=mortDeLibellule(i + 1, j - 1, map);
+                        map = mortDeLibellule(i + 1, j - 1, map);
                     }
                 }
                 break;

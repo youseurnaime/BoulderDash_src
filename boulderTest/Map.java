@@ -28,7 +28,7 @@ public class Map implements Cloneable {
         this.diamondValue = 0;
         for (int i = 0; i < diamondValue.size(); i++) this.diamondValue += diamondValue.get(i);
         this.amoebaTime = amoebaTime;
-        if(this.amoebaTime == 0) this.amoebaTime = 10; //Pour les niveaux qui ne précisent pas amoeabaTime
+        if (this.amoebaTime == 0) this.amoebaTime = 10; //Pour les niveaux qui ne précisent pas amoeabaTime
         this.magicWallTime = magicWallTime;
         hauteurMap = laMap.size();
         largeurMap = laMap.get(0).length();
@@ -46,13 +46,15 @@ public class Map implements Cloneable {
     }
 
 
-    public int getTourAvantAmibe(){
+    public int getTourAvantAmibe() {
         return tourAvantAmibe;
     }
-    public void setTourAvantAmibe(int x){
-        this.tourAvantAmibe=x;
+
+    public void setTourAvantAmibe(int x) {
+        this.tourAvantAmibe = x;
     }
-    public int getAmoebaTime(){
+
+    public int getAmoebaTime() {
         return this.amoebaTime;
     }
 
@@ -124,7 +126,7 @@ public class Map implements Cloneable {
         return pos;
     }
 
-    public ArrayList<Point> trouverLesCibles(char cible){
+    public ArrayList<Point> trouverLesCibles(char cible) {
         ArrayList<Point> lesPos = new ArrayList<>();
         for (int i = 0; i < hauteurMap; i++) {
             for (int j = 0; j < largeurMap; j++) {
@@ -134,16 +136,16 @@ public class Map implements Cloneable {
         return lesPos;
     }
 
-    public Point cibleLaPlusProche(){
+    public Point cibleLaPlusProche() {
         ArrayList<Point> lesPos = trouverLesCibles('d');
-        if(sortieOuverte) lesPos.add(trouverLesCibles('X').get(0));
-        if(lesPos.isEmpty()) return null;
+        if (sortieOuverte) lesPos.add(trouverLesCibles('X').get(0));
+        if (lesPos.isEmpty()) return null;
         Point posRockford = trouverRockford();
         Point laPlusProche = lesPos.get(0);
-        double distanceMin = posRockford.distance(lesPos.get(0).getX(),lesPos.get(0).getY());
-        for(int i = 0 ; i < lesPos.size() ; i++){
-            if(posRockford.distance(lesPos.get(i).getX(),lesPos.get(i).getY()) < distanceMin){
-                distanceMin = posRockford.distance(lesPos.get(i).getX(),lesPos.get(i).getY());
+        double distanceMin = posRockford.distance(lesPos.get(0).getX(), lesPos.get(0).getY());
+        for (int i = 0; i < lesPos.size(); i++) {
+            if (posRockford.distance(lesPos.get(i).getX(), lesPos.get(i).getY()) < distanceMin) {
+                distanceMin = posRockford.distance(lesPos.get(i).getX(), lesPos.get(i).getY());
                 laPlusProche = lesPos.get(i);
             }
         }
@@ -151,10 +153,10 @@ public class Map implements Cloneable {
     }
 
 
-    public Point getCibleRandom(){
+    public Point getCibleRandom() {
         ArrayList<Point> lesPos = trouverLesCibles('d');
-        if(sortieOuverte) lesPos.add(trouverLesCibles('X').get(0));
-        if(lesPos.isEmpty()) return null;
+        if (sortieOuverte) lesPos.add(trouverLesCibles('X').get(0));
+        if (lesPos.isEmpty()) return null;
         int n = (int) (Math.random() * lesPos.size());
         return lesPos.get(n);
     }
@@ -162,9 +164,10 @@ public class Map implements Cloneable {
     public char getElement(Point pos) {
         return (laMap[(int) pos.getX()][(int) pos.getY()]);
     }
-    public Map clone(){
-        try{
-            Map cloneDeMap = (Map)super.clone();
+
+    public Map clone() {
+        try {
+            Map cloneDeMap = (Map) super.clone();
             cloneDeMap.laMap = new char[hauteurMap][largeurMap];
             for (int j = 0; j < hauteurMap; j++) {
                 for (int i = 0; i < largeurMap; i++) {
@@ -172,7 +175,7 @@ public class Map implements Cloneable {
                 }
             }
             return cloneDeMap;
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
