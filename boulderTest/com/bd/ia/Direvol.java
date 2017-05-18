@@ -15,7 +15,7 @@ public class Direvol extends Rockford {
     private Evolue e;
 
     public Direvol(int nbMutations, Map laMap) throws NoRockfordException {
-        String cheminInitial = new Partie(laMap.clone(), new Directif(), false, false, null).getChemin();
+        String cheminInitial = new Partie(laMap.clone(), new Directif(), false).getChemin();
         e = new Evolue(nbMutations, laMap.clone(), true, cheminInitial);
     }
 

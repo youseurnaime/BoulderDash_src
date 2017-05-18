@@ -17,10 +17,8 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
     private String historique;
     private boolean journal;
     private boolean victoire;
-    private boolean customOutput;
-    private String fichierChemin;
 
-    public Partie(Map laMap, Rockford rockford, boolean journal, boolean cO, String fC) throws NoRockfordException { //constructeur pour une partie controlée par le joueur
+    public Partie(Map laMap, Rockford rockford, boolean journal) throws NoRockfordException { //constructeur pour une partie controlée par le joueur
         this.rockford = rockford;
         this.laMap = laMap;
         this.posRockford = laMap.trouverRockford();
@@ -34,8 +32,6 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
         victoire = false;
         historique = "";
         historique += "#" + this.name + "\n";
-        customOutput=cO;
-        fichierChemin=fC;
         this.journal=journal;
         while (rockfordAlive) rockfordAlive = tour();
 
@@ -56,11 +52,7 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
         historique += " Score : "+score+" - Temps : "+time+" - Diamants : "+diamonds;
         try {
             FileOutputStream fos;
-            if(customOutput){
-                fos = new FileOutputStream(new File(fichierChemin));
-            } else {
-                fos = new FileOutputStream(new File(name + "_" + rockford.toString() + ".dash"));
-            }
+            fos = new FileOutputStream(new File(name + "." + rockford.toString() + ".dash"));
             byte byteHistorique[] = historique.getBytes();
             fos.write(byteHistorique);
             fos.close();
@@ -72,11 +64,6 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
     public int getDiamonds() {
         return diamonds;
     }
-
-    public int Time() {
-       return this.time;
-    }
-
 
     private boolean tour(){
         afficherMap();
@@ -186,5 +173,7 @@ public class Partie { // Tout cee qui est relatif au deroulement de la partie au
     public boolean getVictoire(){
         return victoire;
     }
+    public int getScore(){return score;}
+    public int getTime(){return time;}
 
 }

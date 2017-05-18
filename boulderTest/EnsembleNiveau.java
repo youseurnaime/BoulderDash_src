@@ -117,18 +117,18 @@ public class EnsembleNiveau {
     }
 
     public Map choisirNiveau(int choixNiveau) {
-        int choix = -1;
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Liste des niveaux du fichier :");
-        for (int i = 0; i < lesNiveaux.size(); i++) {
-            System.out.println(i + " : " + lesNiveaux.get(i).getNom());
-        }
         if (choixNiveau != -1) { // Niveau déjà choisi a l'avance
             if (choixNiveau < 0 || choixNiveau > lesNiveaux.size()) {
                 System.out.println("Choix incorrect ! Entrez le numero de niveau à la main");
             } else {
                 return lesNiveaux.get(choixNiveau);
             }
+        }
+        int choix = -1;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Liste des niveaux du fichier :");
+        for (int i = 0; i < lesNiveaux.size(); i++) {
+            System.out.println(i + " : " + lesNiveaux.get(i).getNom());
         }
         System.out.println("Quel niveau voulez-vous charger ? ");
         while (choix < 0 || choix > lesNiveaux.size()) {
@@ -147,5 +147,9 @@ public class EnsembleNiveau {
         String s = "";
         for (int i = 0; i < lesNiveaux.size(); i++) s += lesNiveaux.get(i).toString() + "\n\n\n";
         return s;
+    }
+
+    public int getSize(){
+        return lesNiveaux.size();
     }
 }
