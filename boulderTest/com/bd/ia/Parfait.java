@@ -20,7 +20,7 @@ public class Parfait extends Rockford {
         String chemin = null;
         int i=1;
         do{
-            chemin = creerFilles(laMap);;
+            chemin = creerFilles(laMap);
             i++;
             System.out.println("Chemins de longueur "+i);
             System.out.println(lesChemins.size()+" chemins en cours de test...");

@@ -157,9 +157,12 @@ public class Main {
                                     case "-parfait":
                                         p = new Partie(laMap.clone(),new Parfait(laMap.clone()),false);
                                         break;
-                                    default:
+                                    case "-simplet":
                                         p = new Partie(laMap.clone(),new Simplet(),false);
                                         break;
+                                    default:
+                                        System.out.println(usage());
+                                        System.exit(2);
                                 }
                                 score += p.getScore();
                                 time += p.getTime();
@@ -189,9 +192,12 @@ public class Main {
                                     case "-parfait":
                                         p = new Partie(laMap.clone(),new Parfait(laMap.clone()),false);
                                         break;
-                                    default:
+                                    case "-simplet":
                                         p = new Partie(laMap.clone(),new Simplet(),false);
                                         break;
+                                    default:
+                                        System.out.println(usage());
+                                        System.exit(2);
                                 }
                                 bscore += p.getScore();
                                 btime += p.getTime();
