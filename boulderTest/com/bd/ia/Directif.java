@@ -42,8 +42,6 @@ public class Directif extends Rockford {
             cibleActuelle = laMap.getCibleRandom();
             futurDeplacement = shortestPath(leGraph, laMap, posRockford, cibleActuelle);
         }
-        System.out.println("Rockford : " + posRockford.toString());
-        System.out.println("Cible : " + cibleActuelle.toString());
         return (futurDeplacement);
     }
 

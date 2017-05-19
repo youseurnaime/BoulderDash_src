@@ -1,17 +1,11 @@
 package boulderTest.com.bd.ia;
 
 import boulderTest.Map;
-import boulderTest.com.bd.ia.IAlgorithme;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
-import org.jgraph.*;
-import org.jgraph.graph.*;
 import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.*;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;

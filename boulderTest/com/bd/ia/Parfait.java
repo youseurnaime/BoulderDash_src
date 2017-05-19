@@ -12,25 +12,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Parfait extends Rockford {
     private ArrayList<String> lesChemins;
     private ConcurrentLinkedQueue<Character> lesDeplacements;
-    private int[][] lesPosAtteintes;
-
-    final private int NB_MEME_CHEMINS = 5; //nombre maximum de chemin ayant une même destination
 
     public Parfait(Map laMap){
         lesChemins = new ArrayList<>();
-        /*lesPosAtteintes = new int[laMap.getHauteur()+1][laMap.getLargeur()+1];
-        for(int i = 0 ; i < lesPosAtteintes.length ; i++){
-            for(int j = 0 ; j < lesPosAtteintes[i].length ; j++){
-                lesPosAtteintes[i][j] = 0;
-            }
-        }*/
         init(laMap);
         int longueurMax = laMap.getCaveTime();
         String chemin = null;
         int i=1;
         do{
-            chemin = creerFilles(laMap);
-            System.out.println(lesChemins.toString());
+            chemin = creerFilles(laMap);;
             i++;
             System.out.println("Chemins de longueur "+i);
             System.out.println(lesChemins.size()+" chemins en cours de test...");

@@ -23,10 +23,7 @@ public class Evolue extends Rockford {
         this.nbMutations = nbMutations;
         this.population = new ArrayList<String>();
         lesDeplacements = new ConcurrentLinkedQueue<Character>();
-        System.out.println("Calcul du joueur évolué...");
         String strDeplacements = algoEvolue(laMap.clone(), manuel, chemin);
-        System.out.println("ok !\n\n");
-        System.out.println(strDeplacements);
 
         for (int i = 0; i < strDeplacements.length(); i++) {
             lesDeplacements.add(strDeplacements.charAt(i));
@@ -53,9 +50,7 @@ public class Evolue extends Rockford {
     private String algoEvolue(Map laMap, boolean manuel, String chemin) {
         init(laMap, manuel, chemin);
         for (int i = 0; i < nbMutations; i++) {
-            System.out.println("MUTATION " + i);
             mutation();
-            testAfficherArrayList(laMap);
             selection(laMap);
         }
         return selectionFinale(laMap);
